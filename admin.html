@@ -1032,87 +1032,6 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
   </div>
 
   <!-- MODAL PROVEEDOR -->
-  <div class="prov-modal-overlay" id="provModalOverlay" onclick="if(event.target===this)closeProvModal()">
-    <div class="prov-modal">
-      <div class="pm-head">
-        <div class="pm-title" id="pmTitle">Nuevo proveedor</div>
-        <button class="pm-close" onclick="closeProvModal()">✕</button>
-      </div>
-      <div class="pm-body">
-        <div class="pm-grid">
-          <div class="pm-fg">
-            <label>Tipo de servicio</label>
-            <select id="pm-servicio">
-              <option value="FOTOGRAFÍA">📸 Fotografía</option>
-              <option value="MAQUILLAJE">💄 Maquillaje y peinado</option>
-            </select>
-          </div>
-          <div class="pm-fg">
-            <label>Sede</label>
-            <select id="pm-sede">
-              <option value="bogota">🏙️ Bogotá D.C.</option>
-              <option value="barranquilla">🌴 Barranquilla</option>
-              <option value="villavicencio">🌿 Villavicencio</option>
-            </select>
-          </div>
-          <div class="pm-fg full">
-            <label>Nombre completo</label>
-            <input type="text" id="pm-nombre" placeholder="Ej: Hector Nicolay Davila">
-          </div>
-          <div class="pm-fg">
-            <label>Teléfono / WhatsApp</label>
-            <input type="tel" id="pm-tel" placeholder="3206747611">
-          </div>
-          <div class="pm-fg">
-            <label>Correo electrónico</label>
-            <input type="email" id="pm-email" placeholder="nicolas@email.com">
-          </div>
-          <div class="pm-fg full">
-            <label>Paquete / descripción del servicio</label>
-            <input type="text" id="pm-paquete" placeholder="Ej: XV Años - 20 fotos digitales">
-          </div>
-          <div class="pm-fg">
-            <label>Precio AMBAR (pago al colaborador) · COP</label>
-            <input type="number" id="pm-precio-ambar" placeholder="450000" min="0" step="1000">
-          </div>
-          <div class="pm-fg">
-            <label>Precio cliente · COP</label>
-            <input type="number" id="pm-precio-cliente" placeholder="900000" min="0" step="1000">
-          </div>
-        </div>
-      </div>
-      <div class="pm-actions">
-        <button class="pm-save" onclick="saveProveedor()">💾 Guardar proveedor</button>
-        <button class="pm-cancel" onclick="closeProvModal()">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- == VIEW: PROVEEDORES == -->
-  <div class="view" id="view-proveedores">
-
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
-      <div>
-        <div style="font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Equipo AMBAR</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--paper)">Gestión de <em style="color:var(--gold-l)">proveedores</em></div>
-      </div>
-      <button class="tb-btn" onclick="openProvModal(null)">✚ Nuevo proveedor</button>
-    </div>
-
-    <div class="prov-tipo-tabs">
-      <button class="prov-tipo-tab active" onclick="filterProvTipo('todos',this)">Todos</button>
-      <button class="prov-tipo-tab" onclick="filterProvTipo('fotografo',this)">📸 Fotógrafos</button>
-      <button class="prov-tipo-tab" onclick="filterProvTipo('maquilladora',this)">💄 Maquilladoras</button>
-      <button class="prov-tipo-tab" onclick="filterProvTipo('caballo',this)">🐴 Caballos</button>
-      <button class="prov-tipo-tab" onclick="filterProvTipo('dj',this)">🎧 DJs</button>
-      <button class="prov-tipo-tab" onclick="filterProvTipo('lugar',this)">🏛️ Lugares</button>
-    </div>
-
-    <div class="prov-grid" id="provGrid"></div>
-  </div>
-
-
 <!-- PROVEEDOR MODAL -->
 <div class="prov-modal-overlay" id="provModalOverlay" onclick="if(event.target===this)closeProvModal()">
   <div class="prov-modal">
@@ -1641,6 +1560,13 @@ async function loadProveedores(){
   renderServicios();
 }
 
+function filterProvTipo(tipo,btn){
+  provTipoFilter=tipo;
+  document.querySelectorAll(".prov-tipo-tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active");
+  renderProveedores();
+}
+
 function filterProvs(f, btn){
   provFilter = f;
   document.querySelectorAll('#view-servicios .fil').forEach(x=>x.classList.remove('active'));
@@ -1706,77 +1632,83 @@ function renderProveedores(){
 
 function openProvModal(id=null){
   editingProvId = id;
+  provFotos = [];
   document.getElementById('pmTitle').textContent = id ? 'Editar proveedor' : 'Nuevo proveedor';
-  
   if(id){
-    const sv = proveedores.find(x=>(x.id||x._id)===id);
-    if(sv){
-      document.getElementById('pm-servicio').value = sv.servicio||'FOTOGRAFÍA';
-      document.getElementById('pm-sede').value = (sv.sede||'bogota').toLowerCase();
-      document.getElementById('pm-nombre').value = sv.colaborador||sv.nombre||'';
-      document.getElementById('pm-tel').value = sv.tel||'';
-      document.getElementById('pm-email').value = sv.email||'';
-      document.getElementById('pm-paquete').value = sv.paquete||'';
-      document.getElementById('pm-precio-ambar').value = sv.precio_ambar||'';
-      document.getElementById('pm-precio-cliente').value = sv.precio_cliente||'';
+    const p = proveedores.find(x=>x.id===id);
+    if(p){
+      document.getElementById('pm-tipo').value           = p.tipo||'fotografo';
+      document.getElementById('pm-sede').value           = p.sede||'bogota';
+      document.getElementById('pm-nombre').value         = p.nombre||'';
+      document.getElementById('pm-desc').value           = p.descripcion||'';
+      document.getElementById('pm-tel').value            = p.telefono||'';
+      document.getElementById('pm-email').value          = p.email||'';
+      document.getElementById('pm-ig').value             = p.instagram||'';
+      document.getElementById('pm-estado').value         = p.estado||'activo';
+      document.getElementById('pm-precio-cliente').value = p.precio_base||'';
+      document.getElementById('pm-precio-ambar').value   = p.precio_colab||'';
+      document.getElementById('pm-precio-notas').value   = p.precio_notas||'';
+      document.getElementById('pm-tags').value           = (p.tags||[]).join(', ');
+      provFotos = (p.portafolio||[]).map(f=>({url:f.url,tipo_url:f.tipo_url||'external',id:f.id}));
     }
   } else {
-    ['pm-nombre','pm-tel','pm-email','pm-paquete','pm-precio-ambar','pm-precio-cliente'].forEach(id=>{
-      document.getElementById(id).value='';
+    ['pm-nombre','pm-desc','pm-tel','pm-email','pm-ig',
+     'pm-precio-cliente','pm-precio-ambar','pm-precio-notas','pm-tags'].forEach(fid=>{
+      const el=document.getElementById(fid); if(el) el.value='';
     });
+    document.getElementById('pm-tipo').value   = 'fotografo';
+    document.getElementById('pm-sede').value   = 'bogota';
+    document.getElementById('pm-estado').value = 'activo';
   }
+  renderProvFotos();
   document.getElementById('provModalOverlay').classList.add('open');
 }
 
 function closeProvModal(){
   document.getElementById('provModalOverlay').classList.remove('open');
-  editingProvId = null;
+  editingProvId = null; provFotos = [];
 }
 
 async function saveProveedor(){
+  const nombre = document.getElementById('pm-nombre').value.trim();
+  if(!nombre){ showToast('Escribe el nombre del proveedor'); return; }
+  const tags = (document.getElementById('pm-tags').value||'').split(',').map(t=>t.trim()).filter(Boolean);
   const payload = {
-    servicio:       document.getElementById('pm-servicio').value,
-    sede:           document.getElementById('pm-sede').value,
-    colaborador:    document.getElementById('pm-nombre').value.trim(),
-    tel:            document.getElementById('pm-tel').value.trim(),
-    email:          document.getElementById('pm-email').value.trim(),
-    paquete:        document.getElementById('pm-paquete').value.trim(),
-    precio_ambar:   parseFloat(document.getElementById('pm-precio-ambar').value)||0,
-    precio_cliente: parseFloat(document.getElementById('pm-precio-cliente').value)||0,
+    tipo:         document.getElementById('pm-tipo').value,
+    sede:         document.getElementById('pm-sede').value,
+    nombre,
+    descripcion:  document.getElementById('pm-desc').value.trim()||null,
+    telefono:     document.getElementById('pm-tel').value.trim()||null,
+    email:        document.getElementById('pm-email').value.trim()||null,
+    instagram:    document.getElementById('pm-ig').value.trim()||null,
+    estado:       document.getElementById('pm-estado').value,
+    precio_base:  parseFloat(document.getElementById('pm-precio-cliente').value)||null,
+    precio_colab: parseFloat(document.getElementById('pm-precio-ambar').value)||null,
+    precio_notas: document.getElementById('pm-precio-notas').value.trim()||null,
+    tags, updated_at: new Date().toISOString(),
   };
-
-  if(!payload.colaborador){ showToast('⚠️ Ingresa el nombre del colaborador'); return; }
-  if(!payload.precio_ambar){ showToast('⚠️ Ingresa el precio AMBAR'); return; }
-
   try {
-    if(editingProvId && !editingProvId.startsWith('local_') && !editingProvId.startsWith('init_')){
-      const { error } = await sb.from('proveedores').update(payload).eq('id', editingProvId);
+    let provId = editingProvId;
+    if(editingProvId){
+      const {error} = await sb.from('proveedores').update(payload).eq('id',editingProvId);
       if(error) throw error;
-      showToast('✅ Proveedor actualizado');
     } else {
-      const { error } = await sb.from('proveedores').insert([payload]);
+      const {data,error} = await sb.from('proveedores').insert([payload]).select().single();
       if(error) throw error;
-      showToast('✅ Proveedor agregado');
+      provId = data.id;
     }
+    if(editingProvId) await sb.from('portafolio').delete().eq('proveedor_id',editingProvId);
+    if(provFotos.length){
+      await sb.from('portafolio').insert(
+        provFotos.map((f,i)=>({proveedor_id:provId,url:f.url,tipo_url:f.tipo_url||'external',orden:i}))
+      );
+    }
+    showToast(editingProvId ? 'Proveedor actualizado' : 'Proveedor creado');
     closeProvModal();
     await loadProveedores();
-  } catch(e){
-    // Fallback to local if Supabase table doesn't exist yet
-    if(editingProvId){
-      const idx = proveedores.findIndex(x=>(x.id||x._id)===editingProvId);
-      if(idx>=0) proveedores[idx] = {...proveedores[idx], ...payload};
-    } else {
-      proveedores.push({...payload, id:'local_'+Date.now()});
-    }
-    closeProvModal();
-    renderServicios();
-    showToast('✅ Guardado localmente · Configura tabla en Supabase para persistir');
-  }
+  } catch(e){ showToast('Error: '+e.message); }
 }
 
-async function editProveedor(id){
-  openProvModal(id);
-}
 
 async function deleteProveedor(id){
   if(!confirm('¿Eliminar este proveedor?')) return;
@@ -2438,6 +2370,5 @@ updateStats(); updateCounts(); drawCal();
 initSupabase();
 </script>
 <!-- Supabase JS SDK (CDN) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
