@@ -791,7 +791,6 @@ function selSede(id, el){
   document.querySelectorAll('.sede-card').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
   const s=SEDES[id];
-  document.getElementById('studioLabel').textContent=s.addr;
   updateSum();
 }
 

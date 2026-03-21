@@ -469,12 +469,149 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
   border-bottom:1px solid rgba(196,154,60,0.06);vertical-align:middle;}
 .serv-table tr:last-child td{border-bottom:none;}
 .serv-table tr:hover td{background:rgba(196,154,60,0.025);}
+
+/* == PROVEEDORES == */
+.prov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1rem;}
+.prov-card{border:1px solid rgba(196,154,60,0.15);background:rgba(255,255,255,0.02);overflow:hidden;transition:border-color 0.2s;}
+.prov-card:hover{border-color:rgba(196,154,60,0.35);}
+.prov-card.inactivo{opacity:0.5;}
+.prov-card-top{display:flex;gap:0.85rem;padding:1rem;align-items:flex-start;}
+.prov-avatar{width:52px;height:52px;border-radius:50%;border:1px solid rgba(196,154,60,0.2);overflow:hidden;flex-shrink:0;background:rgba(196,154,60,0.08);display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.prov-avatar img{width:100%;height:100%;object-fit:cover;}
+.prov-info{flex:1;}
+.prov-tipo-badge{font-size:0.44rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.prov-nombre{font-size:0.88rem;color:var(--paper);font-weight:400;line-height:1.2;}
+.prov-sede{font-size:0.58rem;color:rgba(250,247,242,0.3);margin-top:2px;}
+.prov-precio{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold-l);margin-top:4px;}
+.prov-tags{display:flex;flex-wrap:wrap;gap:3px;padding:0 1rem 0.75rem;}
+.prov-tag{font-size:0.5rem;padding:0.15rem 0.5rem;border:1px solid rgba(196,154,60,0.15);color:rgba(250,247,242,0.4);}
+.prov-fotos{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;height:80px;overflow:hidden;}
+.prov-foto{background:center/cover no-repeat rgba(196,154,60,0.06);cursor:pointer;}
+.prov-foto.add-btn{display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;border:1.5px dashed rgba(196,154,60,0.2);transition:all 0.2s;}
+.prov-foto.add-btn:hover{background:rgba(196,154,60,0.08);border-color:rgba(196,154,60,0.4);}
+.prov-actions{display:flex;gap:0.4rem;padding:0.75rem 1rem;border-top:1px solid rgba(196,154,60,0.08);}
+.prov-btn{flex:1;padding:0.45rem;border:none;font-family:'Outfit',sans-serif;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.prov-btn.edit{background:rgba(196,154,60,0.12);color:var(--gold-l);border:1px solid rgba(196,154,60,0.2);}
+.prov-btn.edit:hover{background:rgba(196,154,60,0.2);}
+.prov-btn.del{background:rgba(184,120,112,0.1);color:var(--rose);border:1px solid rgba(184,120,112,0.2);}
+.prov-btn.del:hover{background:rgba(184,120,112,0.2);}
+.prov-tipo-tabs{display:flex;border-bottom:1px solid rgba(196,154,60,0.12);margin-bottom:1.5rem;overflow-x:auto;}
+.prov-tipo-tab{padding:0.75rem 1.25rem;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(250,247,242,0.35);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.prov-tipo-tab:hover{color:rgba(250,247,242,0.6);}
+.prov-tipo-tab.active{color:var(--gold-l);border-bottom-color:var(--gold);}
+
+/* Proveedor form modal */
+.prov-modal-overlay{position:fixed;inset:0;background:rgba(10,8,6,0.9);z-index:600;display:none;align-items:center;justify-content:center;padding:1rem;}
+.prov-modal-overlay.open{display:flex;}
+.prov-modal{background:#1A1612;border:1px solid rgba(196,154,60,0.2);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;animation:mIn 0.3s ease both;}
+.pm-head{padding:1.25rem 1.5rem;border-bottom:1px solid rgba(196,154,60,0.12);display:flex;justify-content:space-between;align-items:center;}
+.pm-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--paper);}
+.pm-close{background:none;border:none;color:rgba(250,247,242,0.3);cursor:pointer;font-size:1.1rem;}
+.pm-body{padding:1.5rem;}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+.pm-fg{margin-bottom:0;}
+.pm-fg.full{grid-column:1/-1;}
+.pm-fg label{display:block;font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,247,242,0.3);margin-bottom:0.4rem;}
+.pm-fg input,.pm-fg select,.pm-fg textarea{width:100%;padding:0.65rem 0.85rem;background:rgba(255,255,255,0.04);border:1px solid rgba(196,154,60,0.18);color:var(--paper);font-family:'Outfit',sans-serif;font-size:0.78rem;outline:none;transition:border-color 0.2s;}
+.pm-fg input:focus,.pm-fg select:focus,.pm-fg textarea:focus{border-color:rgba(196,154,60,0.5);}
+.pm-fg select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23867A69' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.85rem center;background-color:rgba(255,255,255,0.04);}
+.pm-fg select option{background:#1A1612;}
+.pm-fg textarea{resize:vertical;min-height:60px;}
+.pm-divider{grid-column:1/-1;display:flex;align-items:center;gap:0.75rem;margin:0.25rem 0;}
+.pm-div-line{flex:1;height:1px;background:rgba(196,154,60,0.1);}
+.pm-div-txt{font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,247,242,0.2);}
+/* Fotos upload area */
+.pm-fotos-area{grid-column:1/-1;}
+.pm-fotos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:0.5rem;}
+.pm-foto-item{aspect-ratio:1;position:relative;background:rgba(196,154,60,0.05);border:1px solid rgba(196,154,60,0.12);overflow:hidden;}
+.pm-foto-item img{width:100%;height:100%;object-fit:cover;}
+.pm-foto-del{position:absolute;top:3px;right:3px;background:rgba(184,120,112,0.85);color:white;border:none;width:18px;height:18px;border-radius:50%;cursor:pointer;font-size:0.6rem;display:flex;align-items:center;justify-content:center;}
+.pm-foto-add{aspect-ratio:1;border:1.5px dashed rgba(196,154,60,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:0.3rem;transition:all 0.2s;background:none;}
+.pm-foto-add:hover{border-color:var(--gold);background:rgba(196,154,60,0.05);}
+.pm-foto-add span{font-size:1.3rem;}
+.pm-foto-add small{font-size:0.5rem;color:rgba(250,247,242,0.25);letter-spacing:0.1em;text-transform:uppercase;}
+.pm-link-input{display:flex;gap:0.4rem;grid-column:1/-1;}
+.pm-link-input input{flex:1;padding:0.5rem 0.7rem;background:rgba(255,255,255,0.04);border:1px solid rgba(196,154,60,0.18);color:var(--paper);font-family:'Outfit',sans-serif;font-size:0.72rem;outline:none;}
+.pm-link-input button{padding:0.5rem 0.85rem;background:rgba(196,154,60,0.12);border:1px solid rgba(196,154,60,0.25);color:var(--gold-l);font-family:'Outfit',sans-serif;font-size:0.58rem;cursor:pointer;white-space:nowrap;}
+.pm-save-btn{width:100%;padding:0.85rem;background:var(--gold);color:var(--ink);border:none;font-family:'Outfit',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:opacity 0.2s;}
+.pm-save-btn:hover{opacity:0.88;}
+@media(max-width:600px){
+  .prov-grid{grid-template-columns:1fr;}
+  .pm-grid{grid-template-columns:1fr;}
+  .pm-fg.full{grid-column:1;}
+  .pm-fotos-grid{grid-template-columns:repeat(4,1fr);}
+}
+
 @media(max-width:900px){
   .fin-grid{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:540px){
   .fin-grid{grid-template-columns:1fr 1fr;}
   .task-row{grid-template-columns:auto 1fr auto;}
+}
+
+
+/* == PROVEEDORES CRUD == */
+.prov-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;}
+.prov-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--paper);}
+.prov-title em{font-style:italic;color:var(--gold-l);}
+.prov-btn-add{padding:0.6rem 1.25rem;background:var(--gold);color:var(--ink);border:none;font-family:'Outfit',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;display:flex;align-items:center;gap:0.4rem;}
+.prov-btn-add:hover{opacity:0.85;}
+.prov-filters{display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+
+/* Proveedor card */
+.prov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;}
+.prov-card{border:1px solid rgba(196,154,60,0.15);background:rgba(255,255,255,0.02);overflow:hidden;transition:border-color 0.2s;}
+.prov-card:hover{border-color:rgba(196,154,60,0.35);}
+.prov-card-head{padding:1rem 1.25rem;border-bottom:1px solid rgba(196,154,60,0.08);display:flex;align-items:center;justify-content:space-between;gap:0.75rem;}
+.prov-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border:1px solid rgba(196,154,60,0.2);}
+.prov-av-pg{background:rgba(160,192,255,0.12);}
+.prov-av-mk{background:rgba(240,176,200,0.12);}
+.prov-info{flex:1;}
+.prov-name{font-size:0.88rem;font-weight:400;color:var(--paper);margin-bottom:2px;}
+.prov-role{font-size:0.58rem;color:rgba(250,247,242,0.35);letter-spacing:0.08em;}
+.prov-actions{display:flex;gap:0.3rem;}
+.prov-btn{width:28px;height:28px;border:1px solid rgba(196,154,60,0.15);background:none;color:rgba(250,247,242,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s;}
+.prov-btn:hover{border-color:var(--gold);color:var(--gold);}
+.prov-btn.del:hover{border-color:var(--rose);color:var(--rose);}
+.prov-card-body{padding:1rem 1.25rem;}
+.prov-field{margin-bottom:0.6rem;}
+.prov-field-lbl{font-size:0.44rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,247,242,0.25);margin-bottom:2px;}
+.prov-field-val{font-size:0.72rem;color:rgba(250,247,242,0.65);}
+.prov-prices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(196,154,60,0.08);}
+.pp-item{text-align:center;}
+.pp-val{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;}
+.pp-lbl{font-size:0.42rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(250,247,242,0.25);margin-top:2px;}
+.pp-pos{color:#B0D0B2;}
+.pp-neg{color:var(--rose);}
+.pp-gold{color:var(--gold-l);}
+.prov-sede-badge{display:inline-block;padding:0.15rem 0.55rem;font-size:0.46rem;letter-spacing:0.12em;text-transform:uppercase;border:1px solid rgba(196,154,60,0.2);color:rgba(250,247,242,0.4);margin-top:0.4rem;}
+
+/* Modal proveedor */
+.prov-modal-overlay{position:fixed;inset:0;background:rgba(10,8,6,0.88);z-index:600;display:none;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(6px);}
+.prov-modal-overlay.open{display:flex;}
+.prov-modal{background:#1A1612;border:1px solid rgba(196,154,60,0.25);max-width:540px;width:100%;max-height:90vh;overflow-y:auto;}
+.pm-head{padding:1.25rem 1.5rem;border-bottom:1px solid rgba(196,154,60,0.12);display:flex;align-items:center;justify-content:space-between;}
+.pm-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--paper);}
+.pm-close{background:none;border:none;color:rgba(250,247,242,0.3);cursor:pointer;font-size:1rem;padding:0.2rem;}
+.pm-close:hover{color:var(--paper);}
+.pm-body{padding:1.5rem;}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;}
+.pm-fg{margin-bottom:0;}
+.pm-fg.full{grid-column:1/-1;}
+.pm-fg label{display:block;font-size:0.46rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,247,242,0.3);margin-bottom:0.4rem;}
+.pm-fg input,.pm-fg select{width:100%;padding:0.65rem 0.85rem;background:rgba(255,255,255,0.04);border:1px solid rgba(196,154,60,0.18);color:var(--paper);font-family:'Outfit',sans-serif;font-size:0.78rem;outline:none;transition:border-color 0.2s;}
+.pm-fg input:focus,.pm-fg select:focus{border-color:rgba(196,154,60,0.5);}
+.pm-fg select option{background:#1A1612;}
+.pm-actions{padding:1.25rem 1.5rem;border-top:1px solid rgba(196,154,60,0.1);display:flex;gap:0.6rem;}
+.pm-save{flex:1;padding:0.75rem;background:var(--gold);color:var(--ink);border:none;font-family:'Outfit',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;}
+.pm-save:hover{opacity:0.85;}
+.pm-cancel{padding:0.75rem 1.25rem;background:none;border:1px solid rgba(196,154,60,0.2);color:rgba(250,247,242,0.4);font-family:'Outfit',sans-serif;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.pm-cancel:hover{border-color:rgba(196,154,60,0.4);color:rgba(250,247,242,0.7);}
+@media(max-width:600px){
+  .prov-grid{grid-template-columns:1fr;}
+  .pm-grid{grid-template-columns:1fr;}
+  .pm-fg.full{grid-column:1;}
 }
 
 /* ── RESPONSIVE ── */
@@ -558,6 +695,10 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
     </div>
     <div class="sb-item" onclick="setView('servicios')">
       <div class="sb-item-ico">📋</div> Servicios
+    </div>
+    <div class="sb-item" onclick="setView('proveedores')">
+      <div class="sb-item-ico">👥</div> Proveedores
+      <div class="sb-count" id="cnt-prov">0</div>
     </div>
     <div class="sb-section">Gestión</div>
     <div class="sb-item" onclick="setView('nueva')">
@@ -872,20 +1013,206 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 
   <!-- == VIEW: SERVICIOS == -->
   <div class="view" id="view-servicios">
-    <div style="margin-bottom:1.5rem">
-      <div style="font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Tarifas del equipo · Importadas del Excel</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--paper)">Control de <em style="color:var(--gold-l)">servicios</em></div>
+    <div class="prov-header">
+      <div>
+        <div style="font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Equipo AMBAR Couture</div>
+        <div class="prov-title">Gestión de <em>proveedores</em></div>
+      </div>
+      <button class="prov-btn-add" onclick="openProvModal()">✚ Nuevo proveedor</button>
     </div>
-    <div class="serv-table-wrap">
-      <table class="serv-table">
-        <thead><tr>
-          <th>Servicio</th><th>Colaborador</th><th>Teléfono</th><th>Sede</th>
-          <th>Paquete</th><th>Precio AMBAR</th><th>Precio cliente</th><th>Margen</th>
-        </tr></thead>
-        <tbody id="servTable"></tbody>
-      </table>
+    <div class="prov-filters">
+      <button class="fil active" onclick="filterProvs('todos',this)">Todos</button>
+      <button class="fil" onclick="filterProvs('bogota',this)">🏙️ Bogotá</button>
+      <button class="fil" onclick="filterProvs('barranquilla',this)">🌴 Barranquilla</button>
+      <button class="fil" onclick="filterProvs('villavicencio',this)">🌿 Villavicencio</button>
+      <button class="fil" onclick="filterProvs('FOTOGRAFÍA',this)">📸 Fotógrafos</button>
+      <button class="fil" onclick="filterProvs('MAQUILLAJE',this)">💄 Maquilladoras</button>
+    </div>
+    <div class="prov-grid" id="provGrid"></div>
+  </div>
+
+  <!-- MODAL PROVEEDOR -->
+  <div class="prov-modal-overlay" id="provModalOverlay" onclick="if(event.target===this)closeProvModal()">
+    <div class="prov-modal">
+      <div class="pm-head">
+        <div class="pm-title" id="pmTitle">Nuevo proveedor</div>
+        <button class="pm-close" onclick="closeProvModal()">✕</button>
+      </div>
+      <div class="pm-body">
+        <div class="pm-grid">
+          <div class="pm-fg">
+            <label>Tipo de servicio</label>
+            <select id="pm-servicio">
+              <option value="FOTOGRAFÍA">📸 Fotografía</option>
+              <option value="MAQUILLAJE">💄 Maquillaje y peinado</option>
+            </select>
+          </div>
+          <div class="pm-fg">
+            <label>Sede</label>
+            <select id="pm-sede">
+              <option value="bogota">🏙️ Bogotá D.C.</option>
+              <option value="barranquilla">🌴 Barranquilla</option>
+              <option value="villavicencio">🌿 Villavicencio</option>
+            </select>
+          </div>
+          <div class="pm-fg full">
+            <label>Nombre completo</label>
+            <input type="text" id="pm-nombre" placeholder="Ej: Hector Nicolay Davila">
+          </div>
+          <div class="pm-fg">
+            <label>Teléfono / WhatsApp</label>
+            <input type="tel" id="pm-tel" placeholder="3206747611">
+          </div>
+          <div class="pm-fg">
+            <label>Correo electrónico</label>
+            <input type="email" id="pm-email" placeholder="nicolas@email.com">
+          </div>
+          <div class="pm-fg full">
+            <label>Paquete / descripción del servicio</label>
+            <input type="text" id="pm-paquete" placeholder="Ej: XV Años - 20 fotos digitales">
+          </div>
+          <div class="pm-fg">
+            <label>Precio AMBAR (pago al colaborador) · COP</label>
+            <input type="number" id="pm-precio-ambar" placeholder="450000" min="0" step="1000">
+          </div>
+          <div class="pm-fg">
+            <label>Precio cliente · COP</label>
+            <input type="number" id="pm-precio-cliente" placeholder="900000" min="0" step="1000">
+          </div>
+        </div>
+      </div>
+      <div class="pm-actions">
+        <button class="pm-save" onclick="saveProveedor()">💾 Guardar proveedor</button>
+        <button class="pm-cancel" onclick="closeProvModal()">Cancelar</button>
+      </div>
     </div>
   </div>
+
+
+  <!-- == VIEW: PROVEEDORES == -->
+  <div class="view" id="view-proveedores">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
+      <div>
+        <div style="font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Equipo AMBAR</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--paper)">Gestión de <em style="color:var(--gold-l)">proveedores</em></div>
+      </div>
+      <button class="tb-btn" onclick="openProvModal(null)">✚ Nuevo proveedor</button>
+    </div>
+
+    <div class="prov-tipo-tabs">
+      <button class="prov-tipo-tab active" onclick="filterProvTipo('todos',this)">Todos</button>
+      <button class="prov-tipo-tab" onclick="filterProvTipo('fotografo',this)">📸 Fotógrafos</button>
+      <button class="prov-tipo-tab" onclick="filterProvTipo('maquilladora',this)">💄 Maquilladoras</button>
+      <button class="prov-tipo-tab" onclick="filterProvTipo('caballo',this)">🐴 Caballos</button>
+      <button class="prov-tipo-tab" onclick="filterProvTipo('dj',this)">🎧 DJs</button>
+      <button class="prov-tipo-tab" onclick="filterProvTipo('lugar',this)">🏛️ Lugares</button>
+    </div>
+
+    <div class="prov-grid" id="provGrid"></div>
+  </div>
+
+
+<!-- PROVEEDOR MODAL -->
+<div class="prov-modal-overlay" id="provModalOverlay" onclick="if(event.target===this)closeProvModal()">
+  <div class="prov-modal">
+    <div class="pm-head">
+      <div class="pm-title" id="pmTitle">Nuevo proveedor</div>
+      <button class="pm-close" onclick="closeProvModal()">x</button>
+    </div>
+    <div class="pm-body">
+      <div class="pm-grid">
+        <div class="pm-fg">
+          <label>Tipo de proveedor</label>
+          <select id="pm-tipo">
+            <option value="fotografo">📸 Fotógrafo</option>
+            <option value="maquilladora">💄 Maquilladora</option>
+            <option value="caballo">🐴 Caballo</option>
+            <option value="dj">🎧 DJ</option>
+            <option value="lugar">🏛️ Lugar del evento</option>
+          </select>
+        </div>
+        <div class="pm-fg">
+          <label>Sede</label>
+          <select id="pm-sede">
+            <option value="bogota">🏙️ Bogotá D.C.</option>
+            <option value="barranquilla">🌴 Barranquilla</option>
+            <option value="villavicencio">🌿 Villavicencio</option>
+          </select>
+        </div>
+        <div class="pm-fg full">
+          <label>Nombre completo</label>
+          <input type="text" id="pm-nombre" placeholder="ej: Hector Nicolay Davila">
+        </div>
+        <div class="pm-fg full">
+          <label>Descripcion</label>
+          <textarea id="pm-desc" placeholder="Especialidad, estilo, experiencia..."></textarea>
+        </div>
+        <div class="pm-fg">
+          <label>Telefono / WhatsApp</label>
+          <input type="tel" id="pm-tel" placeholder="300 000 0000">
+        </div>
+        <div class="pm-fg">
+          <label>Email</label>
+          <input type="email" id="pm-email" placeholder="nombre@correo.com">
+        </div>
+        <div class="pm-fg">
+          <label>Instagram</label>
+          <input type="text" id="pm-ig" placeholder="@usuario">
+        </div>
+        <div class="pm-fg">
+          <label>Estado</label>
+          <select id="pm-estado">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="pm-divider"><div class="pm-div-line"></div><div class="pm-div-txt">Precio</div><div class="pm-div-line"></div></div>
+
+        <div class="pm-fg">
+          <label>Precio base cliente · COP</label>
+          <input type="number" id="pm-precio-cliente" placeholder="ej: 900000">
+        </div>
+        <div class="pm-fg">
+          <label>Precio pago colaborador · COP</label>
+          <input type="number" id="pm-precio-ambar" placeholder="ej: 450000">
+        </div>
+        <div class="pm-fg full">
+          <label>Notas de precio / paquetes</label>
+          <textarea id="pm-precio-notas" placeholder="Descripcion de paquetes, condiciones especiales..."></textarea>
+        </div>
+
+        <div class="pm-divider"><div class="pm-div-line"></div><div class="pm-div-txt">Tags / estilos</div><div class="pm-div-line"></div></div>
+
+        <div class="pm-fg full">
+          <label>Tags (separados por coma)</label>
+          <input type="text" id="pm-tags" placeholder="Pre-XV, Exterior, Golden Hour, Glam...">
+        </div>
+
+        <div class="pm-divider"><div class="pm-div-line"></div><div class="pm-div-txt">Fotos del portafolio</div><div class="pm-div-line"></div></div>
+
+        <div class="pm-fotos-area">
+          <div class="pm-fotos-grid" id="pmFotosGrid">
+            <button class="pm-foto-add" onclick="document.getElementById('pmFileInput').click()">
+              <span>📷</span><small>Subir foto</small>
+            </button>
+          </div>
+          <input type="file" id="pmFileInput" accept="image/*" multiple style="display:none" onchange="handleFotoUpload(event)">
+        </div>
+
+        <div class="pm-divider"><div class="pm-div-line"></div><div class="pm-div-txt">O pegar link externo</div><div class="pm-div-line"></div></div>
+
+        <div class="pm-link-input">
+          <input type="text" id="pmLinkInput" placeholder="https://drive.google.com/... o https://instagram.com/p/...">
+          <button onclick="addFotoLink()">Agregar link</button>
+        </div>
+
+        <button class="pm-save-btn" onclick="saveProveedor()">Guardar proveedor</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- DETAIL MODAL -->
 <div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
@@ -1293,13 +1620,41 @@ async function updatePrecio(sessionId, field, val, el){
   }
 }
 
-// == SERVICIOS TABLE ==
+// == PROVEEDORES CRUD ==
+let proveedores = [...SERVICIOS_DATA.map((sv,i) => ({...sv, _id: 'init_'+i}))];
+let provFilter = 'todos';
+let editingProvId = null;
+
+async function loadProveedores(){
+  try {
+    const { data, error } = await sb.from('proveedores').select('*').order('sede').order('servicio');
+    if(error) throw error;
+    if(data && data.length) proveedores = data;
+    else {
+      // First load - seed with Excel data
+      proveedores = SERVICIOS_DATA.map((sv,i) => ({...sv, id: 'local_'+i}));
+    }
+  } catch(e) {
+    console.warn('Using local proveedores data:', e.message);
+    proveedores = SERVICIOS_DATA.map((sv,i) => ({...sv, id: 'local_'+i}));
+  }
+  renderServicios();
+}
+
+function filterProvs(f, btn){
+  provFilter = f;
+  document.querySelectorAll('#view-servicios .fil').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  renderServicios();
+}
+
 function renderServicios(){
   const tbody = document.getElementById('servTable');
+  if(!tbody) return;
   tbody.innerHTML = SERVICIOS_DATA.map(sv => {
     const margen = sv.precio_cliente - sv.precio_ambar;
     return `<tr>
-      <td><span style="font-size:0.75rem">${sv.servicio==='FOTOGRAFÍA'?'📸':'💄'}</span> ${sv.servicio}</td>
+      <td><span style="font-size:0.75rem">${sv.servicio==='FOTOGRAFIA'?'📸':'💄'}</span> ${sv.servicio}</td>
       <td class="fin-bold">${sv.colaborador}</td>
       <td style="font-family:monospace;font-size:0.65rem">${sv.tel}</td>
       <td>${sv.sede}</td>
@@ -1309,6 +1664,137 @@ function renderServicios(){
       <td class="${margen>=0?'fin-pos':'fin-neg'}">${cop(margen)}</td>
     </tr>`;
   }).join('');
+}
+
+function renderProveedores(){
+  const grid = document.getElementById('provGrid');
+  if(!grid) return;
+  const list = provTipoFilter === 'todos'
+    ? proveedores
+    : proveedores.filter(p => p.tipo === provTipoFilter);
+
+  if(!list.length){
+    grid.innerHTML = '<div class="empty-list" style="grid-column:1/-1;padding:3rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin proveedores - Agrega el primero con el boton de arriba</div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const fotos = (p.portafolio || []).slice(0,3);
+    const fotosHTML = fotos.map(f =>
+      `<div class="prov-foto" style="background-image:url('${f.url}')" onclick="openLightbox('${f.url}')"></div>`
+    ).join('') + `<div class="prov-foto add-btn" onclick="openProvModal('${p.id}')">+</div>`;
+    const tags = (p.tags||[]).slice(0,4).map(t=>`<span class="prov-tag">${t}</span>`).join('');
+    const precio = p.precio_base ? '$'+Number(p.precio_base).toLocaleString('es-CO')+' COP' : 'A coordinar';
+    return `<div class="prov-card ${p.estado==='inactivo'?'inactivo':''}">
+      <div class="prov-card-top">
+        <div class="prov-avatar">${p.avatar_url?`<img src="${p.avatar_url}" alt="${p.nombre}">`:(TIPO_ICO[p.tipo]||'👤')}</div>
+        <div class="prov-info">
+          <div class="prov-tipo-badge">${TIPO_ICO[p.tipo]||''} ${TIPO_LABEL[p.tipo]||p.tipo} · ${SEDES_LABEL[p.sede]||p.sede}</div>
+          <div class="prov-nombre">${p.nombre}</div>
+          <div class="prov-precio">${precio}</div>
+          ${p.telefono?`<div class="prov-sede" style="margin-top:3px">📞 ${p.telefono}</div>`:''}
+        </div>
+      </div>
+      ${tags?`<div class="prov-tags">${tags}</div>`:''}
+      <div class="prov-fotos">${fotosHTML}</div>
+      <div class="prov-actions">
+        <button class="prov-btn edit" onclick="openProvModal('${p.id}')">✏️ Editar</button>
+        <button class="prov-btn del" onclick="deleteProveedor('${p.id}')">🗑 Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openProvModal(id=null){
+  editingProvId = id;
+  document.getElementById('pmTitle').textContent = id ? 'Editar proveedor' : 'Nuevo proveedor';
+  
+  if(id){
+    const sv = proveedores.find(x=>(x.id||x._id)===id);
+    if(sv){
+      document.getElementById('pm-servicio').value = sv.servicio||'FOTOGRAFÍA';
+      document.getElementById('pm-sede').value = (sv.sede||'bogota').toLowerCase();
+      document.getElementById('pm-nombre').value = sv.colaborador||sv.nombre||'';
+      document.getElementById('pm-tel').value = sv.tel||'';
+      document.getElementById('pm-email').value = sv.email||'';
+      document.getElementById('pm-paquete').value = sv.paquete||'';
+      document.getElementById('pm-precio-ambar').value = sv.precio_ambar||'';
+      document.getElementById('pm-precio-cliente').value = sv.precio_cliente||'';
+    }
+  } else {
+    ['pm-nombre','pm-tel','pm-email','pm-paquete','pm-precio-ambar','pm-precio-cliente'].forEach(id=>{
+      document.getElementById(id).value='';
+    });
+  }
+  document.getElementById('provModalOverlay').classList.add('open');
+}
+
+function closeProvModal(){
+  document.getElementById('provModalOverlay').classList.remove('open');
+  editingProvId = null;
+}
+
+async function saveProveedor(){
+  const payload = {
+    servicio:       document.getElementById('pm-servicio').value,
+    sede:           document.getElementById('pm-sede').value,
+    colaborador:    document.getElementById('pm-nombre').value.trim(),
+    tel:            document.getElementById('pm-tel').value.trim(),
+    email:          document.getElementById('pm-email').value.trim(),
+    paquete:        document.getElementById('pm-paquete').value.trim(),
+    precio_ambar:   parseFloat(document.getElementById('pm-precio-ambar').value)||0,
+    precio_cliente: parseFloat(document.getElementById('pm-precio-cliente').value)||0,
+  };
+
+  if(!payload.colaborador){ showToast('⚠️ Ingresa el nombre del colaborador'); return; }
+  if(!payload.precio_ambar){ showToast('⚠️ Ingresa el precio AMBAR'); return; }
+
+  try {
+    if(editingProvId && !editingProvId.startsWith('local_') && !editingProvId.startsWith('init_')){
+      const { error } = await sb.from('proveedores').update(payload).eq('id', editingProvId);
+      if(error) throw error;
+      showToast('✅ Proveedor actualizado');
+    } else {
+      const { error } = await sb.from('proveedores').insert([payload]);
+      if(error) throw error;
+      showToast('✅ Proveedor agregado');
+    }
+    closeProvModal();
+    await loadProveedores();
+  } catch(e){
+    // Fallback to local if Supabase table doesn't exist yet
+    if(editingProvId){
+      const idx = proveedores.findIndex(x=>(x.id||x._id)===editingProvId);
+      if(idx>=0) proveedores[idx] = {...proveedores[idx], ...payload};
+    } else {
+      proveedores.push({...payload, id:'local_'+Date.now()});
+    }
+    closeProvModal();
+    renderServicios();
+    showToast('✅ Guardado localmente · Configura tabla en Supabase para persistir');
+  }
+}
+
+async function editProveedor(id){
+  openProvModal(id);
+}
+
+async function deleteProveedor(id){
+  if(!confirm('¿Eliminar este proveedor?')) return;
+  try {
+    if(!id.startsWith('local_') && !id.startsWith('init_')){
+      const { error } = await sb.from('proveedores').delete().eq('id', id);
+      if(error) throw error;
+      await loadProveedores();
+    } else {
+      proveedores = proveedores.filter(x=>(x.id||x._id)!==id);
+      renderServicios();
+    }
+    showToast('🗑 Proveedor eliminado');
+  } catch(e){
+    proveedores = proveedores.filter(x=>(x.id||x._id)!==id);
+    renderServicios();
+    showToast('🗑 Eliminado localmente');
+  }
 }
 
 // == CALENDAR TASKS overlay ==
@@ -1356,6 +1842,7 @@ function showApp(user){
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('userEmail').textContent = user.email;
   drawCal(); updateStats(); updateCounts();
+  loadProveedores();
 }
 
 function hideApp(){
@@ -1446,7 +1933,7 @@ function setView(v){ currentView=v;
   if(v==='sessions')  renderList();
   if(v==='tareas')    renderTareas();
   if(v==='finanzas')  renderFinanzas();
-  if(v==='servicios') renderServicios();
+  if(v==='servicios') loadProveedores();
   if(v==='nueva' && !editingId) resetForm();
   closeSidebar();
 }
