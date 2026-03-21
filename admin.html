@@ -1627,7 +1627,7 @@ let editingProvId = null;
 
 async function loadProveedores(){
   try {
-    const { data, error } = await sb.from('proveedores').select('*').order('sede').order('servicio');
+    const { data, error } = await sb.from('proveedores').select('*, portafolio(*)').order('tipo').order('nombre');
     if(error) throw error;
     if(data && data.length) proveedores = data;
     else {
@@ -1933,7 +1933,8 @@ function setView(v){ currentView=v;
   if(v==='sessions')  renderList();
   if(v==='tareas')    renderTareas();
   if(v==='finanzas')  renderFinanzas();
-  if(v==='servicios') loadProveedores();
+  if(v==='servicios') renderServicios();
+  if(v==='proveedores') loadProveedores();
   if(v==='nueva' && !editingId) resetForm();
   closeSidebar();
 }
