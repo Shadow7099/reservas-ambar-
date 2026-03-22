@@ -568,8 +568,9 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 .cfg-saved.show{display:block;}
 /* Proveedor config table */
 .prov-cfg-table{width:100%;border-collapse:collapse;}
-.prov-cfg-table th{padding:0.6rem 0.85rem;font-size:0.46rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,247,242,0.3);text-align:left;border-bottom:1px solid rgba(196,154,60,0.1);background:rgba(196,154,60,0.04);}
-.prov-cfg-table td{padding:0.5rem 0.85rem;border-bottom:1px solid rgba(196,154,60,0.06);vertical-align:middle;}
+.prov-cfg-table th{padding:0.5rem 0.65rem;font-size:0.44rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(250,247,242,0.3);text-align:left;border-bottom:1px solid rgba(196,154,60,0.1);background:rgba(196,154,60,0.04);white-space:nowrap;}
+.prov-cfg-table td{padding:0.4rem 0.5rem;border-bottom:1px solid rgba(196,154,60,0.06);vertical-align:middle;}
+.prov-cfg-table tr:hover td{background:rgba(196,154,60,0.02);}
 .prov-cfg-table tr:last-child td{border-bottom:none;}
 .prov-cfg-input{width:100%;padding:0.4rem 0.6rem;background:rgba(255,255,255,0.04);border:1px solid rgba(196,154,60,0.15);color:var(--paper);font-family:'Outfit',sans-serif;font-size:0.7rem;outline:none;}
 .prov-cfg-input:focus{border-color:rgba(196,154,60,0.45);}
@@ -1146,13 +1147,20 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
   <!-- == VIEW: CONFIGURACION == -->
   <div class="view" id="view-configuracion">
 
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem;">
+      <div>
+        <div style="font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Panel admin</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--paper)">Configuracion del <em style="color:var(--gold-l)">sistema</em></div>
+      </div>
+    </div>
+
     <!-- Proveedores / Equipo -->
     <div class="cfg-section">
-      <div class="cfg-sec-head">
-        <span class="cfg-sec-ico">👥</span>
-        <span class="cfg-sec-title">Equipo de trabajo</span>
-      </div>
-      <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem">
+      <div class="cfg-sec-head" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <span class="cfg-sec-ico">👥</span>
+          <span class="cfg-sec-title">Equipo de trabajo</span>
+        </div>
         <button class="cfg-add-btn" onclick="addProvRow()">+ Agregar colaborador</button>
       </div>
       <div style="overflow-x:auto;border:1px solid rgba(196,154,60,0.12)">
@@ -2038,6 +2046,16 @@ function provCfgChange(el){
 function addProvRow(){
   provCfgRows.push({tipo:'fotografo',nombre:'',telefono:'',email:'',sede:'bogota',precio_base:null,precio_colab:null,estado:'activo',id:null});
   renderProvCfgTable();
+  // Scroll to and focus the new row
+  setTimeout(()=>{
+    const rows = document.querySelectorAll('#provCfgTable tr');
+    const last = rows[rows.length-1];
+    if(last){
+      last.scrollIntoView({behavior:'smooth',block:'center'});
+      const input = last.querySelector('input[data-f="nombre"]');
+      if(input) input.focus();
+    }
+  }, 100);
 }
 
 async function delProvCfgRow(i){
