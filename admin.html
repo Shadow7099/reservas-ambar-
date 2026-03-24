@@ -1064,6 +1064,48 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
           <textarea id="f-notas" placeholder="Referencias de look, peticiones especiales, observaciones del equipo..."></textarea>
         </div>
 
+        <div class="form-divider"><div class="fdiv-line"></div><div class="fdiv-txt">Pago del cliente</div><div class="fdiv-line"></div></div>
+
+        <div class="fg">
+          <label>Monto pagado por el cliente · COP</label>
+          <input type="number" id="f-factura-monto" placeholder="0" min="0" step="1000" oninput="updateFormSaldo()">
+          <div class="fn">Lo que ya pago · el saldo se calcula automaticamente</div>
+        </div>
+        <div class="fg">
+          <label>Estado del pago</label>
+          <select id="f-factura-estado">
+            <option value="pendiente">⏳ Pendiente</option>
+            <option value="parcial">🔶 Pago parcial</option>
+            <option value="pagado">✅ Pagado completo</option>
+          </select>
+        </div>
+
+        <div class="fg full" id="form-saldo-preview" style="display:none">
+          <div style="padding:0.75rem 1rem;border:1px solid rgba(196,154,60,0.15);background:rgba(196,154,60,0.03);display:flex;gap:2rem;flex-wrap:wrap">
+            <div><div style="font-size:0.44rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,247,242,0.25);margin-bottom:2px">Pagado</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#B0D0B2" id="form-saldo-pagado">$0</div></div>
+            <div><div style="font-size:0.44rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(250,247,242,0.25);margin-bottom:2px">Saldo pendiente</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--rose)" id="form-saldo-restante">$0</div></div>
+          </div>
+        </div>
+
+        <div class="fg full">
+          <label>Comprobante de pago <span class="opt">(opcional)</span></label>
+          <div id="form-comprobante-preview" style="display:none;margin-bottom:0.5rem">
+            <img id="form-comprobante-img" style="max-height:140px;border:1px solid rgba(196,154,60,0.2);object-fit:contain;width:100%;background:rgba(255,255,255,0.02)">
+          </div>
+          <div class="factura-upload" onclick="document.getElementById('f-factura-file').click()">
+            <div class="factura-upload-ico">📄</div>
+            <div class="factura-upload-txt">Subir comprobante · JPG, PNG, PDF</div>
+          </div>
+          <input type="file" id="f-factura-file" accept="image/*,.pdf" style="display:none"
+            onchange="previewFormComprobante(event)">
+          <div class="fn" id="form-comprobante-name"></div>
+        </div>
+
+        <div class="fg full">
+          <label>Notas del pago <span class="opt">(opcional)</span></label>
+          <input type="text" id="f-factura-notas" placeholder="Transferencia, efectivo, referencia bancaria...">
+        </div>
+
         <div class="form-actions">
           <button class="btn-submit" onclick="submitBooking()" id="submitBtn">✚ Agendar sesión</button>
           <button class="btn-reset" onclick="resetForm()">Limpiar</button>
@@ -1700,6 +1742,34 @@ function getPrecioCliente(s){
 function getPagoColab(s){
   if(s.precio_colab != null) return Number(s.precio_colab);
   return calcFinanzas(s).colab;
+}
+
+function previewFormComprobante(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const nameEl = document.getElementById('form-comprobante-name');
+  if(nameEl) nameEl.textContent = file.name;
+  if(file.type.startsWith('image/')){
+    const img = document.getElementById('form-comprobante-img');
+    const wrap = document.getElementById('form-comprobante-preview');
+    img.src = URL.createObjectURL(file);
+    wrap.style.display = 'block';
+  }
+}
+
+function updateFormSaldo(){
+  const monto = parseFloat(document.getElementById('f-factura-monto')?.value)||0;
+  const total = parseFloat(document.getElementById('f-precio-cliente')?.value)||0;
+  const saldo = total - monto;
+  const preview = document.getElementById('form-saldo-preview');
+  if(preview) preview.style.display = monto > 0 ? 'block' : 'none';
+  const pagadoEl = document.getElementById('form-saldo-pagado');
+  const restanteEl = document.getElementById('form-saldo-restante');
+  if(pagadoEl) pagadoEl.textContent = '$'+monto.toLocaleString('es-CO')+' COP';
+  if(restanteEl){
+    restanteEl.textContent = '$'+Math.max(0,saldo).toLocaleString('es-CO')+' COP';
+    restanteEl.style.color = saldo > 0 ? 'var(--rose)' : '#B0D0B2';
+  }
 }
 
 function updateFinPreview(){
@@ -2723,7 +2793,12 @@ function selMkup(incl,el){
 function calcMkupTime(){
   const hora = document.getElementById('f-hora').value;
   if(!hora||!mkupOn){ document.getElementById('mkupBanner').classList.remove('show');
-  const fp=document.getElementById('fin-preview'); if(fp) fp.style.display='none'; return; }
+  const fp=document.getElementById('fin-preview'); if(fp) fp.style.display='none';
+  const fs=document.getElementById('form-saldo-preview'); if(fs) fs.style.display='none';
+  const fcp=document.getElementById('form-comprobante-preview'); if(fcp) fcp.style.display='none';
+  const fcn=document.getElementById('form-comprobante-name'); if(fcn) fcn.textContent='';
+  const fe=document.getElementById('f-factura-estado'); if(fe) fe.value='pendiente';
+  const ff=document.getElementById('f-factura-file'); if(ff) ff.value=''; return; }
   const [hh,mm] = hora.split(':').map(Number);
   let mh=hh-2, mn=mm-30; if(mn<0){mn+=60;mh--;} if(mh<0)mh=0;
   const mkTime = `${String(mh).padStart(2,'0')}:${String(mn).padStart(2,'0')}`;
@@ -2750,7 +2825,7 @@ function selStatus(el){
 function resetForm(){
   editingId=null;
   document.getElementById('submitBtn').textContent='+ Agendar sesión';
-  ['f-sede','f-fecha','f-hora','f-qnom','f-qape','f-qtel','f-qmail','f-rnom','f-rtel','f-pg','f-mk','f-lugar','f-mkaddr','f-horse','f-horsenote','f-notas','f-precio-cliente','f-precio-colab'].forEach(id=>{
+  ['f-sede','f-fecha','f-hora','f-qnom','f-qape','f-qtel','f-qmail','f-rnom','f-rtel','f-pg','f-mk','f-lugar','f-mkaddr','f-horse','f-horsenote','f-notas','f-precio-cliente','f-precio-colab','f-factura-monto','f-factura-notas'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
   selMkup(true, null);
@@ -2760,6 +2835,11 @@ function resetForm(){
   document.getElementById('horseBody').classList.remove('open');
   document.getElementById('mkupBanner').classList.remove('show');
   const fp=document.getElementById('fin-preview'); if(fp) fp.style.display='none';
+  const fs=document.getElementById('form-saldo-preview'); if(fs) fs.style.display='none';
+  const fcp=document.getElementById('form-comprobante-preview'); if(fcp) fcp.style.display='none';
+  const fcn=document.getElementById('form-comprobante-name'); if(fcn) fcn.textContent='';
+  const fe=document.getElementById('f-factura-estado'); if(fe) fe.value='pendiente';
+  const ff=document.getElementById('f-factura-file'); if(ff) ff.value='';
   document.querySelectorAll('.status-opt').forEach(x=>x.classList.remove('sel'));
   document.querySelector('.status-opt[data-status="pendiente"]').classList.add('sel');
 }
@@ -2827,8 +2907,11 @@ async function submitBooking(){
     horse_note:  document.getElementById('f-horsenote').value.trim(),
     notas:       fNotas.value.trim(),
     status,
-    precio_cliente: parseFloat(document.getElementById('f-precio-cliente').value)||null,
-    precio_colab:   parseFloat(document.getElementById('f-precio-colab').value)||null,
+    precio_cliente:  parseFloat(document.getElementById('f-precio-cliente').value)||null,
+    precio_colab:    parseFloat(document.getElementById('f-precio-colab').value)||null,
+    factura_monto:   parseFloat(document.getElementById('f-factura-monto')?.value)||null,
+    factura_estado:  document.getElementById('f-factura-estado')?.value||'pendiente',
+    factura_notas:   document.getElementById('f-factura-notas')?.value.trim()||null,
   };
   if(editingId) payload.id = editingId;
 
@@ -2837,7 +2920,9 @@ async function submitBooking(){
     if(editingId){
       ({error} = await sb.from('sesiones').update(payload).eq('id', editingId));
     } else {
-      ({error} = await sb.from('sesiones').insert([payload]));
+      let savedId = null;
+      const {data:insertData, error} = await sb.from('sesiones').insert([payload]).select('id').single();
+      if(insertData) savedId = insertData.id;
     }
     if(error) throw error;
     showToast(editingId ? '[OK] Sesión actualizada' : '[OK] Sesión agendada . tareas creadas automáticamente');
@@ -3000,6 +3085,9 @@ function editSession(id){
       if(s.horse){ horseOn=true; document.getElementById('horseSw').classList.add('on'); document.getElementById('horseToggle').classList.add('open'); document.getElementById('horseBody').classList.add('open'); document.getElementById('f-horse').value=s.horse; document.getElementById('f-horsenote').value=s.horse_note||''; }
       if(s.precio_cliente) document.getElementById('f-precio-cliente').value=s.precio_cliente;
       if(s.precio_colab)   document.getElementById('f-precio-colab').value=s.precio_colab;
+      if(s.factura_monto)  { document.getElementById('f-factura-monto').value=s.factura_monto; updateFormSaldo(); }
+      if(s.factura_estado) document.getElementById('f-factura-estado').value=s.factura_estado;
+      if(s.factura_notas)  document.getElementById('f-factura-notas').value=s.factura_notas;
       updateFinPreview();
       document.querySelectorAll('.status-opt').forEach(x=>x.classList.remove('sel'));
       document.querySelector(`.status-opt[data-status="${s.status}"]`)?.classList.add('sel');
