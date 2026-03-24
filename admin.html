@@ -432,7 +432,7 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 
 /* ── FINANZAS ── */
 .fin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
-.fin-card{padding:1.25rem 1.5rem;border:1px solid rgba(196,154,60,0.12);background:rgba(255,255,255,0.02);}
+.fin-card{min-height:100px;padding:1.25rem 1.5rem;border:1px solid rgba(196,154,60,0.12);background:rgba(255,255,255,0.02);}
 .fc-ico{font-size:1.3rem;margin-bottom:0.5rem;}
 .fc-num{font-family:var(--font-d);font-size:1.5rem;font-weight:300;color:var(--gold-l);line-height:1;}
 .fc-num.green{color:#B0D0B2;}
@@ -1198,7 +1198,7 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
       <button class="fin-tab" onclick="finSetTab('proveedores',this)">💸 Pagar proveedores</button>
       <button class="fin-tab" onclick="finSetTab('historial',this)">📜 Historial</button>
     </div>
-    <div id="fin-tab-sesiones">
+    <div id="fin-tab-sesiones" style="min-height:300px">
       <div class="fin-table-wrap">
         <table class="fin-table">
           <thead><tr>
@@ -1209,16 +1209,16 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
         </table>
       </div>
     </div>
-    <div id="fin-tab-recaudo" style="display:none">
+    <div id="fin-tab-recaudo" style="display:none;min-height:300px">
       <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem">
         <button class="cfg-add-btn" onclick="openRegistrarPago()">+ Registrar pago recibido</button>
       </div>
       <div id="fin-recaudo-list"><div class="empty-list" style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin pagos registrados</div></div>
     </div>
-    <div id="fin-tab-proveedores" style="display:none">
+    <div id="fin-tab-proveedores" style="display:none;min-height:300px">
       <div id="fin-prov-list"></div>
     </div>
-    <div id="fin-tab-historial" style="display:none">
+    <div id="fin-tab-historial" style="display:none;min-height:300px">
       <div id="fin-historial-list"><div class="empty-list" style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin movimientos registrados</div></div>
     </div>
   </div>
@@ -1731,10 +1731,12 @@ async function toggleTask(sessionId,field,taskId,el){
 }
 
 // == FINANZAS ==
-function renderFinanzas(){
+async function renderFinanzas(){
+  // Ensure sessions are loaded
+  if(!sessions.length) await loadSessions();
+  
   // Filter sessions by period
   const filtered = getSessionsByPeriodo();
-
   let recaudado=0, pagos=0, porCobrar=0;
 
   const rows = filtered.map(s => {
@@ -1786,11 +1788,11 @@ function renderFinanzas(){
 
 let finPeriodo = 'todo';
 
-function setFinPeriodo(p, btn){
+async function setFinPeriodo(p, btn){
   finPeriodo = p;
   document.querySelectorAll('.fin-period-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
-  renderFinanzas();
+  await renderFinanzas();
   if(finTab==='recaudo')     renderRecaudo();
   if(finTab==='proveedores') renderProvPagos();
 }
@@ -2657,9 +2659,9 @@ function finSetTab(tab, btn){
     const el = document.getElementById('fin-tab-'+t);
     if(el) el.style.display = t===tab ? 'block' : 'none';
   });
-  if(tab==='recaudo')    renderRecaudo();
-  if(tab==='proveedores') renderProvPagos();
-  if(tab==='historial')  renderHistorial();
+  if(tab==='recaudo')     { renderRecaudo(); }
+  if(tab==='proveedores') { renderProvPagos(); }
+  if(tab==='historial')   { renderHistorial(); }
 }
 
 async function loadHistorial(){
@@ -3063,10 +3065,8 @@ async function setView(v){ currentView=v;
     if(!sessions.length) await loadSessions();
     await loadHistorial();
     // Small delay to ensure DOM is visible before updating
-    setTimeout(()=>{
-      renderFinanzas();
-      finSetTab('sesiones', document.querySelector('.fin-tab'));
-    }, 50);
+    await renderFinanzas();
+    finSetTab('sesiones', document.querySelector('.fin-tab'));
   } else {
     const tbBtn = document.querySelector('.tb-btn');
     if(tbBtn) tbBtn.style.display='';
