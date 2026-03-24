@@ -104,6 +104,7 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 
 /* ── TOP BAR ── */
 .topbar{
+  height:48px;
   position:sticky;top:0;z-index:50;
   display:flex;align-items:center;justify-content:space-between;
   padding:0.85rem 2rem;
@@ -673,6 +674,15 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 .pagar-btn:hover{background:rgba(196,154,60,0.2);}
 .pagar-btn.done{background:rgba(125,158,127,0.1);border-color:rgba(125,158,127,0.3);color:#B0D0B2;cursor:default;}
 
+.fin-period-btn{
+  padding:0.4rem 0.9rem;background:rgba(255,255,255,0.03);
+  border:1px solid rgba(196,154,60,0.15);color:rgba(250,247,242,0.35);
+  font-family:'Outfit',sans-serif;font-size:0.55rem;letter-spacing:0.12em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;
+}
+.fin-period-btn:hover{border-color:rgba(196,154,60,0.3);color:rgba(250,247,242,0.6);}
+.fin-period-btn.active{background:rgba(196,154,60,0.1);border-color:rgba(196,154,60,0.4);color:var(--gold-l);}
+
 @media(max-width:900px){
   .fin-grid{grid-template-columns:1fr 1fr;}
 }
@@ -845,7 +855,7 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
       <div class="sb-item-ico">🌿</div> Villavicencio
     </div>
   </div>
-  <div class="sb-footer">AMBAR Couture · Admin v1.0<br>© 2026 · Uso interno</div>
+  <div class="sb-footer"><div style="font-size:0.6rem;color:rgba(250,247,242,0.35);margin-bottom:0.5rem" id="userEmail"></div><button class="logout-btn" onclick="doLogout()" style="width:100%;margin-bottom:0.6rem;text-align:center">Cerrar sesión</button>AMBAR Couture · Admin v1.0<br>© 2026 · Uso interno</div>
 </nav>
 
 <!-- MAIN -->
@@ -858,7 +868,6 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
       <div class="topbar-sub" id="topSub">Vista mensual · Todas las sedes</div>
     </div>
     <div class="topbar-right">
-      <div class="login-user-bar"><span id="userEmail"></span><button class="logout-btn" onclick="doLogout()">Cerrar sesión</button></div>
       <button class="tb-btn" onclick="setView('nueva')">✚ Nueva sesión</button>
       <button class="ham-btn" onclick="toggleSidebar()">☰</button>
     </div>
@@ -1169,6 +1178,13 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--paper)">Recaudo y <em style="color:var(--gold-l)">pagos</em></div>
       </div>
       <button class="cfg-add-btn" onclick="finSetTab('recaudo',null);openRegistrarPago(null)">+ Registrar pago</button>
+    </div>
+    <!-- Filtro de periodo -->
+    <div style="display:flex;gap:0.4rem;margin-bottom:1rem">
+      <button class="fin-period-btn active" id="fp-todo"    onclick="setFinPeriodo('todo',this)">Todo</button>
+      <button class="fin-period-btn"        id="fp-semana"  onclick="setFinPeriodo('semana',this)">Esta semana</button>
+      <button class="fin-period-btn"        id="fp-mes"     onclick="setFinPeriodo('mes',this)">Este mes</button>
+      <button class="fin-period-btn"        id="fp-anterior" onclick="setFinPeriodo('anterior',this)">Mes anterior</button>
     </div>
     <div class="fin-grid" style="margin-bottom:1.5rem">
       <div class="fin-card"><div class="fc-ico">💵</div><div class="fc-num" id="fin-recaudado">$0</div><div class="fc-lbl">Recaudado clientes</div></div>
@@ -1716,17 +1732,19 @@ async function toggleTask(sessionId,field,taskId,el){
 
 // == FINANZAS ==
 function renderFinanzas(){
-  const all = sessions; // Always use all sessions in finanzas
+  // Filter sessions by period
+  const filtered = getSessionsByPeriodo();
+
   let recaudado=0, pagos=0, porCobrar=0;
 
-  const rows = all.map(s => {
-    const cl  = s.precio_cliente ? parseFloat(s.precio_cliente) : 0;
-    const co  = s.precio_colab   ? parseFloat(s.precio_colab)   : 0;
-    const pagado  = s.factura_monto ? parseFloat(s.factura_monto) : 0;
-    const saldo   = cl - pagado;
-    const ganancia = cl - co;
+  const rows = filtered.map(s => {
+    const cl     = parseFloat(s.precio_cliente)||0;
+    const co     = parseFloat(s.precio_colab)||0;
+    const pagado = parseFloat(s.factura_monto)||0;
+    const saldo  = cl - pagado;
+    const gan    = cl - co;
 
-    if(pagado > 0) recaudado += pagado;
+    recaudado += pagado;
     if(s.pago_proveedor_done) pagos += co;
     if(cl > 0 && saldo > 0) porCobrar += saldo;
 
@@ -1741,39 +1759,73 @@ function renderFinanzas(){
       <td style="font-size:0.65rem">${s.incluye_mkup?getMkName(s.sede,s.mk_id):'-'}</td>
       <td class="fin-bold">${cl?cop(cl):'-'}</td>
       <td class="fin-pos">${pagado?cop(pagado):'-'}</td>
-      <td class="${saldo>0?'fin-neg':'fin-pos'}">${cl?(saldo>0?cop(saldo):'✓ Completo'):'-'}</td>
+      <td class="${saldo>0?'fin-neg':'fin-pos'}">${cl?(saldo>0?cop(saldo):'✓'):'-'}</td>
       <td class="fin-neg">${co?cop(co):'-'}</td>
-      <td class="${ganancia>0?'fin-pos':ganancia<0?'fin-neg':''}">${cl&&co?cop(ganancia):'-'}</td>
-      <td>
-        <div>${s.factura_estado?facturaEstadoBadge(s.factura_estado):statusBadge(s.status)}</div>
-      </td>
+      <td class="${gan>0?'fin-pos':gan<0?'fin-neg':''}">${cl&&co?cop(gan):'-'}</td>
+      <td>${s.factura_estado?facturaEstadoBadge(s.factura_estado):statusBadge(s.status)}</td>
     </tr>`;
   }).join('');
 
-  const gananciaTotal = recaudado - pagos;
-  document.getElementById('fin-recaudado').textContent = cop(recaudado);
-  document.getElementById('fin-pagos').textContent     = cop(pagos);
-  document.getElementById('fin-ganancia').textContent  = cop(gananciaTotal);
-  document.getElementById('fin-pendiente').textContent = cop(porCobrar);
-
-  // Update stats first - always
-  const rEl = document.getElementById('fin-recaudado');
-  const pEl = document.getElementById('fin-pagos');
-  const gEl = document.getElementById('fin-ganancia');
-  const pcEl = document.getElementById('fin-pendiente');
-  if(rEl) rEl.textContent = cop(recaudado);
-  if(pEl) pEl.textContent = cop(pagos);
-  if(gEl) gEl.textContent = cop(recaudado - pagos);
-  if(pcEl) pcEl.textContent = cop(porCobrar);
+  // Update stats
+  ['fin-recaudado','fin-pagos','fin-ganancia','fin-pendiente'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(id==='fin-recaudado') el.textContent = cop(recaudado);
+    if(id==='fin-pagos')     el.textContent = cop(pagos);
+    if(id==='fin-ganancia')  el.textContent = cop(recaudado - pagos);
+    if(id==='fin-pendiente') el.textContent = cop(porCobrar);
+  });
 
   const tbl = document.getElementById('finTable');
   if(tbl) tbl.innerHTML = rows ||
-    '<tr><td colspan="10" style="text-align:center;opacity:0.4;padding:2rem">Sin sesiones registradas aun</td></tr>';
+    '<tr><td colspan="10" style="text-align:center;opacity:0.4;padding:2rem">Sin sesiones en este periodo</td></tr>';
 
-  // Ensure sesiones tab is visible
   const tabSes = document.getElementById('fin-tab-sesiones');
   if(tabSes && tabSes.style.display==='none') tabSes.style.display='block';
 }
+
+let finPeriodo = 'todo';
+
+function setFinPeriodo(p, btn){
+  finPeriodo = p;
+  document.querySelectorAll('.fin-period-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderFinanzas();
+  if(finTab==='recaudo')     renderRecaudo();
+  if(finTab==='proveedores') renderProvPagos();
+}
+
+function getSessionsByPeriodo(){
+  const now   = new Date();
+  const today = now.toISOString().slice(0,10);
+
+  if(finPeriodo==='todo') return sessions;
+
+  if(finPeriodo==='semana'){
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Monday
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    const s = startOfWeek.toISOString().slice(0,10);
+    const e = endOfWeek.toISOString().slice(0,10);
+    return sessions.filter(x=>x.fecha>=s && x.fecha<=e);
+  }
+
+  if(finPeriodo==='mes'){
+    const s = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0,10);
+    const e = new Date(now.getFullYear(), now.getMonth()+1, 0).toISOString().slice(0,10);
+    return sessions.filter(x=>x.fecha>=s && x.fecha<=e);
+  }
+
+  if(finPeriodo==='anterior'){
+    const s = new Date(now.getFullYear(), now.getMonth()-1, 1).toISOString().slice(0,10);
+    const e = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().slice(0,10);
+    return sessions.filter(x=>x.fecha>=s && x.fecha<=e);
+  }
+
+  return sessions;
+}
+
 
 // == TARIFAS POR SEDE (del Excel AMBAR) ==
 const TARIFAS = {
@@ -2907,7 +2959,7 @@ async function initSupabase(){
 
 function showApp(user){
   document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('userEmail').textContent = user.email;
+  const uEl=document.getElementById('userEmail'); if(uEl) uEl.textContent=user.email;
   drawCal(); updateStats(); updateCounts();
   loadProveedores();
 }
