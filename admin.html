@@ -1732,9 +1732,24 @@ async function toggleTask(sessionId,field,taskId,el){
 
 // == FINANZAS ==
 async function renderFinanzas(){
-  // Ensure sessions are loaded
-  if(!sessions.length) await loadSessions();
-  
+  // Always reload fresh data from Supabase
+  try {
+    const {data, error} = await sb.from('sesiones')
+      .select('*').order('fecha').order('hora');
+    if(!error && data) {
+      sessions = data.map(r=>({
+        ...r,
+        hora:    r.hora?r.hora.slice(0,5):'',
+        hora_mk: r.hora_mk?r.hora_mk.slice(0,5):null,
+        precio_cliente:      r.precio_cliente      || null,
+        precio_colab:        r.precio_colab        || null,
+        factura_monto:       r.factura_monto        || null,
+        factura_estado:      r.factura_estado       || 'pendiente',
+        pago_proveedor_done: r.pago_proveedor_done  || false,
+      }));
+    }
+  } catch(e){ console.warn('renderFinanzas load:', e.message); }
+
   // Filter sessions by period
   const filtered = getSessionsByPeriodo();
   let recaudado=0, pagos=0, porCobrar=0;
