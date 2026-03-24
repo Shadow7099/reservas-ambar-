@@ -642,6 +642,37 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 .fb-parcial{color:#A0C0D0;border-color:rgba(160,192,208,0.35);background:rgba(160,192,208,0.08);}
 .fb-pagado{color:#B0D0B2;border-color:rgba(176,208,178,0.35);background:rgba(176,208,178,0.08);}
 
+
+/* == HISTORIAL PAGOS == */
+.hp-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:1rem;align-items:center;
+  padding:0.85rem 1.1rem;border:1px solid rgba(196,154,60,0.1);background:rgba(255,255,255,0.02);
+  margin-bottom:0.4rem;transition:border-color 0.2s;}
+.hp-row:hover{border-color:rgba(196,154,60,0.25);}
+.hp-ico{font-size:1.2rem;width:32px;text-align:center;}
+.hp-info{}
+.hp-title{font-size:0.8rem;color:var(--paper);font-weight:400;}
+.hp-sub{font-size:0.58rem;color:rgba(250,247,242,0.3);margin-top:2px;}
+.hp-monto{font-family:'Cormorant Garamond',serif;font-size:1.1rem;text-align:right;}
+.hp-monto.recaudo{color:#B0D0B2;}
+.hp-monto.pago{color:var(--rose);}
+.hp-fecha{font-size:0.55rem;color:rgba(250,247,242,0.25);text-align:right;white-space:nowrap;}
+.fin-tabs{display:flex;border-bottom:1px solid rgba(196,154,60,0.12);margin-bottom:1.25rem;}
+.fin-tab{padding:0.75rem 1.25rem;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(250,247,242,0.35);cursor:pointer;border-bottom:2px solid transparent;
+  background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.fin-tab.active{color:var(--gold-l);border-bottom-color:var(--gold);}
+.pago-prov-panel{border:1px solid rgba(196,154,60,0.15);padding:1rem;background:rgba(255,255,255,0.02);margin-bottom:0.6rem;}
+.pp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+.pp-name{font-size:0.85rem;color:var(--paper);}
+.pp-monto{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--rose);}
+.pp-done{opacity:0.4;}
+.pp-done .pp-monto{color:#B0D0B2;}
+.pagar-btn{padding:0.45rem 1rem;background:rgba(196,154,60,0.12);border:1px solid rgba(196,154,60,0.25);
+  color:var(--gold-l);font-family:'Outfit',sans-serif;font-size:0.58rem;letter-spacing:0.1em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.pagar-btn:hover{background:rgba(196,154,60,0.2);}
+.pagar-btn.done{background:rgba(125,158,127,0.1);border-color:rgba(125,158,127,0.3);color:#B0D0B2;cursor:default;}
+
 @media(max-width:900px){
   .fin-grid{grid-template-columns:1fr 1fr;}
 }
@@ -1132,22 +1163,43 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 
   <!-- == VIEW: FINANZAS == -->
   <div class="view" id="view-finanzas">
-    <div class="fin-grid">
+    <div class="fin-grid" style="margin-bottom:1.5rem">
       <div class="fin-card"><div class="fc-ico">💵</div><div class="fc-num" id="fin-recaudado">$0</div><div class="fc-lbl">Recaudado clientes</div></div>
-      <div class="fin-card"><div class="fc-ico">💸</div><div class="fc-num red" id="fin-pagos">$0</div><div class="fc-lbl">Pagos a colaboradores</div></div>
+      <div class="fin-card"><div class="fc-ico">💸</div><div class="fc-num red" id="fin-pagos">$0</div><div class="fc-lbl">Pagado a colaboradores</div></div>
       <div class="fin-card"><div class="fc-ico">📈</div><div class="fc-num green" id="fin-ganancia">$0</div><div class="fc-lbl">Ganancia neta</div></div>
       <div class="fin-card"><div class="fc-ico">⏳</div><div class="fc-num" id="fin-pendiente">$0</div><div class="fc-lbl">Por cobrar</div></div>
     </div>
-    <div class="fin-table-wrap">
-      <table class="fin-table">
-        <thead><tr>
-          <th>Quinceañera</th><th>Sede</th><th>Fotógrafo</th><th>Maquilladora</th>
-          <th>Fecha</th><th>Cobro cliente · COP</th><th>Pago colaborador · COP</th><th>Ganancia AMBAR</th><th>Estado</th>
-        </tr></thead>
-        <tbody id="finTable"></tbody>
-      </table>
+    <div class="fin-tabs">
+      <button class="fin-tab active" onclick="finSetTab('sesiones',this)">📋 Sesiones</button>
+      <button class="fin-tab" onclick="finSetTab('recaudo',this)">💵 Recaudo</button>
+      <button class="fin-tab" onclick="finSetTab('proveedores',this)">💸 Pagar proveedores</button>
+      <button class="fin-tab" onclick="finSetTab('historial',this)">📜 Historial</button>
+    </div>
+    <div id="fin-tab-sesiones">
+      <div class="fin-table-wrap">
+        <table class="fin-table">
+          <thead><tr>
+            <th>Quinceañera</th><th>Sede</th><th>Fotógrafo</th><th>Maquilladora</th>
+            <th>Cobro cliente</th><th>Pagado</th><th>Saldo</th><th>Pago colab.</th><th>Ganancia</th><th>Estado pago</th>
+          </tr></thead>
+          <tbody id="finTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="fin-tab-recaudo" style="display:none">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem">
+        <button class="cfg-add-btn" onclick="openRegistrarPago()">+ Registrar pago recibido</button>
+      </div>
+      <div id="fin-recaudo-list"><div class="empty-list" style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin pagos registrados</div></div>
+    </div>
+    <div id="fin-tab-proveedores" style="display:none">
+      <div id="fin-prov-list"></div>
+    </div>
+    <div id="fin-tab-historial" style="display:none">
+      <div id="fin-historial-list"><div class="empty-list" style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin movimientos registrados</div></div>
     </div>
   </div>
+
 
 
 <!-- PROVEEDOR MODAL -->
@@ -1514,6 +1566,34 @@ function genTasksForSession(s){
     dbfield:'task_final_done',link:s.final_link||'',
     info:{quinc,sede:sedeLbl,fecha:finalStr,pg:s.pg_id?getColab(s.pg_id).nombre:'-',
       nota:'Fotos finales editadas listas para entregar.'}});
+
+  // Tarea: cobrar saldo pendiente 2 dias antes
+  const saldoPendiente = (s.precio_cliente||0) - (s.factura_monto||0);
+  if(saldoPendiente > 0 && s.factura_estado !== 'pagado'){
+    tasks.push({id:s.id+'_saldo',session_id:s.id,tipo:'saldo',
+      titulo:'Cobrar saldo . '+quinc+' · $'+saldoPendiente.toLocaleString('es-CO')+' COP',
+      fecha_due:verifDate,
+      done: s.factura_estado==='pagado',
+      dbfield:null,
+      info:{quinc,sede:sedeLbl,fecha:s.fecha,
+        tel:s.r_tel||s.q_tel||'-',
+        monto:'$'+saldoPendiente.toLocaleString('es-CO')+' COP',
+        nota:'Saldo pendiente antes de la sesion. Total: $'+(s.precio_cliente||0).toLocaleString('es-CO')+' · Pagado: $'+(s.factura_monto||0).toLocaleString('es-CO')}});
+  }
+
+  // Tarea: pagar al proveedor cuando la sesion se realice
+  if(s.status==='realizada' && !s.pago_proveedor_done && (s.precio_colab||0) > 0){
+    tasks.push({id:s.id+'_prov',session_id:s.id,tipo:'pago_prov',
+      titulo:'Pagar al proveedor . '+quinc+' · $'+(s.precio_colab||0).toLocaleString('es-CO')+' COP',
+      fecha_due:s.fecha,
+      done:false,
+      dbfield:null,
+      info:{quinc,sede:sedeLbl,fecha:s.fecha,
+        pg:s.pg_id?getColab(s.pg_id).nombre:'-',
+        monto:'$'+(s.precio_colab||0).toLocaleString('es-CO')+' COP',
+        nota:'Sesion realizada. Pagar al fotografo / maquilladora.'}});
+  }
+
   return tasks;
 }
 
@@ -2488,6 +2568,266 @@ function updateSaldo(sessionId, total, montoPagado){
   }
 }
 
+
+// == SISTEMA FINANCIERO ==
+let historialPagos = [];
+let finTab = 'sesiones';
+
+function finSetTab(tab, btn){
+  finTab = tab;
+  document.querySelectorAll('.fin-tab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  ['sesiones','recaudo','proveedores','historial'].forEach(t=>{
+    const el = document.getElementById('fin-tab-'+t);
+    if(el) el.style.display = t===tab ? 'block' : 'none';
+  });
+  if(tab==='recaudo')    renderRecaudo();
+  if(tab==='proveedores') renderProvPagos();
+  if(tab==='historial')  renderHistorial();
+}
+
+async function loadHistorial(){
+  if(!sb) return;
+  try {
+    const {data,error} = await sb.from('historial_pagos')
+      .select('*')
+      .order('fecha_pago',{ascending:false});
+    if(error) throw error;
+    historialPagos = data||[];
+  } catch(e){ console.warn('loadHistorial:',e.message); }
+}
+
+function renderRecaudo(){
+  const el = document.getElementById('fin-recaudo-list');
+  if(!el) return;
+  const recaudos = sessions.filter(s=>s.factura_monto>0||s.factura_estado==='pagado');
+  if(!recaudos.length){
+    el.innerHTML='<div style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin pagos recibidos aun</div>';
+    return;
+  }
+  el.innerHTML = recaudos.map(s=>{
+    const total = s.precio_cliente||0;
+    const pagado = s.factura_monto||0;
+    const saldo = total - pagado;
+    const estado = s.factura_estado||'pendiente';
+    const cls = estado==='pagado'?'fb-pagado':estado==='parcial'?'fb-parcial':'fb-pendiente';
+    return `<div class="hp-row">
+      <div class="hp-ico">💵</div>
+      <div class="hp-info">
+        <div class="hp-title">${s.q_nombre} ${s.q_apellido||''}</div>
+        <div class="hp-sub">${s.fecha} · ${SEDES_LABEL[s.sede]||s.sede} ${s.factura_notas?'· '+s.factura_notas:''}</div>
+        <div style="margin-top:4px"><span class="factura-badge ${cls}">${estado}</span>
+          ${saldo>0?`<span style="font-size:0.58rem;color:var(--rose);margin-left:8px">Saldo: $${saldo.toLocaleString('es-CO')}</span>`:''}
+        </div>
+      </div>
+      <div>
+        <div class="hp-monto recaudo">+$${pagado.toLocaleString('es-CO')}</div>
+        <div class="hp-fecha">de $${total.toLocaleString('es-CO')}</div>
+        ${s.factura_comprobante?`<a href="${s.factura_comprobante}" target="_blank" style="font-size:0.55rem;color:var(--gold-l)">Ver comprobante →</a>`:''}
+      </div>
+      <div>
+        ${saldo>0?`<button class="pagar-btn" onclick="openRegistrarPago('${s.id}')">Registrar pago</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderProvPagos(){
+  const el = document.getElementById('fin-prov-list');
+  if(!el) return;
+  // Sessions realizadas pendientes de pago a proveedor
+  const pendientes = sessions.filter(s=>s.status==='realizada'&&!s.pago_proveedor_done);
+  const pagadas    = sessions.filter(s=>s.pago_proveedor_done);
+
+  let html = '';
+  if(pendientes.length){
+    html += `<div style="font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--rose);margin-bottom:0.75rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(184,120,112,0.2)">⚠️ Pendientes de pago (${pendientes.length})</div>`;
+    html += pendientes.map(s=>{
+      const pg = getProvNombre(s.pg_id);
+      const mk = getProvNombre(s.mk_id);
+      const monto = s.precio_colab||0;
+      return `<div class="pago-prov-panel">
+        <div class="pp-head">
+          <div>
+            <div class="pp-name">📸 ${pg} + 💄 ${mk}</div>
+            <div style="font-size:0.6rem;color:rgba(250,247,242,0.3);margin-top:2px">${s.q_nombre} ${s.q_apellido||''} · ${s.fecha} · ${SEDES_LABEL[s.sede]||s.sede}</div>
+          </div>
+          <div class="pp-monto">$${monto.toLocaleString('es-CO')} COP</div>
+        </div>
+        <button class="pagar-btn" onclick="marcarPagoProveedor('${s.id}')">💸 Marcar como pagado</button>
+      </div>`;
+    }).join('');
+  }
+
+  if(pagadas.length){
+    html += `<div style="font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,247,242,0.2);margin:1.25rem 0 0.75rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(196,154,60,0.08)">Pagados (${pagadas.length})</div>`;
+    html += pagadas.map(s=>{
+      const pg = getProvNombre(s.pg_id);
+      const monto = s.precio_colab||0;
+      return `<div class="pago-prov-panel pp-done">
+        <div class="pp-head">
+          <div>
+            <div class="pp-name">✅ ${pg}</div>
+            <div style="font-size:0.6rem;color:rgba(250,247,242,0.3);margin-top:2px">${s.q_nombre} ${s.q_apellido||''} · ${s.fecha}</div>
+          </div>
+          <div class="pp-monto">$${monto.toLocaleString('es-CO')} COP</div>
+        </div>
+        <span class="pagar-btn done">✓ Pagado${s.pago_proveedor_fecha?' el '+new Date(s.pago_proveedor_fecha).toLocaleDateString('es-CO'):''}</span>
+      </div>`;
+    }).join('');
+  }
+
+  if(!html) html = '<div style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">No hay sesiones realizadas pendientes de pago</div>';
+  el.innerHTML = html;
+}
+
+function renderHistorial(){
+  const el = document.getElementById('fin-historial-list');
+  if(!el) return;
+  if(!historialPagos.length){
+    el.innerHTML='<div style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin movimientos registrados</div>';
+    return;
+  }
+  el.innerHTML = historialPagos.map(p=>{
+    const s = sessions.find(x=>x.id===p.sesion_id);
+    const esRecaudo = p.tipo==='recaudo';
+    return `<div class="hp-row">
+      <div class="hp-ico">${esRecaudo?'💵':'💸'}</div>
+      <div class="hp-info">
+        <div class="hp-title">${p.descripcion||'Pago'}</div>
+        <div class="hp-sub">${s?s.q_nombre+' '+s.fecha:''} · ${new Date(p.fecha_pago).toLocaleDateString('es-CO')}</div>
+      </div>
+      <div class="hp-monto ${esRecaudo?'recaudo':'pago'}">${esRecaudo?'+':'-'}$${Number(p.monto).toLocaleString('es-CO')}</div>
+      <div class="hp-fecha">${p.estado}</div>
+    </div>`;
+  }).join('');
+}
+
+function getProvNombre(id){
+  if(!id) return 'Sin asignar';
+  const p = proveedores.find(x=>x.id===id);
+  return p ? p.nombre : id;
+}
+
+// Modal registrar pago recibido
+function openRegistrarPago(sesionId){
+  const s = sessions.find(x=>x.id===sesionId);
+  const saldo = s ? (s.precio_cliente||0)-(s.factura_monto||0) : 0;
+  const nombre = s ? s.q_nombre+' '+(s.q_apellido||'') : '';
+
+  const modal = document.createElement('div');
+  modal.id = 'pagoModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(10,8,6,0.92);z-index:700;display:flex;align-items:center;justify-content:center;padding:1rem';
+  modal.innerHTML = `
+    <div style="background:#1A1612;border:1px solid rgba(196,154,60,0.2);max-width:480px;width:100%;padding:1.5rem">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--paper);margin-bottom:1.25rem">
+        Registrar pago recibido
+      </div>
+      <div style="font-size:0.7rem;color:rgba(250,247,242,0.5);margin-bottom:1rem">${nombre} · Saldo: $${saldo.toLocaleString('es-CO')} COP</div>
+      <div style="margin-bottom:0.75rem">
+        <div class="cfg-lbl">Monto recibido · COP</div>
+        <input type="number" id="rp-monto" class="cfg-input" value="${saldo}" placeholder="0">
+      </div>
+      <div style="margin-bottom:0.75rem">
+        <div class="cfg-lbl">Notas</div>
+        <input type="text" id="rp-notas" class="cfg-input" placeholder="Transferencia, efectivo, referencia...">
+      </div>
+      <div style="margin-bottom:1rem">
+        <div class="cfg-lbl">Comprobante</div>
+        <div class="factura-upload" onclick="document.getElementById('rp-file').click()">
+          <div class="factura-upload-ico">📄</div>
+          <div class="factura-upload-txt">Subir comprobante</div>
+        </div>
+        <input type="file" id="rp-file" accept="image/*,.pdf" style="display:none">
+      </div>
+      <div style="display:flex;gap:0.75rem">
+        <button class="factura-save-btn" style="flex:1" onclick="confirmRegistrarPago('${sesionId}')">Guardar pago</button>
+        <button onclick="document.getElementById('pagoModal').remove()" style="padding:0.7rem 1.25rem;background:none;border:1px solid rgba(196,154,60,0.2);color:rgba(250,247,242,0.4);cursor:pointer;font-family:'Outfit',sans-serif;font-size:0.6rem">Cancelar</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+async function confirmRegistrarPago(sesionId){
+  const monto = parseFloat(document.getElementById('rp-monto').value)||0;
+  const notas = document.getElementById('rp-notas').value.trim();
+  const file  = document.getElementById('rp-file').files[0];
+  const s = sessions.find(x=>x.id===sesionId);
+  if(!monto){ showToast('Ingresa el monto'); return; }
+
+  let comprobanteUrl = null;
+  if(file){
+    try {
+      const ext = file.name.split('.').pop();
+      const path = 'comprobantes/'+sesionId+'_'+Date.now()+'.'+ext;
+      const {error:ue} = await sb.storage.from('comprobantes').upload(path,file,{contentType:file.type,upsert:true});
+      if(!ue){
+        const {data:ud} = sb.storage.from('comprobantes').getPublicUrl(path);
+        comprobanteUrl = ud.publicUrl;
+      }
+    } catch(e){ console.warn(e); }
+  }
+
+  try {
+    // Update sesion factura
+    const nuevoTotal = (s.factura_monto||0) + monto;
+    const nuevoEstado = nuevoTotal >= (s.precio_cliente||0) ? 'pagado' : 'parcial';
+    const upd = {
+      factura_monto: nuevoTotal,
+      factura_estado: nuevoEstado,
+      factura_notas: notas||s.factura_notas||null,
+      factura_fecha: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    if(comprobanteUrl) upd.factura_comprobante = comprobanteUrl;
+    await sb.from('sesiones').update(upd).eq('id',sesionId);
+
+    // Register in historial
+    await sb.from('historial_pagos').insert([{
+      sesion_id: sesionId,
+      tipo: 'recaudo',
+      monto,
+      descripcion: 'Pago de '+((s?.q_nombre||'')+' '+(s?.q_apellido||'')).trim(),
+      comprobante_url: comprobanteUrl,
+      estado: 'confirmado',
+    }]);
+
+    document.getElementById('pagoModal').remove();
+    showToast('Pago registrado correctamente');
+    await loadSessions();
+    await loadHistorial();
+    renderFinanzas();
+    renderRecaudo();
+  } catch(e){ showToast('Error: '+e.message); }
+}
+
+async function marcarPagoProveedor(sesionId){
+  const s = sessions.find(x=>x.id===sesionId);
+  if(!confirm('Marcar pago a proveedor de '+(s?.q_nombre||'esta sesión')+' como realizado?')) return;
+  try {
+    await sb.from('sesiones').update({
+      pago_proveedor_done: true,
+      pago_proveedor_fecha: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }).eq('id', sesionId);
+
+    // Register in historial
+    await sb.from('historial_pagos').insert([{
+      sesion_id: sesionId,
+      tipo: 'pago_proveedor',
+      monto: s.precio_colab||0,
+      descripcion: 'Pago a '+ getProvNombre(s.pg_id),
+      estado: 'confirmado',
+    }]);
+
+    showToast('Pago a proveedor registrado');
+    await loadSessions();
+    await loadHistorial();
+    renderProvPagos();
+    renderFinanzas();
+  } catch(e){ showToast('Error: '+e.message); }
+}
+
 const SUPABASE_URL = 'https://dtkwoxjuhmdmpnmynjtg.supabase.co';      // ej: https://abcdefgh.supabase.co
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0a3dveGp1aG1kbXBubXluanRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MDU3ODQsImV4cCI6MjA4ODk4MTc4NH0.1laG-S3hDIzM-eDU-u2ibwJuFR1ioPc-kvVrlH6zx7o'; // anon public key
 
@@ -2579,6 +2919,8 @@ async function loadSessions(){
       factura_comprobante: r.factura_comprobante  || null,
       factura_notas:       r.factura_notas        || null,
       factura_estado:      r.factura_estado       || 'pendiente',
+      pago_proveedor_done: r.pago_proveedor_done   || false,
+      pago_proveedor_fecha:r.pago_proveedor_fecha  || null,
     }));
     showToast('[OK] ' + sessions.length + ' sesiones cargadas');
   } catch(e){
