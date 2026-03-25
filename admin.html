@@ -432,7 +432,7 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 
 /* ── FINANZAS ── */
 .fin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
-.fin-card{min-height:100px;padding:1.25rem 1.5rem;border:1px solid rgba(196,154,60,0.12);background:rgba(255,255,255,0.02);}
+.fin-card{min-height:unset;padding:0.85rem 1rem;padding:1.25rem 1.5rem;border:1px solid rgba(196,154,60,0.12);background:rgba(255,255,255,0.02);}
 .fc-ico{font-size:1.3rem;margin-bottom:0.5rem;}
 .fc-num{font-family:var(--font-d);font-size:1.5rem;font-weight:300;color:var(--gold-l);line-height:1;}
 .fc-num.green{color:#B0D0B2;}
@@ -682,6 +682,20 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
 }
 .fin-period-btn:hover{border-color:rgba(196,154,60,0.3);color:rgba(250,247,242,0.6);}
 .fin-period-btn.active{background:rgba(196,154,60,0.1);border-color:rgba(196,154,60,0.4);color:var(--gold-l);}
+
+
+/* == CONTRATO == */
+.contrato-btn{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.5rem 1rem;background:rgba(196,154,60,0.1);
+  border:1px solid rgba(196,154,60,0.25);color:var(--gold-l);
+  font-family:'Outfit',sans-serif;font-size:0.58rem;
+  letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;
+  text-decoration:none;transition:all 0.2s;
+}
+.contrato-btn:hover{background:rgba(196,154,60,0.2);}
+.contrato-btn.wa{background:rgba(37,211,102,0.1);border-color:rgba(37,211,102,0.25);color:#25D366;}
+.contrato-btn.wa:hover{background:rgba(37,211,102,0.2);}
 
 @media(max-width:900px){
   .fin-grid{grid-template-columns:1fr 1fr;}
@@ -1186,11 +1200,37 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
       <button class="fin-period-btn"        id="fp-mes"     onclick="setFinPeriodo('mes',this)">Este mes</button>
       <button class="fin-period-btn"        id="fp-anterior" onclick="setFinPeriodo('anterior',this)">Mes anterior</button>
     </div>
-    <div class="fin-grid" style="margin-bottom:1.5rem">
-      <div class="fin-card"><div class="fc-ico">💵</div><div class="fc-num" id="fin-recaudado">$0</div><div class="fc-lbl">Recaudado clientes</div></div>
-      <div class="fin-card"><div class="fc-ico">💸</div><div class="fc-num red" id="fin-pagos">$0</div><div class="fc-lbl">Pagado a colaboradores</div></div>
-      <div class="fin-card"><div class="fc-ico">📈</div><div class="fc-num green" id="fin-ganancia">$0</div><div class="fc-lbl">Ganancia neta</div></div>
-      <div class="fin-card"><div class="fc-ico">⏳</div><div class="fc-num" id="fin-pendiente">$0</div><div class="fc-lbl">Por cobrar</div></div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.75rem;margin-bottom:1.25rem">
+      <div class="fin-card">
+        <div class="fc-ico">🧾</div>
+        <div class="fc-num" id="fin-facturado">$0</div>
+        <div class="fc-lbl">Total facturado</div>
+        <div style="font-size:0.48rem;color:rgba(250,247,242,0.2);margin-top:3px">Suma total de sesiones</div>
+      </div>
+      <div class="fin-card">
+        <div class="fc-ico">💵</div>
+        <div class="fc-num green" id="fin-recaudado">$0</div>
+        <div class="fc-lbl">Total recaudado</div>
+        <div style="font-size:0.48rem;color:rgba(250,247,242,0.2);margin-top:3px">Pagos recibidos de clientes</div>
+      </div>
+      <div class="fin-card">
+        <div class="fc-ico">⏳</div>
+        <div class="fc-num" id="fin-por-cobrar">$0</div>
+        <div class="fc-lbl">Por cobrar</div>
+        <div style="font-size:0.48rem;color:rgba(250,247,242,0.2);margin-top:3px">Saldo pendiente clientes</div>
+      </div>
+      <div class="fin-card">
+        <div class="fc-ico">💸</div>
+        <div class="fc-num red" id="fin-pagos">$0</div>
+        <div class="fc-lbl">Pago proveedores</div>
+        <div style="font-size:0.48rem;color:rgba(250,247,242,0.2);margin-top:3px">Pagado a fotografos y mk</div>
+      </div>
+      <div class="fin-card">
+        <div class="fc-ico">📈</div>
+        <div class="fc-num green" id="fin-ganancia">$0</div>
+        <div class="fc-lbl">Ganancia AMBAR</div>
+        <div style="font-size:0.48rem;color:rgba(250,247,242,0.2);margin-top:3px">Recaudado menos pagos</div>
+      </div>
     </div>
     <div class="fin-tabs">
       <button class="fin-tab active" onclick="finSetTab('sesiones',this)">📋 Sesiones</button>
@@ -1198,7 +1238,7 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
       <button class="fin-tab" onclick="finSetTab('proveedores',this)">💸 Pagar proveedores</button>
       <button class="fin-tab" onclick="finSetTab('historial',this)">📜 Historial</button>
     </div>
-    <div id="fin-tab-sesiones" style="min-height:300px">
+    <div id="fin-tab-sesiones" style="min-height:400px">
       <div class="fin-table-wrap">
         <table class="fin-table">
           <thead><tr>
@@ -1209,16 +1249,16 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
         </table>
       </div>
     </div>
-    <div id="fin-tab-recaudo" style="display:none;min-height:300px">
+    <div id="fin-tab-recaudo" style="display:none;min-height:400px">
       <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem">
         <button class="cfg-add-btn" onclick="openRegistrarPago()">+ Registrar pago recibido</button>
       </div>
       <div id="fin-recaudo-list"><div class="empty-list" style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin pagos registrados</div></div>
     </div>
-    <div id="fin-tab-proveedores" style="display:none;min-height:300px">
+    <div id="fin-tab-proveedores" style="display:none;min-height:400px">
       <div id="fin-prov-list"></div>
     </div>
-    <div id="fin-tab-historial" style="display:none;min-height:300px">
+    <div id="fin-tab-historial" style="display:none;min-height:400px">
       <div id="fin-historial-list"><div class="empty-list" style="padding:2rem;text-align:center;border:1px dashed rgba(196,154,60,0.15);color:rgba(250,247,242,0.2)">Sin movimientos registrados</div></div>
     </div>
   </div>
@@ -1452,8 +1492,9 @@ body{background:var(--admin);font-family:var(--font-b);color:var(--paper);min-he
     </div>
     <div class="dm-body" id="dm-body"></div>
     <div id="dm-factura"></div>
-    <div class="dm-actions">
+    <div class="dm-actions" style="flex-wrap:wrap;gap:0.5rem">
       <button class="dm-btn edit" onclick="editSession()">✏️ Editar</button>
+      <button class="contrato-btn" onclick="abrirContratoSession(currentDetailId)">📄 Contrato</button>
       <button class="dm-btn del" onclick="deleteFromModal()">🗑 Eliminar</button>
     </div>
   </div>
@@ -1617,6 +1658,35 @@ function genTasksForSession(s){
         nota:'Sesion realizada. Pagar al fotografo / maquilladora.'}});
   }
 
+  // Tarea: enviar WhatsApp de confirmacion al cliente
+  if(s.whatsapp_enviado !== true){
+    const tel = (s.r_tel||s.q_tel||'').replace(/\D/g,'');
+    const msg = encodeURIComponent(
+      'Hola ' + s.q_nombre + ', tu sesión Pre-XV está confirmada para el ' + s.fecha +
+      ' a las ' + (s.hora||'-') + '. Sede: ' + (SEDES_LABEL[s.sede]||s.sede) +
+      '. Fotógrafo: ' + getProvNombre(s.pg_id) +
+      (s.incluye_mkup ? '. Maquilladora: ' + getProvNombre(s.mk_id) : '') +
+      '. Total: $' + (s.precio_cliente||0).toLocaleString('es-CO') + ' COP.' +
+      ' Anticipo pendiente: $' + Math.round((s.precio_cliente||0)*0.30).toLocaleString('es-CO') + ' COP.' +
+      ' Cualquier consulta estamos atentos. AMBAR Couture 💛'
+    );
+    tasks.push({
+      id: s.id+'_wa',
+      session_id: s.id,
+      tipo: 'whatsapp',
+      titulo: 'Enviar WhatsApp confirmación · ' + quinc,
+      fecha_due: s.fecha,
+      done: s.whatsapp_enviado||false,
+      dbfield: 'whatsapp_enviado',
+      info: {
+        quinc, sede: sedeLbl, fecha: s.fecha,
+        tel: s.r_tel||s.q_tel||'-',
+        waLink: tel ? 'https://wa.me/57'+tel+'?text='+msg : null,
+        nota: 'Enviar confirmación con detalles de la sesión al cliente',
+      }
+    });
+  }
+
   return tasks;
 }
 
@@ -1725,9 +1795,35 @@ function renderTareas(){
 async function toggleTask(sessionId,field,taskId,el){
   const s=sessions.find(x=>x.id===sessionId); if(!s) return;
   const nv=!s[field]; s[field]=nv;
-  try{ const u={}; u[field]=nv; await sb.from('sesiones').update(u).eq('id',sessionId); }
+
+  try{
+    const u={}; u[field]=nv;
+
+    // Cuando se marcan las dos tareas de confirmacion → status=confirmada + anticipo
+    if(field==='task_verif_done' || field==='task_content_done'){
+      const verifDone   = field==='task_verif_done'   ? nv : s.task_verif_done;
+      const contentDone = field==='task_content_done' ? nv : s.task_content_done;
+
+      if(verifDone && contentDone && s.status==='pendiente'){
+        // Ambas confirmaciones listas → confirmar sesion y calcular anticipo
+        const colab = parseFloat(s.precio_colab)||0;
+        const antMonto = colab > 0 ? Math.round(colab * 0.10) : null;
+
+        u.status = 'confirmada';
+        if(antMonto) u.anticipo_proveedor_monto = antMonto;
+        u.updated_at = new Date().toISOString();
+
+        s.status = 'confirmada';
+        if(antMonto) s.anticipo_proveedor_monto = antMonto;
+
+        showToast('✅ Sesion confirmada · Anticipo proveedor: $'+(antMonto||0).toLocaleString('es-CO')+' COP pendiente');
+      }
+    }
+
+    await sb.from('sesiones').update(u).eq('id',sessionId);
+  }
   catch(e){ console.warn(e.message); }
-  renderTareas(); updateStats();
+  renderTareas(); updateStats(); drawCal();
 }
 
 // == FINANZAS ==
@@ -1752,7 +1848,9 @@ async function renderFinanzas(){
         precio_colab:        r.precio_colab        || null,
         factura_monto:       r.factura_monto        || null,
         factura_estado:      r.factura_estado       || 'pendiente',
-        pago_proveedor_done: r.pago_proveedor_done  || false,
+        pago_proveedor_done:       r.pago_proveedor_done       || false,
+        anticipo_proveedor_pagado: r.anticipo_proveedor_pagado || false,
+        anticipo_proveedor_monto:  r.anticipo_proveedor_monto  || null,
       }));
     }
   } catch(e){ console.warn('renderFinanzas load:', e.message); }
@@ -1770,6 +1868,7 @@ async function renderFinanzas(){
 
     recaudado += pagado;
     if(s.pago_proveedor_done) pagos += co;
+    else if(s.anticipo_proveedor_pagado) pagos += parseFloat(s.anticipo_proveedor_monto)||Math.round(co*0.10);
     if(cl > 0 && saldo > 0) porCobrar += saldo;
 
     const d = new Date(s.fecha+'T12:00:00');
@@ -1790,15 +1889,17 @@ async function renderFinanzas(){
     </tr>`;
   }).join('');
 
-  // Update stats
-  ['fin-recaudado','fin-pagos','fin-ganancia','fin-pendiente'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    if(id==='fin-recaudado') el.textContent = cop(recaudado);
-    if(id==='fin-pagos')     el.textContent = cop(pagos);
-    if(id==='fin-ganancia')  el.textContent = cop(recaudado - pagos);
-    if(id==='fin-pendiente') el.textContent = cop(porCobrar);
-  });
+  // Totales
+  let facturado = 0;
+  filtered.forEach(s => { facturado += parseFloat(s.precio_cliente)||0; });
+  const saldoPorCobrar = facturado - recaudado;
+
+  const setEl = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=cop(val); };
+  setEl('fin-facturado', facturado);
+  setEl('fin-recaudado', recaudado);
+  setEl('fin-pagos',     pagos);
+  setEl('fin-ganancia',  recaudado - pagos);
+  setEl('fin-por-cobrar', Math.max(0, saldoPorCobrar));
 
   const tbl = document.getElementById('finTable');
   if(tbl) tbl.innerHTML = rows ||
@@ -2735,12 +2836,19 @@ function renderRecaudo(){
 function renderProvPagos(){
   const el = document.getElementById('fin-prov-list');
   if(!el) return;
-  // Sessions confirmadas o realizadas pendientes de pago a proveedor
-  const pendientes = sessions.filter(s=>
-    (s.status==='confirmada'||s.status==='realizada') &&
+  // Pendientes de anticipo (10%) - confirmadas o pendientes sin anticipo pagado
+  const pendientesAnticipo = sessions.filter(s=>
+    (s.status==='confirmada'||s.status==='pendiente') &&
+    !s.anticipo_proveedor_pagado &&
+    (s.precio_colab||0) > 0
+  );
+  // Pendientes de pago final - realizadas sin pago final
+  const pendientesFinal = sessions.filter(s=>
+    s.status==='realizada' &&
     !s.pago_proveedor_done &&
     (s.precio_colab||0) > 0
   );
+  const pendientes = [...pendientesAnticipo, ...pendientesFinal];
   const pagadas    = sessions.filter(s=>s.pago_proveedor_done);
 
   let html = '';
@@ -2750,30 +2858,29 @@ function renderProvPagos(){
       const pg = getProvNombre(s.pg_id);
       const mk = getProvNombre(s.mk_id);
       const monto = s.precio_colab||0;
-      const anticipo = Math.round(monto * 0.10);
+      const anticipo = s.anticipo_proveedor_monto || Math.round(monto * 0.10);
       const esRealizada = s.status==='realizada';
+      const montoMostrar = esRealizada ? monto : anticipo;
+      const etiqueta = esRealizada ? 'Pago final (100%)' : 'Anticipo reserva (10%)';
+      const accion = esRealizada ? 'Marcar pago final realizado' : 'Marcar anticipo pagado';
+      const fnClick = esRealizada ? `marcarPagoProveedor('${s.id}')` : `marcarAnticipoProveedor('${s.id}')`;
       return `<div class="pago-prov-panel">
         <div class="pp-head">
           <div>
             <div class="pp-name">📸 ${pg} ${mk&&mk!=='-'?'+ 💄 '+mk:''}</div>
             <div style="font-size:0.6rem;color:rgba(250,247,242,0.3);margin-top:2px">${s.q_nombre} ${s.q_apellido||''} · ${s.fecha} · ${SEDES_LABEL[s.sede]||s.sede}</div>
-            <div style="margin-top:5px;display:flex;gap:1rem;flex-wrap:wrap">
-              <span style="font-size:0.6rem;color:rgba(250,247,242,0.4)">
-                Anticipo (10%): <strong style="color:var(--gold-l)">$${anticipo.toLocaleString('es-CO')}</strong>
-              </span>
-              <span style="font-size:0.6rem;color:rgba(250,247,242,0.4)">
-                Total al realizar: <strong style="color:var(--rose)">$${monto.toLocaleString('es-CO')}</strong>
-              </span>
+            <div style="margin-top:6px;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+              ${!esRealizada ? `<span style="font-size:0.6rem;padding:0.15rem 0.5rem;border:1px solid rgba(196,154,60,0.25);color:var(--gold-l)">Anticipo: $${anticipo.toLocaleString('es-CO')}</span>` : ''}
+              <span style="font-size:0.6rem;color:rgba(250,247,242,0.3)">Total colab: $${monto.toLocaleString('es-CO')}</span>
+              ${s.anticipo_proveedor_pagado&&!esRealizada?'<span style="font-size:0.55rem;color:#B0D0B2">✓ Anticipo ya pagado</span>':''}
             </div>
           </div>
-          <div>
-            <div class="pp-monto">$${(esRealizada?monto:anticipo).toLocaleString('es-CO')}</div>
-            <div style="font-size:0.55rem;color:rgba(250,247,242,0.3);text-align:right">${esRealizada?'Pago final':'Anticipo reserva'}</div>
+          <div style="text-align:right">
+            <div class="pp-monto">$${montoMostrar.toLocaleString('es-CO')}</div>
+            <div style="font-size:0.5rem;color:rgba(250,247,242,0.3)">${etiqueta}</div>
           </div>
         </div>
-        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-          <button class="pagar-btn" onclick="marcarPagoProveedor('${s.id}')">💸 ${esRealizada?'Marcar pago final':'Marcar anticipo pagado'}</button>
-        </div>
+        <button class="pagar-btn" onclick="${fnClick}">💸 ${accion}</button>
       </div>`;
     }).join('');
   }
@@ -2920,6 +3027,34 @@ async function confirmRegistrarPago(sesionId){
   } catch(e){ showToast('Error: '+e.message); }
 }
 
+
+async function marcarAnticipoProveedor(sesionId){
+  const s = sessions.find(x=>x.id===sesionId);
+  const monto = s?.anticipo_proveedor_monto || Math.round((s?.precio_colab||0)*0.10);
+  if(!confirm('Marcar anticipo de $'+monto.toLocaleString('es-CO')+' COP como pagado a '+getProvNombre(s?.pg_id)+'?')) return;
+  try {
+    await sb.from('sesiones').update({
+      anticipo_proveedor_pagado: true,
+      anticipo_proveedor_fecha:  new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }).eq('id', sesionId);
+
+    await sb.from('historial_pagos').insert([{
+      sesion_id:   sesionId,
+      tipo:        'pago_proveedor',
+      monto:       monto,
+      descripcion: 'Anticipo 10% a '+getProvNombre(s?.pg_id),
+      estado:      'confirmado',
+    }]);
+
+    showToast('✅ Anticipo registrado · $'+monto.toLocaleString('es-CO')+' COP');
+    await loadSessions();
+    await loadHistorial();
+    renderProvPagos();
+    await renderFinanzas();
+  } catch(e){ showToast('Error: '+e.message); }
+}
+
 async function marcarPagoProveedor(sesionId){
   const s = sessions.find(x=>x.id===sesionId);
   if(!confirm('Marcar pago a proveedor de '+(s?.q_nombre||'esta sesión')+' como realizado?')) return;
@@ -2948,6 +3083,122 @@ async function marcarPagoProveedor(sesionId){
     renderProvPagos();
     renderFinanzas();
   } catch(e){ showToast('Error: '+e.message); }
+}
+
+
+// == CONTRATO ==
+function generarContrato(s){
+  const pg   = getProvNombre(s.pg_id);
+  const mk   = s.incluye_mkup ? getProvNombre(s.mk_id) : null;
+  const sede = SEDES_LABEL[s.sede]||s.sede;
+  const fecha = new Date(s.fecha+'T12:00:00').toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const anticipo = Math.round((s.precio_cliente||0)*0.30);
+  const saldo = (s.precio_cliente||0) - anticipo;
+  const now = new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'});
+
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Contrato AMBAR - ${s.q_nombre} ${s.q_apellido||''}</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Georgia',serif;color:#1a1a1a;padding:3rem;max-width:780px;margin:0 auto;line-height:1.7;}
+  .logo{font-size:2rem;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:0.25rem;}
+  .logo-sub{font-size:0.75rem;letter-spacing:0.4em;text-transform:uppercase;color:#888;margin-bottom:2.5rem;}
+  .titulo{font-size:1.4rem;text-align:center;margin-bottom:2rem;letter-spacing:0.15em;text-transform:uppercase;border-bottom:2px solid #C49A3C;padding-bottom:0.75rem;color:#C49A3C;}
+  .seccion{margin-bottom:1.75rem;}
+  .sec-titulo{font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:#888;margin-bottom:0.75rem;border-bottom:1px solid #e0e0e0;padding-bottom:0.3rem;}
+  .fila{display:flex;margin-bottom:0.4rem;}
+  .fila-lbl{width:200px;font-size:0.82rem;color:#666;flex-shrink:0;}
+  .fila-val{font-size:0.85rem;font-weight:bold;}
+  .clausulas{font-size:0.82rem;line-height:1.9;color:#333;}
+  .clausulas p{margin-bottom:0.75rem;}
+  .clausulas strong{color:#000;}
+  .firmas{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;}
+  .firma-box{text-align:center;}
+  .firma-linea{border-top:1px solid #333;margin-bottom:0.5rem;margin-top:3rem;}
+  .firma-nombre{font-size:0.75rem;color:#555;}
+  .precio-box{background:#f9f5ec;border:1px solid #C49A3C;padding:1rem 1.5rem;margin:1rem 0;}
+  .precio-fila{display:flex;justify-content:space-between;margin-bottom:0.3rem;font-size:0.85rem;}
+  .precio-total{font-size:1.1rem;font-weight:bold;border-top:1px solid #C49A3C;padding-top:0.5rem;margin-top:0.5rem;}
+  .footer{text-align:center;font-size:0.7rem;color:#aaa;margin-top:3rem;border-top:1px solid #eee;padding-top:1rem;}
+</style>
+</head>
+<body>
+  <div class="logo">AMBAR</div>
+  <div class="logo-sub">Couture · Fotografía Pre-XV</div>
+  <div class="titulo">Contrato de Servicio Fotográfico</div>
+
+  <div class="seccion">
+    <div class="sec-titulo">Datos del cliente</div>
+    <div class="fila"><span class="fila-lbl">Quinceañera:</span><span class="fila-val">${s.q_nombre} ${s.q_apellido||''}</span></div>
+    <div class="fila"><span class="fila-lbl">Responsable:</span><span class="fila-val">${s.r_nombre||'-'}</span></div>
+    <div class="fila"><span class="fila-lbl">Teléfono:</span><span class="fila-val">${s.r_tel||s.q_tel||'-'}</span></div>
+    <div class="fila"><span class="fila-lbl">Correo:</span><span class="fila-val">${s.q_mail||'-'}</span></div>
+  </div>
+
+  <div class="seccion">
+    <div class="sec-titulo">Detalles de la sesión</div>
+    <div class="fila"><span class="fila-lbl">Fecha:</span><span class="fila-val">${fecha}</span></div>
+    <div class="fila"><span class="fila-lbl">Hora de fotos:</span><span class="fila-val">${s.hora||'-'}</span></div>
+    ${s.hora_mk?'<div class="fila"><span class="fila-lbl">Hora maquillaje:</span><span class="fila-val">'+s.hora_mk+'</span></div>':''}
+    <div class="fila"><span class="fila-lbl">Lugar fotos:</span><span class="fila-val">${s.lugar||'-'}</span></div>
+    ${s.mk_addr?'<div class="fila"><span class="fila-lbl">Dirección maquillaje:</span><span class="fila-val">'+s.mk_addr+'</span></div>':''}
+    <div class="fila"><span class="fila-lbl">Sede:</span><span class="fila-val">${sede}</span></div>
+    <div class="fila"><span class="fila-lbl">Fotógrafo:</span><span class="fila-val">${pg}</span></div>
+    ${mk?'<div class="fila"><span class="fila-lbl">Maquilladora:</span><span class="fila-val">'+mk+'</span></div>':''}
+    ${s.horse?'<div class="fila"><span class="fila-lbl">Caballo:</span><span class="fila-val">'+s.horse+'</span></div>':''}
+  </div>
+
+  <div class="seccion">
+    <div class="sec-titulo">Condiciones económicas</div>
+    <div class="precio-box">
+      <div class="precio-fila"><span>Valor total del servicio</span><span><strong>$${(s.precio_cliente||0).toLocaleString('es-CO')} COP</strong></span></div>
+      <div class="precio-fila"><span>Anticipo (30%) — pagadero al contratar</span><span>$${anticipo.toLocaleString('es-CO')} COP</span></div>
+      <div class="precio-fila precio-total"><span>Saldo el día de la sesión</span><span>$${saldo.toLocaleString('es-CO')} COP</span></div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="sec-titulo">Cláusulas del contrato</div>
+    <div class="clausulas">
+      <p><strong>1. Objeto:</strong> AMBAR Couture se compromete a prestar el servicio de fotografía Pre-XV en la fecha, hora y lugar acordados, con el equipo especificado en este contrato.</p>
+      <p><strong>2. Anticipo:</strong> Para confirmar la reserva de la fecha es necesario el pago del 30% del valor total. Este anticipo no es reembolsable en caso de cancelación con menos de 15 días de anticipación.</p>
+      <p><strong>3. Entrega de fotos:</strong> Las fotos editadas serán entregadas en un plazo máximo de 8 días hábiles después de la sesión, previa selección de las mejores tomas por parte del cliente (dentro de los 4 días siguientes a la sesión).</p>
+      <p><strong>4. Cancelaciones:</strong> Cancelaciones con más de 15 días de anticipación: se devuelve el 50% del anticipo. Cancelaciones con menos de 15 días: no hay devolución del anticipo.</p>
+      <p><strong>5. Condiciones climáticas:</strong> En caso de lluvia u otras condiciones que impidan la sesión exterior, se acordará una nueva fecha sin costo adicional.</p>
+      <p><strong>6. Derechos de imagen:</strong> AMBAR Couture podrá utilizar las fotografías con fines promocionales en redes sociales, salvo indicación expresa del cliente en contrario.</p>
+    </div>
+  </div>
+
+  <div class="firmas">
+    <div class="firma-box">
+      <div class="firma-linea"></div>
+      <div class="firma-nombre"><strong>${s.r_nombre||s.q_nombre}</strong><br>Cliente / Responsable<br>${s.r_tel||''}</div>
+    </div>
+    <div class="firma-box">
+      <div class="firma-linea"></div>
+      <div class="firma-nombre"><strong>AMBAR Couture</strong><br>Representante<br>ambar@ambarcouture.com</div>
+    </div>
+  </div>
+
+  <div class="footer">Contrato generado el ${now} · AMBAR Couture · eventos.ambarcouture.com</div>
+</body>
+</html>`;
+
+  // Open in new window for printing/saving
+  const win = window.open('','_blank','width=900,height=700');
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>win.print(), 500);
+}
+
+function abrirContratoSession(sessionId){
+  const s = sessions.find(x=>x.id===sessionId);
+  if(!s){ showToast('Sesión no encontrada'); return; }
+  generarContrato(s);
 }
 
 const SUPABASE_URL = 'https://dtkwoxjuhmdmpnmynjtg.supabase.co';      // ej: https://abcdefgh.supabase.co
@@ -3041,8 +3292,12 @@ async function loadSessions(){
       factura_comprobante: r.factura_comprobante  || null,
       factura_notas:       r.factura_notas        || null,
       factura_estado:      r.factura_estado       || 'pendiente',
-      pago_proveedor_done: r.pago_proveedor_done   || false,
-      pago_proveedor_fecha:r.pago_proveedor_fecha  || null,
+      pago_proveedor_done:        r.pago_proveedor_done        || false,
+      pago_proveedor_fecha:       r.pago_proveedor_fecha       || null,
+      anticipo_proveedor_pagado:  r.anticipo_proveedor_pagado  || false,
+      anticipo_proveedor_fecha:   r.anticipo_proveedor_fecha   || null,
+      anticipo_proveedor_monto:   r.anticipo_proveedor_monto   || null,
+      whatsapp_enviado:           r.whatsapp_enviado === true ? true : false,
     }));
     showToast('[OK] ' + sessions.length + ' sesiones cargadas');
   } catch(e){
