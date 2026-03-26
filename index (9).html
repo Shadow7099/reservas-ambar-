@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/Logo%20v1.PNG">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMBAR Couture - Vista Previa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E0C0A; --paper:#FFFFFF; --warm:#F5F0E8; --border:rgba(196,154,60,0.2);
+  --gold:#C49A3C; --gold-l:#DCBA6A; --gold-pale:#F5E8C4;
+  --muted:#6B6460; --sage:#7D9E7F; --rose:#B87870;
+  --border:rgba(196,154,60,0.2); --border-s:rgba(196,154,60,0.45);
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'Outfit',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#FFFFFF;font-family:var(--font-b);color:#0E0C0A;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.75rem 3rem;
+  background:rgba(255,255,255,0.97);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(14,12,10,0.08);
+}
+.nav-logo{display:flex;align-items:center;gap:0.9rem;text-decoration:none;}
+.nav-logo img{height:48px;width:auto;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-name{font-family:var(--font-d);font-size:1.5rem;font-weight:400;letter-spacing:0.22em;color:var(--paper);}
+.nav-logo-sub{font-size:0.48rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);margin-top:1px;opacity:0.7;}
+.nav-links{display:flex;align-items:center;gap:2.5rem;}
+.nav-link{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(14,12,10,0.55);text-decoration:none;transition:color 0.2s;}
+.nav-link:hover{color:var(--gold);}
+.nav-cta{padding:0.6rem 1.6rem;background:var(--ink);color:#FFFFFF;font-weight:500;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:background 0.25s;}
+.nav-cta:hover{background:var(--gold);}
+/* Hamburger */
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.nav-ham span{display:block;width:22px;height:1.5px;background:var(--ink);transition:all 0.3s;}
+.nav-ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.nav-ham.open span:nth-child(2){opacity:0;}
+.nav-ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+/* Mobile menu */
+.nav-mobile{display:none;flex-direction:column;position:fixed;top:57px;left:0;right:0;z-index:199;
+  background:rgba(14,12,10,0.98);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0.5rem 0 1rem;
+  animation:menuDrop 0.25s ease both;}
+@keyframes menuDrop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.nav-mobile.open{display:flex;}
+.nav-mobile a{padding:0.85rem 1.5rem;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);transition:color 0.2s;}
+.nav-mobile a:hover{color:var(--ink);}
+.nav-mobile-cta{background:var(--ink);color:var(--paper)!important;margin:0.75rem 1.25rem 0;
+  text-align:center;padding:0.85rem!important;border-bottom:none!important;}
+@media(max-width:768px){.nav-ham{display:flex;}}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:55% 45%;
+  overflow:hidden;
+}
+.hero-text{
+  padding:5rem 4rem;
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--paper);
+}
+.hero-tag{
+  font-size:0.55rem;letter-spacing:0.42em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:0.7rem;margin-bottom:1.75rem;
+}
+.hero-tag::before{content:'';width:22px;height:1px;background:var(--gold);}
+.hero-title{
+  font-family:var(--font-d);font-size:clamp(3rem,5vw,5rem);
+  font-weight:300;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;
+}
+.hero-title em{font-style:italic;color:var(--gold);}
+.hero-desc{
+  font-size:0.85rem;color:var(--muted);line-height:1.9;
+  font-weight:300;max-width:400px;margin-bottom:2.5rem;
+}
+.hero-actions{display:flex;flex-direction:column;gap:0.75rem;align-items:stretch;max-width:320px;}
+.btn-p{
+  padding:0.9rem 2.5rem;background:var(--gold);color:#0E0C0A;display:block;width:100%;
+  font-family:var(--font-b);font-size:0.68rem;letter-spacing:0.22em;
+  text-transform:uppercase;text-decoration:none;transition:background 0.25s;
+}
+.btn-p:hover{background:var(--gold);}
+.btn-g{
+  padding:0.9rem 1.5rem;border:1px solid var(--border);color:var(--muted);
+  font-family:var(--font-b);font-size:0.68rem;letter-spacing:0.2em;
+  text-transform:uppercase;text-decoration:none;transition:all 0.25s;
+}
+.btn-g:hover{border-color:var(--gold);color:var(--gold-l);}
+.hero-stats{
+  display:flex;gap:2.5rem;margin-top:3rem;
+  padding-top:2rem;border-top:1px solid var(--border);
+}
+.hs-num{font-family:var(--font-d);font-size:2.2rem;font-weight:300;line-height:1;}
+.hs-lbl{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* Hero mosaic */
+.hero-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:50vh 50vh;gap:3px;height:100vh;min-height:600px;}
+.photo-a{
+  grid-row:1/3;
+  background:url("https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/1774447254052_5fl0.jpg") center/cover no-repeat;
+  position:relative;overflow:hidden;
+}
+.photo-b{background:url("https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/1774447249979_9zru.jpg") center/cover no-repeat;height:100%;}
+.photo-c{background:url("https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/IMG_4349.jpg") center/cover no-repeat;height:100%;}
+.photo-a::after{
+  content:'AMBAR COUTURE';
+  position:absolute;bottom:1.5rem;left:1.5rem;
+  font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(250,247,242,0.7);
+}
+
+/* ── SEDES STRIP ── */
+
+
+
+
+
+
+.sede-icon{font-size:1.3rem;}
+.sede-name{font-size:0.78rem;font-weight:400;color:var(--paper);}
+.sede-desc{font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,247,242,0.38);margin-top:2px;}
+.sede-count{margin-left:auto;font-size:0.58rem;color:rgba(196,154,60,0.65);white-space:nowrap;}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.5rem;}
+.cards-grid.feat{grid-template-columns:2fr 1fr 1fr;}
+
+.card{
+  cursor:pointer;overflow:hidden;border:1px solid transparent;
+  transition:all 0.3s;background:#1A1612;
+}
+.card:hover{border-color:var(--border-s);transform:translateY(-3px);box-shadow:0 16px 48px rgba(14,12,10,0.1);}
+.card.fc{grid-row:1/2;}
+
+.card-photo{position:relative;overflow:hidden;}
+.card.fc .card-photo{height:440px;}
+.card:not(.fc) .card-photo{height:290px;}
+.card-photo-bg{width:100%;height:100%;transition:transform 0.5s ease;}
+.card:hover .card-photo-bg{transform:scale(1.05);}
+
+.badge-sede{
+  position:absolute;top:0.7rem;left:0.7rem;
+  padding:0.25rem 0.65rem;background:rgba(14,12,10,0.72);
+  backdrop-filter:blur(8px);font-size:0.5rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--paper);display:flex;align-items:center;gap:0.35rem;
+}
+.badge-tipo{
+  position:absolute;top:0.7rem;right:0.7rem;
+  padding:0.25rem 0.65rem;font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;
+}
+.bt-pg{background:rgba(196,154,60,0.88);color:var(--ink);}
+.bt-mk{background:rgba(180,120,122,0.88);color:var(--paper);}
+.bt-hr{background:rgba(125,158,127,0.88);color:var(--paper);}
+.dot-avail{
+  position:absolute;bottom:0.7rem;right:0.7rem;
+  width:8px;height:8px;border-radius:50%;border:1.5px solid var(--paper);
+}
+.da-y{background:var(--sage);}.da-n{background:var(--rose);}
+
+.card-thumbs{display:flex;gap:2px;padding:0.35rem 0.35rem 0;background:#1A1612;}
+.card-thumb{flex:1;height:50px;transition:flex 0.3s,opacity 0.2s;opacity:0.72;}
+.card-thumb:hover{flex:2;opacity:1;}
+
+.card-body{padding:1rem 1.1rem 1.2rem;background:#FFFFFF;}
+.card-name{font-family:var(--font-d);font-size:1.2rem;font-weight:400;color:#0E0C0A;margin-bottom:2px;}
+.card-role{font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;}
+.card-tags{display:flex;flex-wrap:wrap;gap:0.28rem;margin-bottom:0.75rem;}
+.card-tag{padding:0.18rem 0.5rem;border:1px solid var(--border);font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.card-bottom{display:flex;align-items:flex-end;justify-content:space-between;}
+.card-price{font-family:var(--font-d);font-size:1.25rem;font-weight:400;}
+.card-price-lbl{font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.card-rating{font-size:0.68rem;color:var(--gold);}
+.card-sessions{font-size:0.52rem;color:var(--muted);margin-top:2px;}
+.hd{display:flex;gap:1rem;margin-bottom:0.7rem;}
+.hd-item{font-size:0.6rem;color:var(--muted);}
+.hd-item strong{color:var(--ink);font-weight:400;display:block;font-size:0.66rem;}
+
+.empty-state{padding:4rem;text-align:center;border:1.5px dashed var(--border);grid-column:1/-1;font-size:0.8rem;color:var(--muted);}
+
+/* ── FOOTER ── */
+footer{background:#0E0C0A;color:#FAF7F2;padding:3rem 3rem 2.5rem;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.footer-brand{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.footer-brand img{height:52px;width:auto;filter:brightness(0.9);}
+.footer-brand-text{font-family:var(--font-d);font-size:1.3rem;letter-spacing:0.2em;color:var(--gold-l);}
+.footer-brand-sub{font-size:0.44rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(196,154,60,0.5);margin-top:2px;}
+.footer-desc{font-size:0.72rem;color:rgba(250,247,242,0.4);line-height:1.85;font-weight:300;}
+.footer-title{font-size:0.54rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1rem;}
+.footer-link{display:block;font-size:0.7rem;color:rgba(250,247,242,0.45);text-decoration:none;margin-bottom:0.5rem;transition:color 0.2s;}
+.footer-link:hover{color:var(--paper);}
+.footer-bottom{
+  border-top:1px solid rgba(196,154,60,0.12);padding-top:1.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:0.56rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(250,247,242,0.25);
+}
+
+/* ======================================
+   RESPONSIVE - TABLET (≤ 1024px)
+====================================== */
+
+/* == PAQUETES == */
+.paquetes-section{padding:5rem 3rem;background:#FAF7F2;border-top:1px solid rgba(14,12,10,0.06);border-bottom:1px solid rgba(14,12,10,0.06);}
+.paq-header{text-align:center;margin-bottom:2.5rem;}
+.paq-eyebrow{font-size:0.52rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;justify-content:center;gap:0.65rem;margin-bottom:1rem;}
+.paq-eyebrow::before,.paq-eyebrow::after{content:'';width:24px;height:1px;background:var(--gold);}
+.paq-title{font-family:var(--font-d);font-size:clamp(2rem,4vw,3rem);font-weight:300;color:var(--ink);margin-bottom:0.75rem;}
+.paq-title em{font-style:italic;color:var(--gold);}
+.paq-subtitle{font-size:0.82rem;color:var(--muted);max-width:480px;margin:0 auto;}
+/* Sede selector */
+.paq-sedes{display:flex;justify-content:center;gap:0.75rem;margin-bottom:3rem;flex-wrap:wrap;}
+.paq-sede-btn{
+  padding:0.65rem 1.75rem;border:1.5px solid rgba(14,12,10,0.15);background:#FFFFFF;
+  font-family:var(--font-b);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--muted);cursor:pointer;transition:all 0.25s;
+}
+.paq-sede-btn:hover{border-color:var(--gold);color:var(--ink);}
+.paq-sede-btn.active{background:var(--ink);color:#FFFFFF;border-color:var(--ink);}
+/* Panel por sede */
+.paq-panel{display:none;}
+.paq-panel.active{display:block;}
+/* Grid paquetes */
+.paq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;max-width:1200px;margin:0 auto;}
+.paq-card{border:1px solid rgba(14,12,10,0.1);background:#FFFFFF;padding:0;overflow:hidden;transition:all 0.3s;position:relative;}
+.paq-card:hover{border-color:rgba(196,154,60,0.5);transform:translateY(-3px);box-shadow:0 16px 48px rgba(14,12,10,0.08);}
+.paq-card.featured{border-color:var(--gold);box-shadow:0 4px 24px rgba(196,154,60,0.12);}
+.paq-card-top{padding:1.5rem 1.5rem 1.25rem;background:var(--ink);}
+.paq-card.featured .paq-card-top{background:var(--gold);}
+.paq-badge{display:inline-block;font-size:0.44rem;letter-spacing:0.2em;text-transform:uppercase;
+  background:var(--gold);color:var(--ink);padding:0.25rem 0.75rem;margin-bottom:0.6rem;}
+.paq-card.featured .paq-badge{background:var(--ink);color:#FFFFFF;}
+.paq-name{font-family:var(--font-d);font-size:1.35rem;font-weight:400;color:#FFFFFF;margin-bottom:0.25rem;}
+.paq-card.featured .paq-name{color:var(--ink);}
+.paq-precio{font-family:var(--font-d);font-size:2.2rem;font-weight:300;color:var(--gold-l);line-height:1;margin-bottom:0.35rem;}
+.paq-card.featured .paq-precio{color:var(--ink);}
+.paq-precio-sub{font-size:0.55rem;color:rgba(250,247,242,0.5);letter-spacing:0.1em;}
+.paq-card.featured .paq-precio-sub{color:rgba(14,12,10,0.5);}
+.paq-card-body{padding:1.25rem 1.5rem 1.5rem;}
+.paq-items{margin-bottom:1.1rem;}
+.paq-item{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.74rem;color:var(--ink);margin-bottom:0.4rem;line-height:1.5;}
+.paq-item::before{content:'✓';color:var(--gold);font-size:0.65rem;font-weight:700;flex-shrink:0;margin-top:2px;}
+.paq-item.extra{color:var(--muted);}
+.paq-item.extra::before{content:'＋';color:var(--muted);}
+.paq-item.nota{color:var(--rose);font-size:0.68rem;}
+.paq-item.nota::before{content:'⚠';color:var(--rose);}
+.paq-nota-box{background:rgba(196,154,60,0.06);border:1px solid rgba(196,154,60,0.15);padding:0.7rem 0.85rem;margin-bottom:1rem;font-size:0.68rem;color:var(--muted);line-height:1.7;}
+.paq-nota-box strong{color:var(--ink);}
+.paq-individual-row{display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);margin-bottom:0.2rem;}
+.paq-individual-row span:last-child{text-decoration:line-through;}
+.paq-ahorro-tag{display:inline-flex;align-items:center;gap:0.3rem;background:rgba(125,158,127,0.1);border:1px solid rgba(125,158,127,0.25);color:#3A6B3C;font-size:0.52rem;letter-spacing:0.1em;padding:0.25rem 0.6rem;margin:0.5rem 0 1rem;}
+.paq-cta{display:block;width:100%;padding:0.85rem;text-align:center;font-family:var(--font-b);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer;}
+.paq-cta.primary{background:var(--ink);color:#FFFFFF;}
+.paq-cta.primary:hover{background:var(--gold);color:var(--ink);}
+.paq-cta.secondary{background:transparent;color:var(--ink);border:1px solid rgba(14,12,10,0.2);}
+.paq-cta.secondary:hover{border-color:var(--gold);color:var(--gold);}
+.paq-card.featured .paq-cta.primary{background:var(--gold);color:var(--ink);}
+.paq-card.featured .paq-cta.primary:hover{background:var(--ink);color:#FFFFFF;}
+.paq-sedes-title{text-align:center;font-size:0.52rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+@media(max-width:768px){
+  .paquetes-section{padding:3.5rem 1.25rem;}
+  .paq-grid{grid-template-columns:1fr;}
+  .paq-sedes{gap:0.5rem;}
+  .paq-sede-btn{padding:0.55rem 1.1rem;font-size:0.58rem;}
+}
+
+@media(max-width:1024px){
+  .nav{padding:0.75rem 1.5rem;}
+  .nav-link{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-text{padding:3.5rem 2rem 2.5rem;}
+  .hero-mosaic{height:60vw;min-height:280px;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;}
+  
+  
+  .sede-count{display:none;}
+  .catalog{padding:2.5rem 1.5rem 4rem;}
+  .cards-grid.feat{grid-template-columns:1fr 1fr;}
+  .card.fc .card-photo{height:300px;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
+  .modal{grid-template-columns:1fr 1fr;}
+}
+
+/* ======================================
+   RESPONSIVE - MÓVIL (≤ 640px)
+====================================== */
+@media(max-width:640px){
+  /* Nav móvil */
+  .nav{padding:0.65rem 1.1rem;}
+  .nav-logo img{height:36px;}
+  .nav-logo-name{font-size:1.15rem;}
+  .nav-links{gap:0;}
+  .nav-link{display:none;}
+  .nav-cta{padding:0.5rem 1rem;font-size:0.56rem;}
+
+  /* Hero */
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-text{padding:2.5rem 1.25rem 2rem;order:1;}
+  .hero-title{font-size:2.6rem;}
+  .hero-desc{font-size:0.82rem;max-width:100%;}
+  .hero-actions{flex-direction:column;align-items:stretch;}
+  .btn-p,.btn-g{text-align:center;padding:0.85rem 1rem;}
+  .hero-stats{gap:1.5rem;margin-top:2rem;padding-top:1.5rem;}
+  .hs-num{font-size:1.7rem;}
+  .hero-mosaic{order:0;height:65vw;}
+  .photo-a::after{display:none;}
+
+  /* Sedes strip */
+  
+  
+  .sede-icon{font-size:1.1rem;}
+  .sede-name{font-size:0.72rem;}
+  .sede-desc{display:none;}
+  .sede-count{display:none;}
+
+  /* Catalog */
+  .catalog{padding:1.75rem 1.1rem 3.5rem;}
+  .filter-bar{flex-direction:column;align-items:flex-start;gap:0.75rem;}
+  .filter-left{flex-wrap:wrap;gap:0.35rem;}
+  .filt{padding:0.4rem 0.8rem;font-size:0.56rem;}
+  .sede-current-label{align-self:flex-end;}
+
+  /* Category heads */
+  .cat-head{margin:2rem 0 1rem;}
+  .cat-head-title{font-size:1.3rem;}
+
+  /* Cards */
+  .cards-grid,.cards-grid.feat{
+    grid-template-columns:1fr !important;
+    gap:1rem;
+  }
+  .card.fc{grid-row:auto;}
+  .card.fc .card-photo{height:260px;}
+  .card:not(.fc) .card-photo{height:220px;}
+  .card-thumbs{display:none;}
+
+  /* Modal */
+
+  .modal{
+    grid-template-columns:1fr;
+    max-height:92vh;
+    border-radius:0;
+    animation:slideUp 0.35s ease both;
+  }
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .modal-photo{height:42vw;min-height:180px;}
+  .modal-photo-bg{height:42vw;min-height:180px;}
+  .modal-name{font-size:1.6rem;}
+  .modal-gallery{grid-template-columns:repeat(4,1fr);}
+  .modal-footer{flex-direction:column;align-items:flex-start;gap:1rem;}
+  .modal-book{width:100%;text-align:center;}
+
+  /* Footer */
+  .footer-top{grid-template-columns:1fr;gap:1.5rem;}
+  .footer-bottom{flex-direction:column;gap:0.5rem;text-align:center;}
+  footer{padding:2rem 1.25rem 2rem;}
+  
+  
+}
+
+/* ── WHAT'S MISSING BANNER ── */
+
+
+
+
+
+
+
+/* ======================================
+   PORTAFOLIO · Galería por artista
+====================================== */
+.portfolio{
+  background:#0A0806;
+  padding:0;
+  overflow:hidden;
+}
+
+/* Header */
+.pf-header{
+  padding:5rem 4rem 4rem;
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;
+  border-bottom:1px solid rgba(14,12,10,0.08);
+}
+.pf-tag{font-size:0.52rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:0.65rem;margin-bottom:1.1rem;}
+.pf-tag::before{content:'';width:18px;height:1px;background:var(--gold);}
+.pf-title{font-family:var(--font-d);font-size:clamp(2.2rem,4vw,3.8rem);font-weight:300;
+  color:var(--paper);line-height:1.05;letter-spacing:-0.01em;}
+.pf-title em{font-style:italic;color:var(--gold-l);}
+.pf-desc{font-size:0.72rem;color:rgba(14,12,10,0.45);line-height:1.9;max-width:320px;text-align:right;}
+
+/* Sede tabs */
+.pf-tabs{
+  display:flex;border-bottom:1px solid rgba(196,154,60,0.1);
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+}
+.pf-tab{
+  padding:1.1rem 2rem;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(250,247,242,0.3);cursor:pointer;border-bottom:2px solid transparent;
+  white-space:nowrap;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;
+  font-family:var(--font-b);
+}
+.pf-tab:hover{color:rgba(250,247,242,0.6);}
+.pf-tab.active{color:var(--gold-l);border-bottom-color:var(--gold);}
+
+/* Sede panel */
+.pf-sede{display:none;}/* handled by JS */
+/* .pf-sede.active handled by JS */
+
+/* Artist row */
+.pf-artist{
+  border-bottom:1px solid rgba(196,154,60,0.08);
+  padding:3rem 4rem;
+}
+.pf-artist:last-child{border-bottom:none;}
+
+/* Artist header */
+.pf-artist-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:2rem;flex-wrap:wrap;gap:1rem;
+}
+.pf-artist-left{display:flex;align-items:center;gap:1.5rem;}
+.pf-artist-avatar{
+  width:64px;height:64px;border-radius:50%;
+  border:1px solid rgba(196,154,60,0.3);
+  overflow:hidden;flex-shrink:0;position:relative;
+}
+.pf-artist-avatar-bg{
+  width:100%;height:100%;
+  background:center/cover no-repeat;
+}
+.pf-artist-info{}
+.pf-artist-type{font-size:0.46rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:4px;}
+.pf-artist-name{font-family:var(--font-d);font-size:1.6rem;font-weight:400;
+  color:var(--paper);line-height:1;}
+.pf-artist-role{font-size:0.65rem;color:rgba(14,12,10,0.45);margin-top:3px;}
+.pf-artist-meta{display:flex;align-items:center;gap:2rem;}
+.pf-meta-item{text-align:center;}
+.pf-meta-num{font-family:var(--font-d);font-size:1.4rem;font-weight:300;color:var(--gold-l);}
+.pf-meta-lbl{font-size:0.46rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(250,247,242,0.25);margin-top:2px;}
+
+/* Tags */
+.pf-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:2rem;}
+.pf-tag-item{padding:0.25rem 0.7rem;border:1px solid rgba(196,154,60,0.18);
+  font-size:0.52rem;letter-spacing:0.1em;color:rgba(250,247,242,0.4);}
+
+/* Photo grid - masonry-like */
+.pf-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+}
+.pf-grid.six{grid-template-columns:repeat(6,1fr);}
+
+.pf-photo{
+  position:relative;overflow:hidden;
+  background:#111;cursor:pointer;
+}
+.pf-photo::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(0,0,0,0);
+  transition:background 0.3s;
+}
+.pf-photo:hover::after{background:rgba(196,154,60,0.15);}
+.pf-photo-bg{
+  width:100%;height:100%;
+  background:center/cover no-repeat;
+  transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.pf-photo:hover .pf-photo-bg{transform:scale(1.05);}
+
+/* Aspect ratios for variety */
+.pf-photo.tall{grid-row:span 2;}
+.pf-photo.wide{grid-column:span 2;}
+.pf-photo.sq{aspect-ratio:1;}
+.pf-photo .ph-inner{padding-top:120%;}/* portrait default */
+.pf-photo.sq .ph-inner{padding-top:100%;}
+.pf-photo.tall .ph-inner{padding-top:0;height:100%;}
+.pf-photo.wide .ph-inner{padding-top:56%;}
+
+/* Placeholder gradients - queued by position */
+.pg-ph{position:absolute;inset:0;}
+.pg-c1{background:linear-gradient(160deg,#1A1208,#C49A3C 80%,#F0D890);}
+.pg-c2{background:linear-gradient(200deg,#120E18,#4A2A5A 60%,#C090D0);}
+.pg-c3{background:linear-gradient(140deg,#0E1A10,#2A4A2E 60%,#90C098);}
+.pg-c4{background:linear-gradient(180deg,#1A0E0A,#4A1A10 60%,#D08060);}
+.pg-c5{background:linear-gradient(160deg,#0A0E1A,#1A2A4A 60%,#6090C0);}
+.pg-c6{background:linear-gradient(150deg,#181410,#3A2E1A 60%,#C0A060);}
+.pg-c7{background:linear-gradient(170deg,#1A0E14,#4A1A2E 60%,#C06080);}
+.pg-c8{background:linear-gradient(145deg,#0E180A,#1E3A18 60%,#70A878);}
+
+/* Photo hover zoom icon */
+.pf-photo-zoom{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(196,154,60,0.9);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;z-index:2;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.pf-photo:hover .pf-photo-zoom{transform:translate(-50%,-50%) scale(1);}
+
+/* Price strip below each artist */
+.pf-price-strip{
+  margin-top:1.5rem;
+  padding:1rem 1.25rem;
+  border:1px solid rgba(196,154,60,0.15);
+  background:rgba(196,154,60,0.03);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;
+}
+.pf-price-info{}
+.pf-price-val{font-family:var(--font-d);font-size:1.3rem;color:var(--gold-l);font-weight:300;}
+.pf-price-lbl{font-size:0.5rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(250,247,242,0.25);margin-top:2px;}
+.pf-price-note{font-size:0.6rem;color:rgba(14,12,10,0.4);margin-top:3px;}
+.pf-book-btn{
+  padding:0.65rem 1.5rem;background:var(--gold);color:var(--ink);
+  border:none;font-family:var(--font-b);font-size:0.6rem;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;
+  text-decoration:none;display:inline-block;transition:opacity 0.2s;
+}
+.pf-book-btn:hover{opacity:0.85;}
+
+/* Lightbox */
+.lb-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(5,4,3,0.97);
+  display:none;align-items:center;justify-content:center;
+  padding:1rem;
+}
+.lb-overlay.open{display:flex;}
+.lb-img{
+  max-width:90vw;max-height:90vh;
+  object-fit:contain;
+  animation:lbIn 0.3s ease both;
+}
+@keyframes lbIn{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:none}}
+.lb-img-placeholder{
+  width:min(80vw,700px);height:min(80vh,500px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.75rem;color:rgba(250,247,242,0.2);letter-spacing:0.2em;
+  animation:lbIn 0.3s ease both;
+}
+.lb-close{
+  position:fixed;top:1.25rem;right:1.5rem;
+  background:none;border:1px solid rgba(250,247,242,0.2);color:rgba(250,247,242,0.5);
+  width:40px;height:40px;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.lb-close:hover{border-color:var(--gold);color:var(--gold);}
+.lb-nav{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:none;border:1px solid rgba(250,247,242,0.15);
+  color:rgba(250,247,242,0.4);width:44px;height:44px;
+  cursor:pointer;font-size:1.25rem;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.lb-nav:hover{border-color:var(--gold);color:var(--gold);}
+.lb-prev{left:1rem;}
+.lb-next{right:1rem;}
+.lb-info{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(250,247,242,0.3);text-align:center;
+}
+
+/* ── RESPONSIVE PORTAFOLIO ── */
+@media(max-width:1024px){
+  .pf-grid{grid-template-columns:repeat(3,1fr);}
+  .pf-grid.six{grid-template-columns:repeat(4,1fr);}
+  .pf-artist{padding:2.5rem 2rem;}
+  .pf-header{padding:3.5rem 2rem 3rem;}
+}
+@media(max-width:768px){
+  .pf-header{grid-template-columns:1fr;gap:1rem;}
+  .pf-desc{text-align:left;max-width:100%;}
+  .pf-artist{padding:2rem 1.25rem;}
+  .pf-grid{grid-template-columns:repeat(2,1fr);}
+  .pf-grid.six{grid-template-columns:repeat(3,1fr);}
+  .pf-photo.wide{grid-column:span 2;}
+  .pf-artist-head{flex-direction:column;align-items:flex-start;}
+  .pf-tab{padding:0.85rem 1.25rem;font-size:0.55rem;}
+  .pf-price-strip{flex-direction:column;align-items:flex-start;}
+  .pf-book-btn{width:100%;text-align:center;}
+}
+@media(max-width:480px){
+  .pf-grid{grid-template-columns:repeat(2,1fr);}
+  .pf-grid.six{grid-template-columns:repeat(2,1fr);}
+  .pf-photo.wide{grid-column:span 1;}
+  .pf-photo.tall{grid-row:span 1;}
+  .pf-artist-avatar{width:52px;height:52px;}
+  .pf-artist-name{font-size:1.3rem;}
+  .pf-artist-meta{gap:1.25rem;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#">
+    <img src="https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/Logo%20v1.PNG" alt="AMBAR" style="height:42px;width:auto;object-fit:contain;">
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">AMBAR</span>
+      <span class="nav-logo-sub">Couture</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#">Inicio</a>
+    <a class="nav-link" href="#catalogo">Catálogo</a>
+    <a class="nav-link" href="#">Servicios</a>
+    <a class="nav-link" href="#portafolio">Portafolio</a>
+    <a class="nav-cta" href="reserva.html">Reservar sesión</a>
+  </div>
+  <button class="nav-ham" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="#" onclick="toggleMenu()">Inicio</a>
+  <a href="#catalogo" onclick="toggleMenu()">Catálogo</a>
+  <a href="#" onclick="toggleMenu()">Servicios</a>
+  <a href="#" onclick="toggleMenu()">Galerías</a>
+  <a href="#" class="nav-mobile-cta" onclick="toggleMenu()">Reservar sesión</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">Fotografía Pre-XV · Colombia</div>
+    <h1 class="hero-title">
+      Momentos que<br>
+      duran <em>para</em><br>
+      <em>siempre</em>
+    </h1>
+    <p class="hero-desc">Fotógrafos, maquilladoras y caballos en Bogotá, Barranquilla y Villavicencio. Tu sesión Pre-XV con el equipo que mereces.</p>
+    <div class="hero-actions">
+      <a class="btn-p" href="reserva.html">Reservar sesión</a>
+      <a class="btn-g" href="#portafolio">Ver portafolio</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-num">3</div><div class="hs-lbl">Sedes Colombia</div></div>
+      <div><div class="hs-num">340+</div><div class="hs-lbl">Sesiones</div></div>
+      <div><div class="hs-num">4.9</div><div class="hs-lbl">Rating</div></div>
+    </div>
+  </div>
+  <div class="hero-mosaic">
+    <div class="photo-a"></div>
+    <div class="photo-b"></div>
+    <div class="photo-c"></div>
+  </div>
+</section>
+
+<!-- PAQUETES -->
+<section class="paquetes-section" id="paquetes">
+  <div class="paq-header">
+    <div class="paq-eyebrow">Elige tu paquete</div>
+    <h2 class="paq-title">Todo incluido,<br><em>coordinado por AMBAR</em></h2>
+    <p class="paq-subtitle">Fotógrafo + maquilladora en un solo paquete. Ahorras $100.000 y no tienes que llamar a nadie.</p>
+  </div>
+
+  <!-- Selector de sede -->
+  <div class="paq-sedes-title">¿Dónde es tu sesión?</div>
+  <div class="paq-sedes">
+    <button class="paq-sede-btn active" onclick="setPaqSede('barranquilla',this)">🌴 Barranquilla</button>
+    <button class="paq-sede-btn" onclick="setPaqSede('bogota',this)">🏙️ Bogotá</button>
+    <button class="paq-sede-btn" onclick="setPaqSede('villavicencio',this)">🌿 Villavicencio</button>
+  </div>
+
+  <!-- BARRANQUILLA -->
+  <div class="paq-panel active" id="paq-barranquilla" data-sede="barranquilla">
+    <div class="paq-grid">
+
+      <div class="paq-card featured">
+        <div class="paq-card-top">
+          <div class="paq-badge">⭐ PreXV Sin Caballo</div>
+          <div class="paq-name">PreXV AMBAR Barranquilla</div>
+          <div class="paq-precio">$960.000</div>
+          <div class="paq-precio-sub">Lamar / Puerto Colombia</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">Maquillaje profesional y peinado elegante</div>
+            <div class="paq-item">30 fotografías digitales editadas</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item">Sesión en Lamar o Puerto Colombia</div>
+          </div>
+          <div class="paq-nota-box">
+            <strong>Ubicación:</strong> Sesión de fotos en Lamar o Puerto Colombia.<br>
+            <strong>Transporte:</strong> Incluye transporte de $150.000 según ubicación seleccionada.
+          </div>
+          <div class="paq-individual-row"><span>Fotografía individual</span><span>$700.000</span></div>
+          <div class="paq-individual-row"><span>Maquillaje individual</span><span>$400.000</span></div>
+          <div class="paq-ahorro-tag">↓ Ahorras $140.000 COP</div>
+          <a class="paq-cta primary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+      <div class="paq-card">
+        <div class="paq-card-top">
+          <div class="paq-badge">🐴 PreXV Con Caballo</div>
+          <div class="paq-name">PreXV Con Caballo Baranoa</div>
+          <div class="paq-precio">$2.240.000</div>
+          <div class="paq-precio-sub">Fotografías en Baranoa con caballo</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">Maquillaje profesional y peinado elegante</div>
+            <div class="paq-item">30 fotografías digitales editadas</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item">Sesión con caballo en Baranoa</div>
+            <div class="paq-item extra">Desplazamiento fotógrafo a Baranoa: $250.000 adicional</div>
+          </div>
+          <div class="paq-nota-box">
+            <strong>Ubicación:</strong> Las fotografías con caballo se realizan en Baranoa.<br>
+            <strong>Transporte fotógrafo:</strong> Incluye $250.000 adicional por desplazamiento fuera de la ciudad.<br>
+            <strong>Nota:</strong> Los desplazamientos de la quinceañera y su familia hasta Baranoa corren por cuenta del cliente.
+          </div>
+          <a class="paq-cta secondary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOGOTÁ -->
+  <div class="paq-panel" id="paq-bogota" data-sede="bogota">
+    <div class="paq-grid" style="max-width:500px">
+
+      <div class="paq-card featured">
+        <div class="paq-card-top">
+          <div class="paq-badge">⭐ PreXV Básico Bogotá</div>
+          <div class="paq-name">PreXV AMBAR Bogotá</div>
+          <div class="paq-precio">$1.300.000</div>
+          <div class="paq-precio-sub">Área Metropolitana de Bogotá</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">Maquillaje profesional con peinado</div>
+            <div class="paq-item">30 fotografías digitales editadas</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item">Área metropolitana de Bogotá incluida</div>
+            <div class="paq-item extra">Locaciones fuera del área metropolitana (ej. Parque Jaime Duque): +$200.000</div>
+          </div>
+          <div class="paq-nota-box">
+            <strong>Caballos Bogotá:</strong> Disponibles — el precio se determina según el caballo seleccionado. Consultar disponibilidad con anticipación.<br>
+            <strong>Contacto caballos:</strong> Euler Fernando Florez · +57 313 8428089
+          </div>
+          <div class="paq-individual-row"><span>Fotografía individual</span><span>$500.000</span></div>
+          <div class="paq-individual-row"><span>Maquillaje individual</span><span>$300.000</span></div>
+          <div class="paq-ahorro-tag">↓ Ahorras $100.000 con el paquete completo</div>
+          <a class="paq-cta primary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VILLAVICENCIO -->
+  <div class="paq-panel" id="paq-villavicencio" data-sede="villavicencio">
+    <div class="paq-grid">
+
+      <!-- Nicolay Básico -->
+      <div class="paq-card featured">
+        <div class="paq-card-top">
+          <div class="paq-badge">📸 Nicolay Dávila · Opción 1</div>
+          <div class="paq-name">PreXV Básico</div>
+          <div class="paq-precio">$550.000</div>
+          <div class="paq-precio-sub">1 hora · 30 fotos · Retablo 20×30</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">1 hora de sesión fotográfica</div>
+            <div class="paq-item">Maquillaje profesional y peinado elegante</div>
+            <div class="paq-item">30 fotografías digitales editadas</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item nota">+$30.000 en La Potra, La Topia o Las Marías</div>
+          </div>
+          <a class="paq-cta primary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+      <!-- Nicolay Premium -->
+      <div class="paq-card">
+        <div class="paq-card-top">
+          <div class="paq-badge">📸 Nicolay Dávila · Opción 2</div>
+          <div class="paq-name">PreXV Premium</div>
+          <div class="paq-precio">$790.000</div>
+          <div class="paq-precio-sub">2 horas · 40 fotos + 15 impresas · Retablo</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">2 horas de sesión fotográfica</div>
+            <div class="paq-item">1 cambio de ropa incluido</div>
+            <div class="paq-item">Maquillaje profesional y peinado elegante</div>
+            <div class="paq-item">40 fotos digitales + 15 fotos impresas 15×20</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item extra">Cualquier locación incluida</div>
+          </div>
+          <a class="paq-cta secondary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+      <!-- Anyelo Básico -->
+      <div class="paq-card">
+        <div class="paq-card-top">
+          <div class="paq-badge">📸 Anyelo Cardona · Opción 1</div>
+          <div class="paq-name">PreXV Básico</div>
+          <div class="paq-precio">$610.000</div>
+          <div class="paq-precio-sub">1 hora · 20 fotos · Retablo 20×30</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">1 hora de sesión fotográfica</div>
+            <div class="paq-item">Maquillaje profesional y peinado elegante</div>
+            <div class="paq-item">20 fotografías digitales editadas</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item nota">+$30.000 fuera de Villavicencio</div>
+          </div>
+          <a class="paq-cta secondary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+      <!-- Anyelo Premium -->
+      <div class="paq-card">
+        <div class="paq-card-top">
+          <div class="paq-badge">📸 Anyelo Cardona · Opción 2</div>
+          <div class="paq-name">PreXV Premium</div>
+          <div class="paq-precio">$840.000</div>
+          <div class="paq-precio-sub">2 horas · 30 fotos + 15 impresas · Retablo</div>
+        </div>
+        <div class="paq-card-body">
+          <div class="paq-items">
+            <div class="paq-item">2 horas de sesión fotográfica</div>
+            <div class="paq-item">1 cambio de ropa incluido</div>
+            <div class="paq-item">Maquillaje profesional y peinado elegante</div>
+            <div class="paq-item">30 fotos digitales + 15 fotos impresas 15×20</div>
+            <div class="paq-item">Retablo 20×30</div>
+            <div class="paq-item extra">Cualquier locación incluida</div>
+          </div>
+          <a class="paq-cta secondary" href="#portafolio" onclick="scrollToArtistas(this);return false;">Ver artistas disponibles →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+
+<!-- PORTAFOLIO -->
+<section class="portfolio" id="portafolio">
+  <div class="pf-header">
+    <div>
+      <div class="pf-tag">Portafolio artistas</div>
+      <h2 class="pf-title">La calidad que<br>habla por <em>sí sola</em></h2>
+    </div>
+    <p class="pf-desc">Cada foto en este portafolio fue tomada por nuestro equipo en sesiones reales Pre-XV. Esto es lo que AMBAR puede hacer por ti.</p>
+  </div>
+
+  <div class="pf-tabs">
+    <button class="pf-tab active" data-sede="bogota" onclick="pfSetSede('bogota',this)">🏙️ Bogotá D.C.</button>
+    <button class="pf-tab" data-sede="barranquilla" onclick="pfSetSede('barranquilla',this)">🌴 Barranquilla</button>
+    <button class="pf-tab" data-sede="villavicencio" onclick="pfSetSede('villavicencio',this)">🌿 Villavicencio</button>
+  </div>
+
+  <!-- BOGOTÁ -->
+  <div class="pf-sede" id="pf-bogota" style="display:block">
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c1"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">📸 Fotógrafo · Bogotá</div>
+            <div class="pf-artist-name">Nicolay</div>
+            <div class="pf-artist-role">Editorial · Exterior · Golden Hour</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.8</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">95</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Pre-XV</span><span class="pf-tag-item">Exterior</span><span class="pf-tag-item">Editorial</span><span class="pf-tag-item">Golden Hour</span></div>
+      <div class="pf-grid" id="grid-nicolay-bog"></div>
+    </div>
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c7"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">💄 Maquilladora · Bogotá</div>
+            <div class="pf-artist-name">Catalina</div>
+            <div class="pf-artist-role">Glam · Nupcial · Airbrush</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">5.0</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">210</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Glam</span><span class="pf-tag-item">Nupcial</span><span class="pf-tag-item">Airbrush</span></div>
+      <div class="pf-grid" id="grid-catalina"></div>
+    </div>
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c2"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">💄 Maquilladora · Bogotá</div>
+            <div class="pf-artist-name">Samy</div>
+            <div class="pf-artist-role">Natural · Editorial · Soft Glam</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.9</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">178</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Natural</span><span class="pf-tag-item">Editorial</span><span class="pf-tag-item">Soft Glam</span></div>
+      <div class="pf-grid" id="grid-samy"></div>
+    </div>
+  </div>
+
+  <!-- BARRANQUILLA -->
+  <div class="pf-sede" id="pf-barranquilla" style="display:none">
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c3"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">📸 Fotógrafo · Barranquilla</div>
+            <div class="pf-artist-name">Joel</div>
+            <div class="pf-artist-role">Cinemático · Playa · Golden Hour</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.9</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">110</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Pre-XV</span><span class="pf-tag-item">Playa</span><span class="pf-tag-item">Cinemático</span><span class="pf-tag-item">Golden Hour</span></div>
+      <div class="pf-grid" id="grid-carlos"></div>
+    </div>
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c4"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">💄 Maquilladora · Barranquilla</div>
+            <div class="pf-artist-name">Camila</div>
+            <div class="pf-artist-role">Tropical · Glam · Colorido</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.8</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">134</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Glam</span><span class="pf-tag-item">Tropical</span><span class="pf-tag-item">Colorido</span></div>
+      <div class="pf-grid" id="grid-paola"></div>
+    </div>
+  </div>
+
+  <!-- VILLAVICENCIO -->
+  <div class="pf-sede" id="pf-villavicencio" style="display:none">
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c8"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">📸 Fotógrafo · Villavicencio</div>
+            <div class="pf-artist-name">Anyelo</div>
+            <div class="pf-artist-role">Llanos · Golden Hour · Exterior</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.9</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">80</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Pre-XV</span><span class="pf-tag-item">Llanos</span><span class="pf-tag-item">Exterior</span><span class="pf-tag-item">Golden Hour</span></div>
+      <div class="pf-grid" id="grid-anyelo"></div>
+    </div>
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c6"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">📸 Fotógrafo · Villavicencio</div>
+            <div class="pf-artist-name">Nicolay</div>
+            <div class="pf-artist-role">Hacienda · Naturaleza · Caballos</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.8</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">60</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Pre-XV</span><span class="pf-tag-item">Hacienda</span><span class="pf-tag-item">Naturaleza</span><span class="pf-tag-item">Caballos</span></div>
+      <div class="pf-grid" id="grid-nicolay-vll"></div>
+    </div>
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c4"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">💄 Maquilladora · Villavicencio</div>
+            <div class="pf-artist-name">Laura</div>
+            <div class="pf-artist-role">Clásico · Elegante · Natural</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.9</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">130</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Clásico</span><span class="pf-tag-item">Elegante</span><span class="pf-tag-item">Natural</span></div>
+      <div class="pf-grid" id="grid-laura"></div>
+    </div>
+    <div class="pf-artist">
+      <div class="pf-artist-head">
+        <div class="pf-artist-left">
+          <div class="pf-artist-avatar"><div class="pf-artist-avatar-bg pg-c5"></div></div>
+          <div class="pf-artist-info">
+            <div class="pf-artist-type">💄 Maquilladora · Villavicencio</div>
+            <div class="pf-artist-name">Luisa</div>
+            <div class="pf-artist-role">Natural · Campo · Soft Glam</div>
+          </div>
+        </div>
+        <div class="pf-artist-meta">
+          <div class="pf-meta-item"><div class="pf-meta-num">4.8</div><div class="pf-meta-lbl">Rating</div></div>
+          <div class="pf-meta-item"><div class="pf-meta-num">98</div><div class="pf-meta-lbl">Sesiones</div></div>
+        </div>
+      </div>
+      <div class="pf-tags"><span class="pf-tag-item">Natural</span><span class="pf-tag-item">Campo</span><span class="pf-tag-item">Soft Glam</span></div>
+      <div class="pf-grid" id="grid-luisa"></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lbOverlay" onclick="if(event.target===this)closeLb()">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">‹</button>
+  <div class="lb-img-placeholder" id="lbContent"></div>
+  <button class="lb-nav lb-next" onclick="lbNav(1)">›</button>
+  <div class="lb-info" id="lbInfo"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">
+        <img src="https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/Logo%20v1.PNG" alt="AMBAR Couture" style="height:48px;width:auto;object-fit:contain;">
+        <div>
+          <div class="footer-brand-text">AMBAR</div>
+          <div class="footer-brand-sub">Couture</div>
+        </div>
+      </div>
+      <div class="footer-desc">Plataforma de fotografía Pre-XV con sedes en Bogotá D.C., Barranquilla y Villavicencio, Colombia.</div>
+    </div>
+    <div>
+      <div class="footer-title">Sedes</div>
+      <a class="footer-link" href="#">Bogotá D.C.</a>
+      <a class="footer-link" href="#">Barranquilla</a>
+      <a class="footer-link" href="#">Villavicencio</a>
+    </div>
+    <div>
+      <div class="footer-title">Servicios</div>
+      <a class="footer-link" href="#">Fotografía Pre-XV</a>
+      <a class="footer-link" href="#">Maquillaje profesional</a>
+      <a class="footer-link" href="#">Sesión con caballo</a>
+      <a class="footer-link" href="#">Paquetes completos</a>
+    </div>
+    <div>
+      <div class="footer-title">Contacto</div>
+      <a class="footer-link" href="reserva.html">Reservar sesión</a>
+      <a class="footer-link" href="https://wa.me/573135813769">WhatsApp AMBAR</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AMBAR Couture · Colombia · Todos los derechos reservados</span>
+    <span>Precios en Pesos Colombianos (COP) · IVA incluido</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+// ======= DATA =======
+const SEDES = {
+  bogota:       {name:'Bogotá D.C.',  icon:''},
+  barranquilla: {name:'Barranquilla', icon:''},
+  villavicencio:{name:'Villavicencio',icon:''},
+};
+
+const ARTISTS = {
+  // BOGOTÁ - Fotógrafos (solo Nicolay, Anyelo es solo Villavicencio)
+  nicolay_bog:{id:'nicolay_bog',t:'photographer', sede:'bogota',        name:'Nicolay',         role:'Fotógrafo . Editorial . Exterior',     price:900000,  r:4.8, s:95,  ok:true,  tags:['Pre-XV','Exterior','Editorial','Moda'],           bio:'Fotógrafo editorial con dominio de luz natural y exteriors en Bogotá.',g:'linear-gradient(160deg,#1A2030,#6080A0)', extra:null},
+  // BARRANQUILLA - Fotógrafo
+  carlos:     {id:'carlos',     t:'photographer', sede:'barranquilla',  name:'Carlos Ibáñez',   role:'Fotógrafo . Cinemático . Playa',       price:3500000, r:4.9, s:110, ok:true,  tags:['Pre-XV','Playa','Cinemático','Golden Hour'],      bio:'Maestro del Caribe. Sesiones con la magia del atardecer costeño.',g:'linear-gradient(160deg,#1C2818,#90B080)', extra:null},
+  // VILLAVICENCIO - Fotógrafos
+  anyelo_vll: {id:'anyelo_vll', t:'photographer', sede:'villavicencio', name:'Anyelo',          role:'Fotógrafo . Llanos . Golden Hour',     price:2800000, r:4.9, s:80,  ok:true,  tags:['Pre-XV','Llanos','Exterior','Golden Hour'],       bio:'Especialista en sesiones en los Llanos con luz natural.',         g:'linear-gradient(160deg,#1A2010,#90A860)', extra:null},
+  nicolay_vll:{id:'nicolay_vll',t:'photographer', sede:'villavicencio', name:'Nicolay',         role:'Fotógrafo . Hacienda . Naturaleza',    price:2900000, r:4.8, s:60,  ok:true,  tags:['Pre-XV','Hacienda','Naturaleza','Caballos'],       bio:'Haciendas y fincas llaneras. Elegancia del campo con luz dorada.', g:'linear-gradient(160deg,#201810,#B08050)', extra:null},
+  // BOGOTÁ - Maquilladoras
+  catalina:   {id:'catalina',   t:'makeup',       sede:'bogota',        name:'Catalina',        role:'Maquilladora . Glam . Nupcial',        price:500000,  r:5.0, s:210, ok:true,  tags:['Glam','Nupcial','Airbrush'],                      bio:'Técnica airbrush, looks de larga duración. La favorita de Bogotá.',g:'linear-gradient(160deg,#2C1818,#E89090)', extra:null},
+  samy:       {id:'samy',       t:'makeup',       sede:'bogota',        name:'Samy',            role:'Maquilladora . Natural . Editorial',   price:500000,  r:4.9, s:178, ok:true,  tags:['Natural','Editorial','Soft Glam'],                bio:'Looks naturales que realzan la belleza sin perder frescura.',     g:'linear-gradient(160deg,#281C28,#D090C0)', extra:null},
+  // BARRANQUILLA - Maquilladora
+  paola:      {id:'paola',      t:'makeup',       sede:'barranquilla',  name:'Paola Herrera',   role:'Maquilladora . Tropical . Glam',       price:1150000, r:4.8, s:134, ok:true,  tags:['Glam','Tropical','Colorido'],                    bio:'Maquillaje vibrante inspirado en la alegría caribeña.',          g:'linear-gradient(160deg,#202830,#A0C0D0)', extra:null},
+  // VILLAVICENCIO - Maquilladoras
+  laura:      {id:'laura',      t:'makeup',       sede:'villavicencio', name:'Laura',           role:'Maquilladora . Clásico . Elegante',    price:1100000, r:4.9, s:130, ok:true,  tags:['Clásico','Elegante','Natural'],                   bio:'Looks atemporales con acabados impecables bajo el sol llanero.',  g:'linear-gradient(160deg,#28201C,#C0A890)', extra:null},
+  luisa:      {id:'luisa',      t:'makeup',       sede:'villavicencio', name:'Luisa',           role:'Maquilladora . Natural . Campo',       price:950000,  r:4.8, s:98,  ok:true,  tags:['Natural','Campo','Soft Glam'],                    bio:'Especialista en looks frescos para sesiones al aire libre.',      g:'linear-gradient(160deg,#202818,#A0B080)', extra:null},
+  // CABALLOS - Bogotá: precio a coordinar con criadero
+  sultan:     {id:'sultan',     t:'horse',        sede:'bogota',        name:'Sultán',          role:'Caballo . Paso Fino Colombiano',       price:null, priceLabel:'Precio a coordinar', r:5.0, s:67, ok:true, tags:['Paso Fino','Blanco','Manso'],          bio:'Paso Fino blanco, temperamento manso, entrenado para fotos.',    g:'linear-gradient(160deg,#C8C0B0,#F8F4EE)', extra:{raza:'Paso Fino',color:'Blanco',edad:'8 años'}},
+  luna:       {id:'luna',       t:'horse',        sede:'bogota',        name:'Luna',            role:'Caballo . Andaluz . Plateado',         price:null, priceLabel:'Precio a coordinar', r:4.9, s:45, ok:true, tags:['Andaluz','Gris plateado','Elegante'],  bio:'Yegua andaluza. Pelaje gris plateado espectacular en golden hour.',g:'linear-gradient(160deg,#808090,#D0D0E0)', extra:{raza:'Andaluz',color:'Gris plateado',edad:'6 años'}},
+  canela2bog: {id:'canela2bog', t:'horse',        sede:'bogota',        name:'Canela',          role:'Caballo . Paso Fino . Castaño',        price:null, priceLabel:'Precio a coordinar', r:4.8, s:38, ok:true, tags:['Paso Fino','Castaño','Exterior'],      bio:'Castaño dorado, ideal para sesiones exteriores en Bogotá.',      g:'linear-gradient(160deg,#5A3010,#C08840)', extra:{raza:'Paso Fino',color:'Castaño dorado',edad:'7 años'}},
+  brioso:     {id:'brioso',     t:'horse',        sede:'bogota',        name:'Brioso',          role:'Caballo . Criollo Colombiano . Bayo',  price:null, priceLabel:'Precio a coordinar', r:4.8, s:29, ok:true, tags:['Criollo','Bayo','Llanos'],             bio:'Criollo bayo de gran porte. Estampa única para sesiones campestres.',g:'linear-gradient(160deg,#7A6030,#C0A050)', extra:{raza:'Criollo Colombiano',color:'Bayo',edad:'7 años'}},
+  // CABALLOS - Villavicencio: precio fijo
+  rey:        {id:'rey',        t:'horse',        sede:'villavicencio', name:'Rey',             role:'Caballo . Criollo Llanero . Negro',    price:300000,  r:5.0, s:89,  ok:true,  tags:['Criollo Llanero','Negro','Llanos'],                bio:'89 sesiones en los Llanos. Criollo negro azabache insuperable.',  g:'linear-gradient(160deg,#080808,#303030)', extra:{raza:'Criollo Llanero',color:'Negro azabache',edad:'9 años'}},
+  paloma:     {id:'paloma',     t:'horse',        sede:'villavicencio', name:'Paloma',          role:'Caballo . Árabe . Blanco',             price:420000,  r:4.9, s:41,  ok:true,  tags:['Árabe','Blanco','Editorial'],                     bio:'Yegua árabe editorial. Imágenes de ensueño en la sabana llanera.',g:'linear-gradient(160deg,#E0D8C8,#FDFAF5)', extra:{raza:'Árabe',color:'Blanco puro',edad:'5 años'}},
+};
+
+// ======= STATE =======
+let sede='bogota', filter='all';
+
+
+// ======= COUNTS =======
+function updateCounts(){
+  ['bogota','barranquilla','villavicencio'].forEach(s=>{
+    const n=Object.values(ARTISTS).filter(a=>a.sede===s).length;
+    document.getElementById('cnt-'+s).textContent=n+' artistas';
+  });
+}
+
+
+// == PORTFOLIO ==
+const PF_ARTISTS = {
+  'nicolay-bog': {name:'Nicolay', sede:'Bogotá', gradient:'linear-gradient(160deg,#1A2030,#6080A0)', photos:12},
+  'catalina':    {name:'Catalina', sede:'Bogotá', gradient:'linear-gradient(160deg,#2C1818,#E89090)', photos:10},
+  'samy':        {name:'Samy',     sede:'Bogotá', gradient:'linear-gradient(160deg,#281C28,#D090C0)', photos:10},
+  'carlos':      {name:'Carlos',   sede:'Barranquilla', gradient:'linear-gradient(160deg,#1C2818,#90B080)', photos:12},
+  'paola':       {name:'Paola',    sede:'Barranquilla', gradient:'linear-gradient(160deg,#202830,#A0C0D0)', photos:10},
+  'anyelo':      {name:'Anyelo',   sede:'Villavicencio', gradient:'linear-gradient(160deg,#1A2010,#90A860)', photos:12},
+  'nicolay-vll': {name:'Nicolay',  sede:'Villavicencio', gradient:'linear-gradient(160deg,#201810,#B08050)', photos:10},
+  'laura':       {name:'Laura',    sede:'Villavicencio', gradient:'linear-gradient(160deg,#28201C,#C0A890)', photos:10},
+  'luisa':       {name:'Luisa',    sede:'Villavicencio', gradient:'linear-gradient(160deg,#202818,#A0B080)', photos:8},
+};
+
+// Layout patterns for varied grid
+const LAYOUTS = [
+  [{cls:'tall sq',row:'span 2'},{cls:'sq'},{cls:'sq'},{cls:'wide sq',col:'span 2'},{cls:'sq'},{cls:'sq'},{cls:'sq'},{cls:'sq'},{cls:'sq'},{cls:'sq'}],
+  [{cls:'sq'},{cls:'sq'},{cls:'tall sq',row:'span 2'},{cls:'sq'},{cls:'wide sq',col:'span 2'},{cls:'sq'},{cls:'sq'},{cls:'sq'},{cls:'sq'},{cls:'sq'}],
+];
+const COLORS = ['pg-c1','pg-c2','pg-c3','pg-c4','pg-c5','pg-c6','pg-c7','pg-c8'];
+
+// Supabase config
+const SUPABASE_URL = 'https://dtkwoxjuhmdmpnmynjtg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0a3dveGp1aG1kbXBubXluanRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MDU3ODQsImV4cCI6MjA4ODk4MTc4NH0.1laG-S3hDIzM-eDU-u2ibwJuFR1ioPc-kvVrlH6zx7o';
+let sb = null;
+
+// Map proveedor nombre → artistKey used in the grid
+const NOMBRE_TO_KEY = {
+  'Hector Nicolay Davila': { bogota: 'nicolay-bog', villavicencio: 'nicolay-vll' },
+  'Joel Enrique Sanchez':  { barranquilla: 'carlos' },
+  'Anyelo Cardona Valencia':{ villavicencio: 'anyelo' },
+  'Catalina Jimenez':      { bogota: 'catalina' },
+  'Laura Samanta Arroyo':  { bogota: 'samy' },
+  'Camila Gutierrez':      { barranquilla: 'paola' },
+  'Laura Merad Ortega':    { villavicencio: 'laura' },
+  'Laura Camila Loaiza':   { villavicencio: 'luisa' },
+};
+
+// Cache: artistKey → array of photo URLs from Supabase
+let sbPhotos = {};
+
+async function loadSupabasePhotos(){
+  try {
+    if(typeof supabase === 'undefined') return;
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data, error } = await sb
+      .from('proveedores')
+      .select('nombre, sede, portafolio(url, orden)')
+      .order('nombre');
+    if(error || !data) return;
+
+    data.forEach(p => {
+      const keyMap = NOMBRE_TO_KEY[p.nombre];
+      if(!keyMap) return;
+      const key = keyMap[p.sede] || Object.values(keyMap)[0];
+      if(!key) return;
+      const fotos = (p.portafolio||[])
+        .sort((a,b)=>(a.orden||0)-(b.orden||0))
+        .map(f=>f.url)
+        .filter(Boolean);
+      if(fotos.length) sbPhotos[key] = fotos;
+    });
+
+    const gridsMap = {'nicolay-bog':0,'catalina':1,'samy':0,'carlos':1,'paola':0,'anyelo':0,'nicolay-vll':1,'laura':0,'luisa':1};
+    Object.entries(gridsMap).forEach(([key,idx]) => {
+      if(sbPhotos[key]) buildGrid('grid-'+key, key, idx);
+    });
+  } catch(e){ console.warn('Supabase photos:', e.message); }
+}
+
+function buildGrid(gridId, artistKey, layoutIdx=0){
+  const el = document.getElementById(gridId);
+  if(!el) return;
+  const artist = PF_ARTISTS[artistKey];
+  if(!artist) return;
+  const layout = LAYOUTS[layoutIdx % LAYOUTS.length];
+  const realPhotos = sbPhotos[artistKey] || [];
+  // Always show 6 gradient placeholders; replace with real photos when available
+  const total = realPhotos.length > 0 ? Math.min(realPhotos.length, 12) : 6;
+  let html = '';
+  for(let i=0;i<total;i++){
+    const l = layout[i % layout.length];
+    const ang = 140 + (i*20)%80;
+    const bg = artist.gradient.replace('160deg', ang+'deg');
+    const photoUrl = realPhotos[i] || null;
+    const style = photoUrl
+      ? `background:url('${photoUrl}') center/cover no-repeat`
+      : `background:${bg} center/cover no-repeat`;
+    html += `<div class="pf-photo${l.cls?' '+l.cls:''}" style="${l.row?'grid-row:span 2':''}${l.col?';grid-column:span 2':''}">
+      <div class="ph-inner" style="padding-top:${l.row?'0':'100%'};${l.row?'height:100%':''}">
+        <div class="pg-ph" style="${style}"></div>
+      </div>
+    </div>`;
+  }
+  if(!realPhotos.length){
+    html += `<div style="grid-column:1/-1;padding:0.75rem;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(14,12,10,0.2);text-align:center">Fotos próximamente</div>`;
+  }
+  el.innerHTML = html;
+}
+
+// Build all grids on load
+function pfSetSede(sede, btn){
+  // Remove active from all tabs
+  document.querySelectorAll('.pf-tab').forEach(function(t){ t.classList.remove('active'); });
+  // Hide all sede panels
+  ['pf-bogota','pf-barranquilla','pf-villavicencio'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  // Show selected
+  btn.classList.add('active');
+  var target = document.getElementById('pf-'+sede);
+  if(target) target.style.display = 'block';
+}
+
+// Init on DOM ready
+document.addEventListener('DOMContentLoaded', function(){
+  buildGrid('grid-nicolay-bog','nicolay-bog',0);
+  buildGrid('grid-catalina','catalina',1);
+  buildGrid('grid-samy','samy',0);
+  buildGrid('grid-carlos','carlos',1);
+  buildGrid('grid-paola','paola',0);
+  buildGrid('grid-anyelo','anyelo',0);
+  buildGrid('grid-nicolay-vll','nicolay-vll',1);
+  buildGrid('grid-laura','laura',0);
+  buildGrid('grid-luisa','luisa',1);
+  loadSupabasePhotos();
+
+  // Show bogota, hide others
+  ['pf-barranquilla','pf-villavicencio'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  var bog = document.getElementById('pf-bogota');
+  if(bog) bog.style.display = 'block';
+});
+
+// ── LIGHTBOX ──
+let lbArtist='', lbIndex=0;
+function openLb(artist, idx){
+  lbArtist=artist; lbIndex=idx;
+  renderLb();
+  document.getElementById('lbOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){
+  document.getElementById('lbOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function lbNav(dir){
+  const total = PF_ARTISTS[lbArtist]?.photos||8;
+  lbIndex=(lbIndex+dir+total)%total;
+  renderLb();
+}
+function renderLb(){
+  const artist = PF_ARTISTS[lbArtist];
+  if(!artist) return;
+  const ang = 140+(lbIndex*20)%80;
+  const bg = artist.gradient.replace('160deg',ang+'deg');
+  document.getElementById('lbContent').style.cssText=`width:min(80vw,700px);height:min(80vh,500px);background:${bg} center/cover no-repeat;background-image:url('img/${lbArtist}/muestra-${lbIndex+1}.jpg')`;
+  document.getElementById('lbInfo').textContent=`${artist.name} . ${artist.sede} . Foto ${lbIndex+1} de ${artist.photos}`;
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeLb();
+  if(e.key==='ArrowRight') lbNav(1);
+  if(e.key==='ArrowLeft') lbNav(-1);
+});
+
+
+function setPaqSede(sede, btn){
+  // Update paquetes buttons
+  document.querySelectorAll('.paq-sede-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+
+  // Show correct paquete panel
+  document.querySelectorAll('.paq-sede-panel,.paq-panel').forEach(p=>{
+    p.style.display='none';
+    p.classList.remove('active');
+  });
+  const panel = document.getElementById('paq-'+sede);
+  if(panel){ panel.style.display='block'; panel.classList.add('active'); }
+
+  // Sync portafolio tabs to same sede
+  const pfTab = document.querySelector('.pf-tab[data-sede="'+sede+'"]');
+  if(pfTab){
+    pfSetSede(sede, pfTab);
+  } else {
+    // Fallback: find tab by onclick content
+    document.querySelectorAll('.pf-tab').forEach(t=>{
+      if(t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+sede+"'")){
+        pfSetSede(sede, t);
+      }
+    });
+  }
+
+  // Scroll to portafolio smoothly
+  setTimeout(()=>{
+    const pf = document.getElementById('portafolio');
+    if(pf) pf.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 150);
+}
+
+function scrollToArtistas(el){
+  const panel = el.closest('[data-sede]');
+  if(panel){
+    const sede = panel.dataset.sede;
+    const tab = document.querySelector('.pf-tab[data-sede="'+sede+'"]');
+    if(tab) pfSetSede(sede, tab);
+  }
+  setTimeout(()=>{
+    const pf = document.getElementById('portafolio');
+    if(pf) pf.scrollIntoView({behavior:'smooth'});
+  }, 100);
+}
+
+function toggleMenu(){
+  const m=document.getElementById('navMobile');
+  const b=document.querySelector('.nav-ham');
+  m.classList.toggle('open'); b.classList.toggle('open');
+}
+</script>
+</body>
+</html>
