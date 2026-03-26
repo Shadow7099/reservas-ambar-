@@ -1102,11 +1102,7 @@ async function loadSupabasePhotos(){
       if(fotos.length) sbPhotos[key] = fotos;
     });
 
-    // Rebuild all grids with real photos
-    Object.keys(PF_ARTISTS).forEach((key,i) => {
-      const gridId = 'grid-' + key;
-      buildGrid(gridId, key, i%2);
-    });
+    // sbPhotos is now populated - grids will be built by DOMContentLoaded
   } catch(e){ console.warn('Supabase photos:', e.message); }
 }
 
@@ -1153,8 +1149,10 @@ function pfSetSede(sede, btn){
 }
 
 // Init on DOM ready
-document.addEventListener('DOMContentLoaded', function(){
-  // Build all grids
+document.addEventListener('DOMContentLoaded', async function(){
+  // First load photos from Supabase, THEN build grids with real photos
+  await loadSupabasePhotos();
+  // Build all grids (now sbPhotos is populated)
   buildGrid('grid-nicolay-bog','nicolay-bog',0);
   buildGrid('grid-catalina','catalina',1);
   buildGrid('grid-samy','samy',0);
@@ -1164,8 +1162,6 @@ document.addEventListener('DOMContentLoaded', function(){
   buildGrid('grid-nicolay-vll','nicolay-vll',1);
   buildGrid('grid-laura','laura',0);
   buildGrid('grid-luisa','luisa',1);
-  // Load photos from Supabase (async - grids rebuild when done)
-  loadSupabasePhotos();
 
   // Show bogota, hide others
   ['pf-barranquilla','pf-villavicencio'].forEach(function(id){
