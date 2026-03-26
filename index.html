@@ -34,12 +34,12 @@ border-bottom:1px solid var(–border);
 .nav-logo{display:flex;align-items:center;gap:0.9rem;text-decoration:none;}
 .nav-logo img{height:48px;width:auto;}
 .nav-logo-text{display:flex;flex-direction:column;line-height:1;}
-.nav-logo-name{font-family:var(–font-d);font-size:1.5rem;font-weight:400;letter-spacing:0.22em;color:var(–ink);}
-.nav-logo-sub{font-size:0.48rem;letter-spacing:0.45em;text-transform:uppercase;color:var(–gold);margin-top:1px;}
+.nav-logo-name{font-family:var(–font-d);font-size:1.5rem;font-weight:400;letter-spacing:0.22em;color:var(–paper);}
+.nav-logo-sub{font-size:0.48rem;letter-spacing:0.45em;text-transform:uppercase;color:var(–gold);margin-top:1px;opacity:0.7;}
 .nav-links{display:flex;align-items:center;gap:2.5rem;}
 .nav-link{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,247,242,0.55);text-decoration:none;transition:color 0.2s;}
 .nav-link:hover{color:var(–gold-l);}
-.nav-cta{padding:0.6rem 1.6rem;background:var(–gold);color:#0E0C0A;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:background 0.25s;}
+.nav-cta{padding:0.6rem 1.6rem;background:var(–gold);color:#0E0C0A;font-weight:500;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:background 0.25s;}
 .nav-cta:hover{background:var(–gold);}
 /* Hamburger */
 .nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
@@ -70,7 +70,7 @@ overflow:hidden;
 .hero-text{
 padding:5rem 4rem;
 display:flex;flex-direction:column;justify-content:center;
-background:#0E0C0A;
+background:var(–paper);
 }
 .hero-tag{
 font-size:0.55rem;letter-spacing:0.42em;text-transform:uppercase;
@@ -86,9 +86,9 @@ font-weight:300;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;
 font-size:0.85rem;color:var(–muted);line-height:1.9;
 font-weight:300;max-width:400px;margin-bottom:2.5rem;
 }
-.hero-actions{display:flex;gap:1rem;align-items:center;}
+.hero-actions{display:flex;flex-direction:column;gap:0.75rem;align-items:stretch;max-width:320px;}
 .btn-p{
-padding:0.9rem 2.5rem;background:var(–gold);color:#0E0C0A;
+padding:0.9rem 2.5rem;background:var(–gold);color:#0E0C0A;display:block;width:100%;
 font-family:var(–font-b);font-size:0.68rem;letter-spacing:0.22em;
 text-transform:uppercase;text-decoration:none;transition:background 0.25s;
 }
