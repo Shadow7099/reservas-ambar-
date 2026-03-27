@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMBAR Couture - Reservar Sesión</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E0C0A; --paper:#FAF7F2; --warm:#F0E8D8;
+  --gold:#C49A3C; --gold-l:#DCBA6A;
+  --muted:#867A69; --sage:#7D9E7F; --rose:#B87870;
+  --border:rgba(196,154,60,0.22); --border-s:rgba(196,154,60,0.5);
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'Outfit',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:var(--font-b);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0.85rem 2.5rem;background:rgba(250,247,242,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:0.75rem;text-decoration:none;}
+.nav-logo-name{font-family:var(--font-d);font-size:1.45rem;font-weight:400;letter-spacing:0.22em;color:var(--ink);}
+.nav-logo-sub{font-size:0.44rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);margin-top:1px;}
+.nav-back{display:flex;align-items:center;gap:0.4rem;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--gold);}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 57px);align-items:start;}
+
+/* ── FORM COL ── */
+.form-col{padding:2.5rem 3rem 6rem;max-width:680px;}
+
+/* ── PROGRESS ── */
+.progress{display:flex;align-items:flex-start;margin-bottom:2.5rem;position:relative;}
+.progress::before{content:'';position:absolute;top:13px;left:13px;right:13px;height:1px;background:var(--border);z-index:0;}
+.prog-line{position:absolute;top:13px;left:13px;height:1px;background:var(--gold);z-index:1;transition:width 0.5s ease;}
+.prog-step{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;}
+.prog-dot{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:500;color:var(--muted);transition:all 0.3s;cursor:pointer;}
+.prog-step.done .prog-dot{background:var(--gold);border-color:var(--gold);color:var(--paper);}
+.prog-step.active .prog-dot{background:var(--ink);border-color:var(--ink);color:var(--paper);}
+.prog-lbl{font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.45rem;text-align:center;line-height:1.35;}
+.prog-step.active .prog-lbl{color:var(--ink);font-weight:500;}
+.prog-step.done .prog-lbl{color:var(--gold);}
+
+/* ── STEP PANELS ── */
+.step{display:none;}
+.step.on{display:block;animation:up 0.38s ease both;}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEAD ── */
+.sh{margin-bottom:2rem;}
+.sh-tag{font-size:0.55rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;display:flex;align-items:center;gap:0.6rem;}
+.sh-tag::before{content:'';width:18px;height:1px;background:var(--gold);}
+.sh-title{font-family:var(--font-d);font-size:2rem;font-weight:400;line-height:1.1;}
+.sh-title em{font-style:italic;color:var(--gold);}
+.sh-desc{font-size:0.8rem;color:var(--muted);line-height:1.75;margin-top:0.4rem;font-weight:300;}
+
+/* ── SEDE SELECTOR (paso 0) ── */
+.sede-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+.sede-card{padding:1.5rem 1rem;border:1px solid var(--border);cursor:pointer;text-align:center;transition:all 0.25s;position:relative;}
+.sede-card:hover{border-color:var(--gold-l);transform:translateY(-2px);}
+.sede-card.sel{border-color:var(--ink);background:rgba(14,12,10,0.03);}
+.sede-card.sel::after{content:'✓';position:absolute;top:0.5rem;right:0.75rem;font-size:0.65rem;color:var(--ink);}
+.sede-card-icon{font-size:2rem;margin-bottom:0.6rem;}
+.sede-card-name{font-family:var(--font-d);font-size:1.1rem;font-weight:400;margin-bottom:0.25rem;}
+.sede-card-addr{font-size:0.58rem;letter-spacing:0.08em;color:var(--muted);line-height:1.5;}
+.sede-card-count{font-size:0.54rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-top:0.5rem;}
+
+/* ── CALENDAR ── */
+.cal-box{border:1px solid var(--border);margin-bottom:1.25rem;background:white;}
+.cal-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border);}
+.cal-month-lbl{font-family:var(--font-d);font-size:1.05rem;font-weight:400;}
+.cal-arrow{width:30px;height:30px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem;transition:all 0.2s;}
+.cal-arrow:hover{border-color:var(--gold);color:var(--gold);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0.75rem 1rem 1rem;gap:3px;}
+.cal-dow{text-align:center;font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding-bottom:0.5rem;}
+.cday{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:0.78rem;cursor:pointer;border:1px solid transparent;transition:all 0.18s;position:relative;}
+.cday:hover:not(.off):not(.empty){border-color:var(--gold);color:var(--gold);}
+.cday.sel{background:var(--ink);color:var(--paper)!important;border-color:var(--ink);}
+.cday.today{border-color:var(--border-s);font-weight:600;}
+.cday.off{color:#D5CFC7;cursor:not-allowed;}
+.cday.empty{cursor:default;}
+.cday.dot::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--gold);}
+
+/* ── TIME SLOTS ── */
+.time-lbl{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:0.65rem;}
+.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-bottom:1.25rem;}
+.tslot{padding:0.55rem 0.25rem;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all 0.18s;}
+.tslot:hover:not(.occ){border-color:var(--gold);}
+.tslot.sel{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.tslot.occ{color:#C9C3BB;cursor:not-allowed;background:rgba(0,0,0,0.02);}
+.tslot-h{font-size:0.8rem;font-weight:400;}
+.tslot-lbl{font-size:0.5rem;letter-spacing:0.08em;text-transform:uppercase;opacity:0.65;margin-top:1px;}
+.tslot.golden{border-color:rgba(196,154,60,0.4);}
+.tslot.golden .tslot-lbl{color:var(--gold);opacity:1;}
+
+/* makeup auto */
+.mkup-auto{display:flex;align-items:center;gap:0.9rem;padding:0.9rem 1.1rem;background:rgba(196,154,60,0.05);border:1px solid var(--border);margin-bottom:1.25rem;animation:up 0.3s ease both;}
+.mkup-icon{font-size:1.15rem;}
+.mkup-lbl{font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+.mkup-time{font-family:var(--font-d);font-size:1.3rem;font-weight:400;margin-top:1px;}
+.mkup-note{font-size:0.6rem;color:var(--muted);margin-top:1px;}
+
+/* ── LOCATION TOGGLES ── */
+
+/* == LOCACION CARDS == */
+.loc-cards{display:flex;flex-direction:column;gap:0.75rem;}
+.loc-card{
+  border:2px solid rgba(14,12,10,0.1);
+  background:#FFFFFF;
+  cursor:pointer;
+  transition:all 0.2s;
+  overflow:hidden;
+}
+.loc-card:hover{border-color:rgba(196,154,60,0.4);}
+.loc-card.sel{border-color:var(--gold);box-shadow:0 4px 20px rgba(196,154,60,0.12);}
+.loc-card-top{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem;gap:1rem;}
+.loc-card-info{flex:1;}
+.loc-card-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.15rem;color:var(--ink);margin-bottom:2px;}
+.loc-card-desc{font-size:0.68rem;color:var(--muted);line-height:1.5;margin-bottom:4px;}
+.loc-card-costo{font-size:0.72rem;color:var(--gold);font-weight:500;}
+.loc-card-check{width:24px;height:24px;border-radius:50%;border:2px solid rgba(14,12,10,0.2);display:flex;align-items:center;justify-content:center;font-size:0.65rem;flex-shrink:0;transition:all 0.2s;}
+.loc-card.sel .loc-card-check{background:var(--gold);border-color:var(--gold);color:#fff;}
+/* Slider */
+.loc-slider{overflow:hidden;position:relative;}
+.loc-slider-track{display:flex;transition:transform 0.4s ease;}
+.loc-slide{flex:0 0 100%;height:200px;background:center/cover no-repeat;}
+.loc-slider-nav{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.75rem;}
+.loc-slider-dots{display:flex;gap:5px;}
+.loc-slider-dot{width:6px;height:6px;border-radius:50%;background:rgba(14,12,10,0.15);transition:background 0.2s;}
+.loc-slider-dot.active{background:var(--gold);}
+.loc-slider-btn{background:none;border:1px solid rgba(14,12,10,0.15);width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.8rem;transition:all 0.2s;}
+.loc-slider-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+.loc-lbl{font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;margin-top:1.25rem;}
+.loc-lbl:first-child{margin-top:0;}
+.tog-row{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.5rem;}
+.tog{padding:0.9rem 0.75rem;border:1px solid var(--border);cursor:pointer;text-align:center;transition:all 0.22s;}
+.tog:hover{border-color:var(--gold-l);}
+.tog.sel{border-color:var(--ink);background:var(--ink);color:var(--paper);}
+.tog-ico{font-size:1.1rem;margin-bottom:0.25rem;}
+.tog-name{font-size:0.72rem;font-weight:400;}
+.tog-sub{font-size:0.54rem;opacity:0.6;margin-top:1px;text-transform:uppercase;letter-spacing:0.08em;}
+.slide{overflow:hidden;max-height:0;transition:max-height 0.4s ease,opacity 0.3s ease;opacity:0;}
+.slide.open{max-height:120px;opacity:1;}
+
+/* ── ARTIST GRID ── */
+.div-row{display:flex;align-items:center;gap:0.9rem;margin:1.5rem 0 0.9rem;}
+.div-line{flex:1;height:1px;background:var(--border);}
+.div-txt{font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.artist-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.art-opt{display:flex;align-items:center;gap:0.65rem;padding:0.8rem 0.9rem;border:1px solid var(--border);cursor:pointer;transition:all 0.22s;position:relative;}
+.art-opt:hover:not(.na){border-color:var(--gold-l);}
+.art-opt.sel{border-color:var(--ink);background:rgba(14,12,10,0.03);}
+.art-opt.sel::after{content:'✓';position:absolute;top:0.5rem;right:0.6rem;font-size:0.65rem;color:var(--ink);}
+.art-opt.na{opacity:0.42;cursor:not-allowed;}
+.art-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-style:italic;font-size:0.95rem;color:var(--paper);}
+.art-name{font-size:0.78rem;font-weight:400;line-height:1.2;}
+.art-role{font-size:0.54rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.art-price{font-family:var(--font-d);font-size:0.9rem;color:var(--gold);margin-top:2px;}
+.art-avail{font-size:0.52rem;display:flex;align-items:center;gap:3px;margin-top:1px;}
+.avdot{width:5px;height:5px;border-radius:50%;}
+
+/* ── HORSE ── */
+.horse-card{border:1px solid var(--border);margin-bottom:1rem;}
+.horse-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;cursor:pointer;}
+.horse-head.act{background:rgba(14,12,10,0.02);}
+.horse-left{display:flex;align-items:center;gap:0.9rem;}
+.horse-ico{font-size:1.5rem;}
+.horse-ttl{font-size:0.85rem;font-weight:400;}
+.horse-sub{font-size:0.6rem;color:var(--muted);margin-top:2px;}
+.sw{width:42px;height:22px;border-radius:11px;background:rgba(196,154,60,0.25);position:relative;transition:background 0.28s;flex-shrink:0;}
+.sw.on{background:var(--ink);}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:transform 0.28s;}
+.sw.on::after{transform:translateX(20px);}
+.horse-body{overflow:hidden;max-height:0;transition:max-height 0.45s ease;border-top:1px solid transparent;}
+.horse-body.open{max-height:500px;border-top-color:var(--border);}
+.horse-inner{padding:1.25rem;}
+
+/* Horse selector cards */
+.horse-list{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;}
+.h-card{display:flex;align-items:center;gap:0.65rem;padding:0.8rem 0.9rem;border:1px solid var(--border);cursor:pointer;transition:all 0.22s;position:relative;}
+.h-card:hover:not(.na){border-color:var(--gold-l);}
+.h-card.sel{border-color:var(--ink);background:rgba(14,12,10,0.03);}
+.h-card.sel::after{content:'✓';position:absolute;top:0.5rem;right:0.6rem;font-size:0.65rem;color:var(--ink);}
+.h-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;}
+.h-name{font-size:0.78rem;font-weight:400;}
+.h-breed{font-size:0.54rem;color:var(--muted);margin-top:1px;}
+.h-color{font-size:0.54rem;color:var(--gold);margin-top:1px;}
+.h-price{font-family:var(--font-d);font-size:0.88rem;color:var(--gold);margin-top:2px;}
+
+/* ── FORM FIELDS ── */
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;margin-bottom:1rem;}
+.fg{margin-bottom:1rem;}
+.fg label{display:block;font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:0.45rem;}
+.fg label .opt{color:rgba(196,154,60,0.5);font-size:0.5rem;margin-left:0.3rem;}
+.fg input,.fg select,.fg textarea{width:100%;padding:0.75rem 0.9rem;border:1px solid var(--border);background:white;font-family:var(--font-b);font-size:0.8rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);}
+.fg input::placeholder,.fg textarea::placeholder{color:#BFB8AF;font-weight:300;}
+.fg textarea{resize:vertical;min-height:80px;}
+.fg select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23867A69' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;}
+.fg .fn{font-size:0.58rem;color:var(--muted);margin-top:0.35rem;line-height:1.5;}
+.fdiv{display:flex;align-items:center;gap:0.9rem;margin:1.5rem 0 1rem;}
+.fdiv-line{flex:1;height:1px;background:var(--border);}
+.fdiv-txt{font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+
+/* ── CONFIRM ── */
+.ct{border:1px solid var(--border);margin-bottom:1rem;background:white;}
+.ct-row{display:flex;justify-content:space-between;padding:0.6rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.78rem;}
+.ct-row:last-child{border-bottom:none;}
+.ct-lbl{color:var(--muted);font-weight:300;}
+.ct-val{text-align:right;max-width:55%;}
+.price-box{border:1px solid var(--border);padding:1.25rem;background:rgba(196,154,60,0.04);margin-bottom:1.25rem;}
+.pb-row{display:flex;justify-content:space-between;font-size:0.78rem;padding:0.3rem 0;}
+.pb-total{border-top:1px solid var(--border);margin-top:0.5rem;padding-top:0.75rem;font-weight:500;}
+.pb-ant{color:var(--gold);}
+.terms-wrap{display:flex;align-items:flex-start;gap:0.65rem;font-size:0.75rem;line-height:1.65;color:var(--muted);padding:1rem;border:1px solid var(--border);margin-bottom:1.5rem;cursor:pointer;}
+.terms-wrap input{width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--ink);cursor:pointer;}
+
+/* ── BUTTONS ── */
+.btn-row{display:flex;gap:0.75rem;margin-top:2rem;}
+.btn-next{flex:1;background:var(--ink);color:var(--paper);border:none;padding:0.9rem 1.5rem;font-family:var(--font-b);font-size:0.68rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:background 0.25s;}
+.btn-next:hover{background:var(--gold);}
+.btn-next.pay{background:var(--gold);color:var(--ink);}
+.btn-next.pay:hover{opacity:0.85;}
+.btn-back{background:none;border:1px solid var(--border);color:var(--muted);padding:0.9rem 1.2rem;font-family:var(--font-b);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);}
+
+/* ── SUMMARY PANEL ── */
+.sum-col{position:sticky;top:57px;background:var(--ink);color:var(--paper);min-height:calc(100vh - 57px);padding:2.25rem 1.75rem;display:flex;flex-direction:column;overflow:hidden;}
+.sum-col::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(196,154,60,0.12),transparent 70%);pointer-events:none;}
+.sum-brand{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.35rem;}
+.sum-logo-name{font-family:var(--font-d);font-size:1.15rem;letter-spacing:0.22em;color:var(--gold-l);}
+.sum-logo-sub{font-size:0.42rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(196,154,60,0.5);margin-top:1px;}
+.sum-title{font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(250,247,242,0.3);margin-bottom:1.5rem;}
+.sum-card{border:1px solid rgba(196,154,60,0.18);padding:0.85rem 1rem;margin-bottom:0.5rem;transition:border-color 0.3s;}
+.sum-card.filled{border-color:rgba(196,154,60,0.38);}
+.sc-lbl{font-size:0.48rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(196,154,60,0.65);margin-bottom:0.3rem;}
+.sc-val{font-size:0.78rem;color:var(--paper);font-weight:300;line-height:1.5;}
+.sc-val.empty{color:rgba(250,247,242,0.2);font-style:italic;font-size:0.72rem;}
+.sum-total{margin-top:auto;padding-top:1.5rem;border-top:1px solid rgba(196,154,60,0.2);}
+.st-lbl{font-size:0.5rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(250,247,242,0.3);margin-bottom:0.4rem;}
+.st-amt{font-family:var(--font-d);font-size:2.1rem;font-weight:300;color:var(--gold-l);line-height:1;}
+.st-cur{font-size:0.55rem;letter-spacing:0.18em;color:rgba(250,247,242,0.28);margin-top:3px;}
+.st-bd{margin-top:0.9rem;}
+.st-line{display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.65rem;border-bottom:1px solid rgba(196,154,60,0.08);}
+.st-line:last-child{border-bottom:none;}
+.st-line-l{color:rgba(250,247,242,0.42);font-weight:300;}
+.st-line-v{color:var(--paper);}
+.st-line.ant .st-line-v{color:var(--gold-l);}
+.sum-dots{display:flex;gap:4px;margin-top:1.5rem;}
+.sd{flex:1;height:2px;background:rgba(250,247,242,0.1);transition:background 0.3s;}
+.sd.done{background:rgba(196,154,60,0.45);}
+.sd.active{background:var(--gold);}
+
+/* ======================================
+   RESPONSIVE - TABLET (≤ 1024px)
+====================================== */
+@media(max-width:1024px){
+  .layout{grid-template-columns:1fr;}
+  .sum-col{
+    position:static;min-height:auto;
+    order:0; /* resumen arriba en tablet */
+    padding:1.5rem;
+    border-bottom:2px solid rgba(196,154,60,0.2);
+  }
+  /* En tablet el resumen va colapsado en un strip horizontal */
+  .sum-col .sum-brand,.sum-col .sum-title{display:none;}
+  .sum-col .sum-card{display:none;}
+  .sum-col .sum-total{
+    padding-top:0;border-top:none;
+    display:flex;align-items:center;gap:2rem;
+  }
+  .sum-col .st-lbl{margin-bottom:0;}
+  .sum-col .st-amt{font-size:1.4rem;}
+  .sum-col .st-bd{display:none;}
+  .sum-col .sum-dots{margin-top:0;margin-left:auto;}
+  .form-col{order:1;padding:1.5rem 1.5rem 4rem;}
+  .sede-cards{grid-template-columns:1fr 1fr 1fr;}
+  .artist-grid,.horse-list{grid-template-columns:1fr 1fr;}
+  .f-row{grid-template-columns:1fr 1fr;}
+}
+
+/* ======================================
+   RESPONSIVE - MÓVIL (≤ 640px)
+====================================== */
+@media(max-width:640px){
+  /* Nav */
+  .nav{padding:0.65rem 1rem;}
+  .nav-logo-name{font-size:1.2rem;}
+  .nav-back span{display:none;} /* solo ícono */
+
+  /* Layout - columna única, resumen abajo como barra fija */
+  .layout{grid-template-columns:1fr;padding-bottom:80px;}
+  .sum-col{
+    position:fixed;bottom:0;left:0;right:0;z-index:100;
+    min-height:auto;order:2;
+    padding:0.85rem 1.25rem;
+    border-top:1px solid rgba(196,154,60,0.25);
+    border-bottom:none;
+    flex-direction:row;align-items:center;
+    display:flex;
+  }
+  .sum-col::before{display:none;}
+  .sum-col .sum-brand,.sum-col .sum-title,.sum-col .sum-card{display:none;}
+  .sum-col .sum-total{
+    padding-top:0;border-top:none;margin-top:0;
+    display:flex;align-items:center;gap:1rem;flex:1;
+  }
+  .sum-col .st-lbl{font-size:0.45rem;margin-bottom:0;}
+  .sum-col .st-amt{font-size:1.3rem;}
+  .sum-col .st-cur{display:none;}
+  .sum-col .st-bd{display:none;}
+  .sum-col .sum-dots{margin-top:0;margin-left:auto;gap:3px;}
+  .sd{height:3px;border-radius:2px;}
+
+  /* Form col */
+  .form-col{order:1;padding:1.25rem 1rem 5rem;}
+
+  /* Progress bar */
+  .progress{margin-bottom:1.75rem;}
+  .prog-lbl{font-size:0.44rem;letter-spacing:0.08em;}
+  .prog-dot{width:22px;height:22px;font-size:0.55rem;}
+  .progress::before{top:11px;left:11px;right:11px;}
+  .prog-line{top:11px;left:11px;}
+
+  /* Section head */
+  .sh-title{font-size:1.6rem;}
+
+  /* Sede cards - columna única */
+  .sede-cards{grid-template-columns:1fr;gap:0.6rem;}
+  .sede-card{display:flex;align-items:center;gap:1rem;text-align:left;padding:1rem 1.1rem;}
+  .sede-card-icon{font-size:1.6rem;flex-shrink:0;}
+  .sede-card-count{margin-top:0;font-size:0.5rem;}
+
+  /* Calendar */
+  .cal-box{font-size:0.9rem;}
+  .cal-head{padding:0.75rem 1rem;}
+  .cal-grid{padding:0.5rem 0.5rem 0.75rem;gap:2px;}
+  .cday{font-size:0.72rem;}
+
+  /* Time grid - 3 columnas */
+  .time-grid{grid-template-columns:repeat(3,1fr);}
+
+  /* Location toggles */
+  .tog-row{grid-template-columns:1fr 1fr;}
+  .tog{padding:0.75rem 0.5rem;}
+  .tog-ico{font-size:1rem;}
+  .tog-name{font-size:0.65rem;}
+  .tog-sub{font-size:0.48rem;}
+
+  /* Artist / Horse grids - 1 columna */
+  .artist-grid,.horse-list{grid-template-columns:1fr;}
+
+  /* Form rows - 1 columna */
+  .f-row{grid-template-columns:1fr;}
+
+  /* Buttons */
+  .btn-row{flex-direction:column-reverse;gap:0.6rem;}
+  .btn-next{width:100%;text-align:center;}
+  .btn-back{width:100%;text-align:center;}
+
+  /* Mkup auto */
+  .mkup-auto{flex-direction:row;align-items:flex-start;}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <div>
+      <div class="nav-logo-name">AMBAR</div>
+      <div class="nav-logo-sub">Couture</div>
+    </div>
+  </a>
+  <a class="nav-back" href="index.html">
+    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Volver al catálogo
+  </a>
+</nav>
+
+<div class="layout">
+
+  <!-- === FORM === -->
+  <div class="form-col">
+
+    <!-- Progress -->
+    <div class="progress" id="prog">
+      <div class="prog-line" id="progLine" style="width:0%"></div>
+      <div class="prog-step active" onclick="goStep(0)"><div class="prog-dot">1</div><div class="prog-lbl">Sede</div></div>
+      <div class="prog-step" onclick="goStep(1)"><div class="prog-dot">2</div><div class="prog-lbl">Fecha<br>&amp; hora</div></div>
+      <div class="prog-step" onclick="goStep(2)"><div class="prog-dot">3</div><div class="prog-lbl">Lugar<br>&amp; equipo</div></div>
+      <div class="prog-step" onclick="goStep(3)"><div class="prog-dot">4</div><div class="prog-lbl">Extras</div></div>
+      <div class="prog-step" onclick="goStep(4)"><div class="prog-dot">5</div><div class="prog-lbl">Datos<br>personales</div></div>
+      <div class="prog-step" onclick="goStep(5)"><div class="prog-dot">6</div><div class="prog-lbl">Confirmar<br>&amp; pagar</div></div>
+    </div>
+
+    <!-- == PASO 0 - Sede == -->
+    <div class="step on" id="s0">
+      <div class="sh">
+        <div class="sh-tag">Paso 01 de 06</div>
+        <h2 class="sh-title">¿En qué <em>sede</em><br>será tu sesión?</h2>
+        <p class="sh-desc">Selecciona la ciudad - el equipo disponible se mostrará según tu sede.</p>
+      </div>
+      <div class="sede-cards">
+        <div class="sede-card" onclick="selSede('bogota',this)">
+          <div class="sede-card-icon">🏙️</div>
+          <div class="sede-card-name">Bogotá D.C.</div>
+          <div class="sede-card-addr">Car 15 #106-76<br>Usaquén</div>
+          <div class="sede-card-count">2 fotógrafos · 2 maquilladoras</div>
+        </div>
+        <div class="sede-card" onclick="selSede('barranquilla',this)">
+          <div class="sede-card-icon">🌴</div>
+          <div class="sede-card-name">Barranquilla</div>
+          <div class="sede-card-addr">Cr 54 #84-95<br>Riomar</div>
+          <div class="sede-card-count">1 fotógrafo · 1 maquilladora</div>
+        </div>
+        <div class="sede-card" onclick="selSede('villavicencio',this)">
+          <div class="sede-card-icon">🌿</div>
+          <div class="sede-card-name">Villavicencio</div>
+          <div class="sede-card-addr">Calle 15 #42-21<br>El Buque</div>
+          <div class="sede-card-count">2 fotógrafos · 2 maquilladoras</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-next" onclick="go(1)">Continuar → Fecha &amp; hora</button>
+      </div>
+    </div>
+
+    <!-- == PASO 1 - Fecha & Hora == -->
+    <div class="step" id="s1">
+      <div class="sh">
+        <div class="sh-tag">Paso 02 de 06</div>
+        <h2 class="sh-title">Elige tu <em>fecha</em><br>y hora de sesión</h2>
+        <p class="sh-desc">Solo días con disponibilidad completa del equipo en tu sede.</p>
+      </div>
+      <div class="cal-box">
+        <div class="cal-head">
+          <button class="cal-arrow" onclick="chMonth(-1)">‹</button>
+          <div class="cal-month-lbl" id="calLbl"></div>
+          <button class="cal-arrow" onclick="chMonth(1)">›</button>
+        </div>
+        <div class="cal-grid" id="calGrid">
+          <div class="cal-dow">Dom</div><div class="cal-dow">Lun</div>
+          <div class="cal-dow">Mar</div><div class="cal-dow">Mié</div>
+          <div class="cal-dow">Jue</div><div class="cal-dow">Vie</div>
+          <div class="cal-dow">Sáb</div>
+        </div>
+      </div>
+      <div id="dateChip" style="display:none;padding:0.65rem 1rem;border:1px solid var(--border);margin-bottom:1.25rem;font-size:0.78rem;background:rgba(196,154,60,0.05)">
+        📅 <span id="dateChipTxt"></span>
+      </div>
+      <div id="timeWrap" style="display:none">
+        <div class="time-lbl">Hora de inicio · Sesión fotográfica</div>
+        <div class="time-grid" id="timeGrid"></div>
+
+        <!-- ¿Incluye maquillaje? -->
+        <div id="mkupToggleWrap" style="display:none;margin-bottom:1.25rem">
+          <div class="time-lbl" style="margin-bottom:0.65rem">¿La sesión incluye maquillaje?</div>
+          <div class="tog-row">
+            <div class="tog" id="mkupSi" onclick="selMkupIncl(true,this)">
+              <div class="tog-ico">💄</div>
+              <div class="tog-name">Sí, con maquillaje</div>
+              <div class="tog-sub">Maquilladora de AMBAR</div>
+            </div>
+            <div class="tog" id="mkupNo" onclick="selMkupIncl(false,this)">
+              <div class="tog-ico">📸</div>
+              <div class="tog-name">Solo fotos</div>
+              <div class="tog-sub">Sin maquillaje AMBAR</div>
+            </div>
+          </div>
+
+          <!-- Hora de maquillaje: solo si eligió Sí -->
+          <div class="mkup-auto" id="mkupAuto" style="display:none;margin-top:0.75rem">
+            <div class="mkup-icon">💄</div>
+            <div>
+              <div class="mkup-lbl">Hora de maquillaje - calculada automáticamente</div>
+              <div class="mkup-time" id="mkupTime">-</div>
+              <div class="mkup-note">2 h 30 min antes de las fotos · cálculo automático</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="go(0)">← Atrás</button>
+        <button class="btn-next" onclick="go(2)">Continuar → Lugar &amp; equipo</button>
+      </div>
+    </div>
+
+    <!-- == PASO 2 - Lugar & Equipo == -->
+    <div class="step" id="s2">
+      <div class="sh">
+        <div class="sh-tag">Paso 03 de 06</div>
+        <h2 class="sh-title">Elige la <em>locación</em></h2>
+        <p class="sh-desc">Selecciona dónde quieres hacer tu sesión fotográfica.</p>
+      </div>
+
+      <!-- LOCACIONES CARDS CON SLIDER -->
+      <div id="locacionesCardsWrap"></div>
+
+      <!-- Detalle adicional -->
+      <div class="fg" style="margin-top:1.25rem">
+        <label>Detalle adicional <span class="opt">(opcional)</span></label>
+        <input type="text" id="photoAddrInput" placeholder="Ej: Entrada principal, punto de encuentro..." oninput="updateSum()">
+        <div class="fn">Cualquier referencia extra para la locación elegida</div>
+      </div>
+
+      <!-- Costo info -->
+      <div id="locacionCostoInfo" style="display:none;margin-top:0.75rem;padding:0.75rem 1rem;border-left:3px solid var(--gold);background:rgba(196,154,60,0.06);font-size:0.78rem;color:var(--muted)"></div>
+
+      <div style="height:1.5rem"></div>
+      <div class="loc-lbl">💄 Lugar del maquillaje</div>
+      <div class="tog-row" style="grid-template-columns:1fr 1fr">
+        <div class="tog sel" id="mkupSede" onclick="selMkupLugar('sede',this)">
+          <div class="tog-ico">📍</div>
+          <div class="tog-name">En la sede</div>
+          <div class="tog-sub">La artista llega al lugar de las fotos</div>
+        </div>
+        <div class="tog" id="mkupDomicilio" onclick="selMkupLugar('domicilio',this)">
+          <div class="tog-ico">🏠</div>
+          <div class="tog-name">A domicilio</div>
+          <div class="tog-sub">+$100.000 COP · La artista va a tu casa antes</div>
+        </div>
+      </div>
+      <div class="slide" id="mkupAddrWrap" style="margin-top:0.5rem">
+        <div class="fg"><label>Dirección del domicilio</label>
+          <input type="text" id="mkupAddrInput" placeholder="Ej: Cra 7 #45-20, Chapinero, Bogotá" oninput="updateSum()">
+          <div class="fn">Barrio · Localidad · Ciudad · Colombia</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="go(1)">← Atrás</button>
+        <button class="btn-next" onclick="go(3)">Continuar → Extras</button>
+      </div>
+    </div>
+
+    <!-- == PASO 3 - Extras / Caballo == -->
+    <div class="step" id="s3">
+      <div class="sh">
+        <div class="sh-tag">Paso 04 de 06</div>
+        <h2 class="sh-title">Servicios <em>adicionales</em></h2>
+        <p class="sh-desc">Opcionales para hacer tu sesión aún más especial.</p>
+      </div>
+
+      <div class="horse-card" id="horseCard">
+        <div class="horse-head" id="horseHead" onclick="toggleHorse()">
+          <div class="horse-left">
+            <div class="horse-ico">🐴</div>
+            <div><div class="horse-ttl">Sesión con caballo</div>
+              <div class="horse-sub" id="horseSubtitle">Opcional · Costo adicional según el caballo elegido</div>
+            </div>
+          </div>
+          <div class="sw" id="horseSw"></div>
+        </div>
+        <div class="horse-body" id="horseBody">
+          <div class="horse-inner">
+
+            <!-- Sin caballos (Barranquilla) -->
+            <div id="horseNoSede" style="display:none;padding:1.25rem;border:1.5px dashed var(--border);text-align:center;">
+              <div style="font-size:1.5rem;margin-bottom:0.5rem">🌴</div>
+              <div style="font-size:0.8rem;color:var(--muted);line-height:1.7">La sede de Barranquilla no cuenta con<br>caballos disponibles por ahora.</div>
+            </div>
+
+            <!-- Caballos disponibles (Villavicencio) -->
+            <div id="horseNormal" style="display:none">
+              <div class="time-lbl" style="margin-bottom:0.6rem">Caballos disponibles · Elige uno</div>
+              <div class="horse-list" id="horseGrid"></div>
+            </div>
+
+            <!-- Bogotá: precio por criadero -->
+            <div id="horseBogota" style="display:none">
+              <div style="padding:1rem;background:rgba(196,154,60,0.05);border:1px solid var(--border);margin-bottom:1rem;">
+                <div style="font-size:0.52rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">ℹ Criadero asociado · Bogotá</div>
+                <div style="font-size:0.8rem;color:var(--ink);line-height:1.7;font-weight:300;">
+                  El precio del caballo depende de la ubicación de tu sesión y lo define directamente el criadero.<br>
+                  <strong style="font-weight:400;">El costo del caballo no se incluye en este pedido</strong> - se coordina por separado.
+                </div>
+              </div>
+              <div class="time-lbl" style="margin-bottom:0.6rem">Caballos disponibles · Selecciona el que te interesa</div>
+              <div class="horse-list" id="horseGridBog"></div>
+              <!-- Contacto criadero -->
+              <div style="margin-top:1rem;padding:1rem 1.1rem;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:var(--paper);">
+                <div>
+                  <div style="font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">Encargado del criadero</div>
+                  <div style="font-size:0.82rem;font-weight:400;">Juan Carlos Ramírez</div>
+                  <div style="font-size:0.68rem;color:var(--muted);margin-top:2px;">Coordinador · Caballos AMBAR Bogotá</div>
+                </div>
+                <a href="https://wa.me/573001234567?text=Hola,%20me%20interesa%20una%20sesi%C3%B3n%20con%20caballo%20en%20Bogot%C3%A1%20con%20AMBAR%20Couture"
+                   target="_blank"
+                   style="display:flex;align-items:center;gap:0.6rem;padding:0.75rem 1.25rem;background:#25D366;color:white;text-decoration:none;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;font-family:var(--font-b);transition:opacity 0.2s;white-space:nowrap;"
+                   onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  Contactar al criadero
+                </a>
+              </div>
+            </div>
+
+            <div class="fg" style="margin-top:1rem">
+              <label>Notas del caballo <span class="opt">(opcional)</span></label>
+              <textarea placeholder="Accesorios, condiciones especiales, peticiones..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:1.1rem;border:1.5px dashed var(--border);text-align:center;opacity:0.4;margin-top:0.75rem">
+        <div style="font-size:0.68rem;color:var(--muted);letter-spacing:0.1em">Próximamente: Filmación · Drone · Libro de firmas</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="go(2)">← Atrás</button>
+        <button class="btn-next" onclick="go(4)">Continuar → Datos personales</button>
+      </div>
+    </div>
+
+    <!-- == PASO 4 - Datos personales == -->
+    <div class="step" id="s4">
+      <div class="sh">
+        <div class="sh-tag">Paso 05 de 06</div>
+        <h2 class="sh-title">Datos del <em>responsable</em><br>y la quinceañera</h2>
+        <p class="sh-desc">Para formalizar la reserva y el proceso de facturación en Colombia.</p>
+      </div>
+
+      <div class="fdiv"><div class="fdiv-line"></div><div class="fdiv-txt">Datos del responsable</div><div class="fdiv-line"></div></div>
+      <div class="f-row">
+        <div class="fg"><label>Nombre(s)</label><input type="text" placeholder="María Alejandra" id="rNombre" oninput="updateSum()"></div>
+        <div class="fg"><label>Apellido(s)</label><input type="text" placeholder="González Pérez" id="rApellido" oninput="updateSum()"></div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label>Cédula de ciudadanía</label><input type="text" placeholder="1.012.345.678"></div>
+        <div class="fg"><label>N° de factura <span class="opt">(opcional)</span></label><input type="text" placeholder="FAC-2026-001"><div class="fn">Número de orden o factura previa</div></div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label>Teléfono / WhatsApp</label><input type="tel" id="rTel" placeholder="300 123 4567"></div>
+        <div class="fg"><label>Correo electrónico</label><input type="email" id="rMail" placeholder="maria@correo.com"></div>
+      </div>
+
+      <div class="fdiv"><div class="fdiv-line"></div><div class="fdiv-txt">Datos de la quinceañera</div><div class="fdiv-line"></div></div>
+      <div class="f-row">
+        <div class="fg"><label>Nombre(s)</label><input type="text" placeholder="Valeria" id="qNombre" oninput="updateSum()"></div>
+        <div class="fg"><label>Apellido(s)</label><input type="text" placeholder="Rodríguez Silva" id="qApellido" oninput="updateSum()"></div>
+      </div>
+      <div class="f-row">
+        <div class="fg"><label>Teléfono / WhatsApp</label><input type="tel" id="qTel" placeholder="300 987 6543"></div>
+        <div class="fg"><label>Correo electrónico</label><input type="email" id="qMail" placeholder="valeria@correo.com"></div>
+      </div>
+      <div class="fg"><label>Estilo de maquillaje deseado <span class="opt">(opcional)</span></label>
+        <textarea placeholder="Describe el look: colores favoritos, inspiración, referencias..."></textarea>
+      </div>
+      <div class="fg"><label>Notas para el equipo <span class="opt">(opcional)</span></label>
+        <textarea id="qNotas" placeholder="Alergias, condiciones especiales, peticiones del día..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="go(3)">← Atrás</button>
+        <button class="btn-next" onclick="go(5)">Revisar y confirmar →</button>
+      </div>
+    </div>
+
+    <!-- == PASO 5 - Confirmar == -->
+    <div class="step" id="s5">
+      <div class="sh">
+        <div class="sh-tag">Paso 06 de 06</div>
+        <h2 class="sh-title">Confirma tu <em>reserva</em></h2>
+        <p class="sh-desc">Revisa todos los detalles antes de pagar el anticipo.</p>
+      </div>
+      <div class="ct" id="ctable"></div>
+      <div class="price-box" id="pbox"></div>
+      <div style="padding:1rem;border:1px solid var(--border);background:rgba(196,154,60,0.03);margin-bottom:1.25rem;font-size:0.72rem;color:var(--muted);line-height:1.75">
+        <strong style="color:var(--ink);display:block;margin-bottom:0.4rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase">Política de reserva</strong>
+        · El <strong style="color:var(--ink)">30% del total</strong> se cobra como anticipo · El resto el día de la sesión<br>
+        · Cancelación con +7 días: reembolso completo<br>
+        · Precios en <strong style="color:var(--ink)">pesos colombianos (COP)</strong> · IVA incluido
+      </div>
+      <label class="terms-wrap">
+        <input type="checkbox" id="termsChk">
+        Acepto los términos de reserva de AMBAR Couture y autorizo el cobro del anticipo del 30%.
+      </label>
+      <div class="btn-row">
+        <button class="btn-back" onclick="go(4)">← Editar datos</button>
+        <button class="btn-next pay" onclick="doPay()">📲 Confirmar y enviar por WhatsApp →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- === SUMMARY === -->
+  <div class="sum-col">
+    <div class="sum-brand">
+      <div><div class="sum-logo-name">AMBAR</div><div class="sum-logo-sub">Couture</div></div>
+    </div>
+    <div class="sum-title">Resumen de tu reserva</div>
+
+    <div class="sum-card" id="scSede">
+      <div class="sc-lbl">Sede</div>
+      <div class="sc-val empty" id="scSedeVal">Aún no elegida</div>
+    </div>
+    <div class="sum-card" id="scDate">
+      <div class="sc-lbl">Fecha &amp; hora</div>
+      <div class="sc-val empty" id="scDateVal">Aún no elegida</div>
+    </div>
+    <div class="sum-card" id="scTeam">
+      <div class="sc-lbl">Equipo</div>
+      <div class="sc-val empty" id="scTeamVal">Aún no elegido</div>
+    </div>
+    <div class="sum-card" id="scLoc">
+      <div class="sc-lbl">Lugares</div>
+      <div class="sc-val empty" id="scLocVal">Aún no definido</div>
+    </div>
+    <div class="sum-card" id="scHorse">
+      <div class="sc-lbl">Caballo</div>
+      <div class="sc-val empty" id="scHorseVal">No incluido</div>
+    </div>
+    <div class="sum-card" id="scQ">
+      <div class="sc-lbl">Quinceañera</div>
+      <div class="sc-val empty" id="scQVal">Datos pendientes</div>
+    </div>
+
+    <div class="sum-total">
+      <div class="st-lbl">Total estimado</div>
+      <div class="st-amt" id="stAmt">$0</div>
+      <div class="st-cur">PESOS COLOMBIANOS · COP</div>
+      <div class="st-bd" id="stBd"></div>
+    </div>
+    <div class="sum-dots" id="sumDots">
+      <div class="sd active"></div><div class="sd"></div><div class="sd"></div>
+      <div class="sd"></div><div class="sd"></div><div class="sd"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// === DATA ===
+const SEDES = {
+  bogota:       {name:'Bogotá D.C.',  icon:'', addr:'Car 15 #106-76 . Usaquén'},
+  barranquilla: {name:'Barranquilla', icon:'', addr:'Cr 54 #84-95 . Riomar'},
+  villavicencio:{name:'Villavicencio',icon:'', addr:'Calle 15 #42-21 . El Buque'},
+};
+
+// Precios Bogotá: fotos 900k . maquillaje 500k . paquete 1.300k
+const PRECIOS_BOG = { foto:900000, mkup:500000, paquete:1300000 };
+
+const PGS = {
+  bogota:[
+    {id:'anyelo',    name:'Anyelo',        role:'Fotógrafo . Golden Hour', price:900000,  ini:'AN', col:'linear-gradient(135deg,#7B6A52,#C8902A)', ok:true},
+    {id:'nicolay_b', name:'Nicolay',       role:'Fotógrafo . Editorial',   price:900000,  ini:'NI', col:'linear-gradient(135deg,#304050,#607080)', ok:true},
+  ],
+  barranquilla:[
+    {id:'carlos',    name:'Carlos Ibáñez', role:'Fotógrafo . Playa',       price:3500000, ini:'CI', col:'linear-gradient(135deg,#2A4028,#508050)', ok:true},
+  ],
+  villavicencio:[
+    {id:'anyelo_v',  name:'Anyelo',        role:'Fotógrafo . Llanos',      price:2800000, ini:'AN', col:'linear-gradient(135deg,#2A3A18,#709050)', ok:true},
+    {id:'nicolay_v', name:'Nicolay',       role:'Fotógrafo . Hacienda',    price:2900000, ini:'NI', col:'linear-gradient(135deg,#504030,#A08060)', ok:true},
+  ],
+};
+
+const MKS = {
+  bogota:[
+    {id:'catalina',  name:'Catalina',      role:'Maquilladora . Glam',     price:500000,  ini:'CA', col:'linear-gradient(135deg,#602828,#B05050)', ok:true},
+    {id:'samy',      name:'Samy',          role:'Maquilladora . Natural',  price:500000,  ini:'SA', col:'linear-gradient(135deg,#503050,#905080)', ok:true},
+  ],
+  barranquilla:[
+    {id:'paola',     name:'Paola Herrera', role:'Maquilladora . Tropical', price:1150000, ini:'PH', col:'linear-gradient(135deg,#205060,#5090A0)', ok:true},
+  ],
+  villavicencio:[
+    {id:'laura',     name:'Laura',         role:'Maquilladora . Clásico',  price:1100000, ini:'LA', col:'linear-gradient(135deg,#504038,#907060)', ok:true},
+    {id:'luisa',     name:'Luisa',         role:'Maquilladora . Natural',  price:950000,  ini:'LU', col:'linear-gradient(135deg,#304828,#608050)', ok:true},
+  ],
+};
+
+// Bogotá: precio por consultar con criadero . no se suma al total
+const HORSES = {
+  bogota:[
+    {id:'sultan',  name:'Sultán',  breed:'Paso Fino Colombiano', color:'Blanco',         priceLabel:'Precio por consultar', contactOnly:true, col:'linear-gradient(135deg,#C0B8A8,#F0ECE4)'},
+    {id:'luna',    name:'Luna',    breed:'Andaluz',              color:'Gris plateado',  priceLabel:'Precio por consultar', contactOnly:true, col:'linear-gradient(135deg,#808898,#C8C8D8)'},
+    {id:'canela2', name:'Canela',  breed:'Paso Fino Colombiano', color:'Castaño dorado', priceLabel:'Precio por consultar', contactOnly:true, col:'linear-gradient(135deg,#6A3A18,#C09040)'},
+    {id:'brioso',  name:'Brioso',  breed:'Criollo Colombiano',   color:'Bayo',           priceLabel:'Precio por consultar', contactOnly:true, col:'linear-gradient(135deg,#7A6030,#C0A050)'},
+  ],
+  barranquilla:[], // Sin caballos por ahora
+  villavicencio:[
+    {id:'rey',    name:'Rey',    breed:'Criollo Llanero', color:'Negro azabache', price:300000, contactOnly:false, col:'linear-gradient(135deg,#101010,#383838)'},
+    {id:'paloma', name:'Paloma', breed:'Árabe',           color:'Blanco puro',   price:420000, contactOnly:false, col:'linear-gradient(135deg,#D8D0C0,#F8F4EE)'},
+  ],
+};
+
+// === STATE ===
+
+
+// == SUPABASE ==
+const SUPABASE_URL = 'https://dtkwoxjuhmdmpnmynjtg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0a3dveGp1aG1kbXBubXluanRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MDU3ODQsImV4cCI6MjA4ODk4MTc4NH0.1laG-S3hDIzM-eDU-u2ibwJuFR1ioPc-kvVrlH6zx7o';
+let sb = null;
+// Init Supabase immediately when CDN loads
+function initSb(){
+  if(typeof supabase !== 'undefined' && !sb){
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+}
+
+const SEDE_GRADIENTS_R = {
+  bogota:       ['linear-gradient(160deg,#1A2030,#6080A0)','linear-gradient(200deg,#2C1818,#E89090)','linear-gradient(160deg,#1A1208,#C49A3C 80%)','linear-gradient(140deg,#0E1A10,#2A4A2E 60%)','linear-gradient(200deg,#120E18,#4A2A5A 60%)'],
+  barranquilla: ['linear-gradient(160deg,#1C2818,#90B080)','linear-gradient(200deg,#202830,#A0C0D0)','linear-gradient(180deg,#1A0E0A,#4A1A10 60%)'],
+  villavicencio:['linear-gradient(160deg,#201810,#B08050)','linear-gradient(140deg,#1A2010,#90A860)','linear-gradient(150deg,#181410,#3A2E1A 60%)'],
+};
+
+// == LOCACIONES POR SEDE ==
+const LOCACIONES = {
+  bogota: [
+    {value:'parque_novios',      label:'Parque de los Novios',          costo:0,      nota:'Incluido · Sin costo adicional'},
+    {value:'biblioteca_virgilio',label:'Biblioteca Virgilio Barco',     costo:0,      nota:'Incluido · Sin costo adicional'},
+    {value:'castillo_mono',      label:'Castillo del Mono Osorio',      costo:500000, nota:'+$500.000 COP · Locación premium'},
+    {value:'parque_jaime',       label:'Parque Jaime Duque',            costo:400000, nota:'+$400.000 COP'},
+    {value:'jardin_botanico',    label:'Jardín Botánico',               costo:200000, nota:'+$200.000 COP · Entrada al jardín'},
+    {value:'otra_bogota',        label:'Otra locación en Bogotá',       costo:0,      nota:'Describe el lugar abajo'},
+  ],
+  barranquilla: [
+    {value:'lamar',    label:'Lamar',    costo:150000, nota:'+$150.000 COP · Transporte fotógrafo'},
+    {value:'baranoa',  label:'Baranoa',  costo:250000, nota:'+$250.000 COP · Transporte fotógrafo'},
+    {value:'otra_baq', label:'Otra locación en Barranquilla', costo:0, nota:'Describe el lugar abajo'},
+  ],
+  villavicencio: [
+    {value:'villavicencio', label:'Villavicencio (ciudad)',  costo:0,      nota:'Incluido · Sin costo adicional'},
+    {value:'la_topia',      label:'La Topia',                costo:50000,  nota:'+$50.000 ingreso · +$100.000 por cada caballo'},
+    {value:'la_potra',      label:'La Potra',                costo:100000, nota:'+$100.000 sin caballo · Gratis si hay caballo · Pele no disponible aquí'},
+    {value:'las_marias',    label:'Las Marías',              costo:300000, nota:'+$300.000 · Uso de instalaciones'},
+    {value:'rancho_luna',   label:'Rancho Luna',             costo:0,      nota:'Incluido · Solo disponible con caballo Pele'},
+    {value:'otra_vll',      label:'Otra locación',           costo:0,      nota:'Las locaciones en Villavicencio no tienen costo adicional'},
+  ],
+};
+
+function updateLocaciones(){
+  const sel = document.getElementById('locacionSelect');
+  if(!sel) return;
+  const opts = LOCACIONES[S.sede] || [];
+  if(!opts.length){
+    sel.innerHTML = '<option value="">— Primero elige la sede —</option>';
+    const info = document.getElementById('locacionCostoInfo');
+    if(info) info.style.display='none';
+    return;
+  }
+  sel.innerHTML = '<option value="">— Selecciona la locación —</option>' +
+    opts.map(o=>`<option value="${o.value}">${o.label}</option>`).join('');
+  onLocacionChange();
+}
+
+
+
+// == LOCACION CARDS ==
+let locacionesData = {}; // cache por sede
+let locSliders = {};     // state de cada slider
+
+async function loadLocaciones(sede){
+  initSb();
+  if(!sb){ usarLocacionesFallback(sede); return; }
+  try {
+    const {data,error} = await sb.from('locaciones')
+      .select('*').eq('sede',sede).eq('activa',true).order('orden');
+    if(error||!data||!data.length) return usarLocacionesFallback(sede);
+    locacionesData[sede] = data;
+    renderLocacionCards(sede);
+  } catch(e){ usarLocacionesFallback(sede); }
+}
+
+function usarLocacionesFallback(sede){
+  locacionesData[sede] = LOCACIONES[sede]?.map((l,i)=>({
+    id: l.value, nombre: l.label, descripcion: l.nota,
+    costo_extra: l.costo, nota_costo: l.nota, fotos: [], orden: i
+  })) || [];
+  renderLocacionCards(sede);
+}
+
+function renderLocacionCards(sede){
+  const wrap = document.getElementById('locacionesCardsWrap');
+  if(!wrap) return;
+  const locs = locacionesData[sede] || [];
+  if(!locs.length){ wrap.innerHTML='<div style="padding:1rem;color:var(--muted);font-size:0.8rem">Sin locaciones disponibles para esta sede</div>'; return; }
+
+  wrap.innerHTML = '<div class="loc-cards">' + locs.map((loc,idx)=>{
+    const fotos = Array.isArray(loc.fotos) ? loc.fotos : [];
+    const grads = SEDE_GRADIENTS_R?.[sede] || ['linear-gradient(160deg,#1A1208,#6A4020)'];
+    const hasPhotos = fotos.length > 0;
+    const sliderId = 'slider_'+idx;
+    locSliders[sliderId] = {idx:0, total: hasPhotos ? fotos.length : 1};
+
+    const slides = hasPhotos
+      ? fotos.map(url=>`<div class="loc-slide" style="background:url('${url}') center/cover no-repeat"></div>`).join('')
+      : `<div class="loc-slide" style="background:${grads[idx%grads.length]}"></div>`;
+
+    const dots = hasPhotos && fotos.length > 1
+      ? `<div class="loc-slider-dots">${fotos.map((_,i)=>`<div class="loc-slider-dot${i===0?' active':''}" id="${sliderId}_dot_${i}"></div>`).join('')}</div>`
+      : '<div></div>';
+
+    const navBtns = hasPhotos && fotos.length > 1
+      ? `<button class="loc-slider-btn" onclick="locSlide('${sliderId}',-1,event)">‹</button>${dots}<button class="loc-slider-btn" onclick="locSlide('${sliderId}',1,event)">›</button>`
+      : dots;
+
+    const gratuito = !loc.costo_extra || loc.costo_extra===0;
+    const costoLabel = gratuito
+      ? '<span style="color:var(--sage)">✓ Incluido</span>'
+      : `<span style="color:var(--gold)">+$${Number(loc.costo_extra).toLocaleString('es-CO')} COP</span>`;
+
+    return `<div class="loc-card" id="loccard_${idx}" onclick="selLocCard(${idx},'${loc.id||loc.nombre}','${loc.nombre}',${loc.costo_extra||0},'${(loc.nota_costo||'').replace(/'/g,"\'")}')">
+      <div class="loc-slider" style="display:${hasPhotos||true?'block':'none'}">
+        <div class="loc-slider-track" id="${sliderId}_track">${slides}</div>
+        ${fotos.length>1?`<div class="loc-slider-nav">${navBtns}</div>`:''}
+      </div>
+      <div class="loc-card-top">
+        <div class="loc-card-info">
+          <div class="loc-card-name">${loc.nombre}</div>
+          <div class="loc-card-desc">${loc.descripcion||''}</div>
+          <div class="loc-card-costo">${costoLabel}</div>
+        </div>
+        <div class="loc-card-check" id="loccheck_${idx}">✓</div>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function locSlide(sliderId, dir, e){
+  e.stopPropagation();
+  const st = locSliders[sliderId];
+  if(!st) return;
+  st.idx = (st.idx + dir + st.total) % st.total;
+  const track = document.getElementById(sliderId+'_track');
+  if(track) track.style.transform = `translateX(-${st.idx*100}%)`;
+  for(let i=0;i<st.total;i++){
+    const dot = document.getElementById(sliderId+'_dot_'+i);
+    if(dot) dot.classList.toggle('active', i===st.idx);
+  }
+}
+
+function selLocCard(idx, id, nombre, costo, nota){
+  // Deselect all
+  document.querySelectorAll('.loc-card').forEach((c,i)=>{
+    c.classList.remove('sel');
+    const chk = document.getElementById('loccheck_'+i);
+    if(chk) chk.style.background='';
+  });
+  // Select this
+  const card = document.getElementById('loccard_'+idx);
+  if(card) card.classList.add('sel');
+
+  S.locacionId     = id;
+  S.locacionLabel  = nombre;
+  S.locacionCosto  = costo||0;
+  S.locacionNota   = nota;
+
+  const info = document.getElementById('locacionCostoInfo');
+  if(info){
+    if(nota && costo>0){
+      info.style.display='block';
+      info.innerHTML='📍 '+nota;
+    } else if(costo===0){
+      info.style.display='block';
+      info.innerHTML='✓ <span style="color:var(--sage)">Locación incluida sin costo adicional</span>';
+    } else {
+      info.style.display='none';
+    }
+  }
+  updateSum();
+}
+
+function selMkupLugar(tipo, el){
+  document.querySelectorAll('#mkupSede, #mkupDomicilio').forEach(t=>t.classList.remove('sel'));
+  el.classList.add('sel');
+  S.mkupLugar = tipo;
+  const wrap = document.getElementById('mkupAddrWrap');
+  if(wrap) wrap.classList.toggle('open', tipo === 'domicilio');
+  updateSum();
+}
+
+function onLocacionChange(){
+  const sel = document.getElementById('locacionSelect');
+  const info = document.getElementById('locacionCostoInfo');
+  if(!sel||!info) return;
+  const chosen = (LOCACIONES[S.sede]||[]).find(o=>o.value===sel.value);
+  if(chosen){
+    info.style.display='block';
+    info.innerHTML='📍 '+chosen.nota;
+    S.locacionCosto = chosen.costo||0;
+    S.locacionLabel = chosen.label||'';
+  } else {
+    info.style.display='none';
+    S.locacionCosto=0; S.locacionLabel='';
+  }
+  updateSum();
+}
+
+const S = {step:0, sede:null, date:null, time:null, mkupTime:null, mkupIncl:null, locacionCosto:0, locacionLabel:'', mkupLugar:'sede',
+           photoLoc:'ext', mkupLoc:'home', pg:null, mk:null,
+           horse:false, selectedHorse:null};
+
+// === HELPERS ===
+function cop(n){return '$'+Number(n).toLocaleString('es-CO')+' COP';}
+function stars(r){return'★'.repeat(Math.round(r))+'☆'.repeat(5-Math.round(r));}
+
+// === SEDE ===
+function selSede(id, el){
+  S.sede=id; S.pg=null; S.mk=null; S.selectedHorse=null;
+  document.querySelectorAll('.sede-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const s=SEDES[id];
+  updateSum();
+  updateLocaciones();
+}
+
+// === CALENDAR ===
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+let cy=new Date().getFullYear(), cm=new Date().getMonth();
+
+function drawCal(){
+  document.getElementById('calLbl').textContent=MESES[cm]+' '+cy;
+  const grid=document.getElementById('calGrid');
+  grid.querySelectorAll('.cday').forEach(e=>e.remove());
+  const fd=new Date(cy,cm,1).getDay(), nd=new Date(cy,cm+1,0).getDate();
+  const today=new Date(); today.setHours(0,0,0,0);
+  for(let i=0;i<fd;i++){const d=document.createElement('div');d.className='cday empty';grid.appendChild(d);}
+  for(let d=1;d<=nd;d++){
+    const dt=new Date(cy,cm,d);
+    const el=document.createElement('div'); el.className='cday'; el.textContent=d;
+    if(dt<today||dt.getDay()===0){el.classList.add('off');}
+    else{
+      if(dt.getTime()===today.getTime())el.classList.add('today');
+      if(d===14||d===20)el.classList.add('dot');
+      el.addEventListener('click',()=>selDate(cy,cm+1,d,el));
+    }
+    grid.appendChild(el);
+  }
+}
+function chMonth(d){cm+=d;if(cm>11){cm=0;cy++;}if(cm<0){cm=11;cy--;}drawCal();}
+
+function selDate(y,m,d,el){
+  document.querySelectorAll('.cday.sel').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+  S.date=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  S.time=null; S.mkupTime=null;
+  const ds=new Date(y,m-1,d).toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('dateChipTxt').textContent=ds.charAt(0).toUpperCase()+ds.slice(1);
+  document.getElementById('dateChip').style.display='block';
+  document.getElementById('timeWrap').style.display='block';
+  document.getElementById('mkupAuto').style.display='none';
+  drawSlots(); updateSum();
+}
+
+// === TIME SLOTS ===
+const SLOTS=[
+  {h:'08:00',l:'Mañana'},{h:'09:00',l:'Mañana'},{h:'10:00',l:'Mañana'},{h:'11:00',l:'Mañana'},
+  {h:'12:00',l:'Mediodía'},{h:'13:00',l:'Tarde'},{h:'14:00',l:'Tarde'},{h:'15:00',l:'Tarde'},
+  {h:'16:00',l:'Tarde'},{h:'17:00',l:'Golden ✦',g:true},{h:'17:30',l:'Golden ✦',g:true},{h:'18:00',l:'Golden ✦',g:true},
+];
+const OCC=['11:00','14:00'];
+
+function drawSlots(){
+  document.getElementById('timeGrid').innerHTML=SLOTS.map(t=>`
+    <div class="tslot ${OCC.includes(t.h)?'occ':''} ${t.g?'golden':''}" onclick="selTime('${t.h}',this)">
+      <div class="tslot-h">${t.h}</div>
+      <div class="tslot-lbl">${OCC.includes(t.h)?'Ocupado':t.l}</div>
+    </div>`).join('');
+}
+
+function selTime(h,el){
+  if(el.classList.contains('occ'))return;
+  document.querySelectorAll('.tslot.sel').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel'); S.time=h;
+  // Reset makeup choice when time changes
+  S.mkupIncl=null; S.mkupTime=null;
+  document.getElementById('mkupAuto').style.display='none';
+  document.getElementById('mkupSi')?.classList.remove('sel');
+  document.getElementById('mkupNo')?.classList.remove('sel');
+  document.getElementById('mkupToggleWrap').style.display='block';
+  updateSum();
+}
+
+function selMkupIncl(incl, el){
+  S.mkupIncl=incl;
+  document.getElementById('mkupSi').classList.toggle('sel', incl);
+  document.getElementById('mkupNo').classList.toggle('sel', !incl);
+  if(incl && S.time){
+    const[hh,mm]=S.time.split(':').map(Number);
+    let mh=hh-2, mn=mm-30; if(mn<0){mn+=60;mh--;} if(mh<0)mh=0;
+    S.mkupTime=`${String(mh).padStart(2,'0')}:${String(mn).padStart(2,'0')}`;
+    document.getElementById('mkupTime').textContent=`${S.mkupTime} - La maquilladora llega`;
+    document.getElementById('mkupAuto').style.display='flex';
+  } else {
+    S.mkupTime=null;
+    document.getElementById('mkupAuto').style.display='none';
+  }
+  updateSum();
+}
+
+// === LOCATION ===
+function selLoc(type,val,el){
+  el.closest('.tog-row').querySelectorAll('.tog').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  if(type==='photo'){S.photoLoc=val;document.getElementById('photoAddrWrap').classList.toggle('open',val==='ext');}
+  else{S.mkupLoc=val;document.getElementById('mkupAddrWrap').classList.toggle('open',val==='home');}
+  updateSum();
+}
+
+// === ARTIST GRIDS ===
+function renderArtists(){
+  const sede=S.sede||'bogota';
+  // Mostrar/ocultar banner paquete Bogotá
+  const pkg=document.getElementById('pkgBanner');
+  if(pkg) pkg.style.display = sede==='bogota' ? 'block' : 'none';
+  renderGrid(PGS[sede]||[], 'pgGrid','pg');
+  renderGrid(MKS[sede]||[], 'mkGrid','mk');
+  renderHorses(sede);
+}
+
+function renderGrid(arr, gid, key){
+  document.getElementById(gid).innerHTML=arr.map(a=>`
+    <div class="art-opt ${!a.ok?'na':''}" onclick="${a.ok?`selArt('${key}','${a.id}',this,${JSON.stringify(a)})`:''}" >
+      <div class="art-av" style="background:${a.col}">${a.ini}</div>
+      <div style="flex:1;min-width:0">
+        <div class="art-name">${a.name}</div>
+        <div class="art-role">${a.role}</div>
+        <div class="art-price">${cop(a.price)}</div>
+        <div class="art-avail" style="color:${a.ok?'var(--sage)':'var(--rose)'}">
+          <div class="avdot" style="background:${a.ok?'var(--sage)':'var(--rose)'}"></div>
+          ${a.ok?'Disponible':'No disponible'}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function selArt(key,id,el,data){
+  el.closest('.artist-grid').querySelectorAll('.art-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  if(key==='pg') S.pg=data; else S.mk=data;
+  updateSum();
+}
+
+function renderHorses(sede){
+  const noSede  = document.getElementById('horseNoSede');
+  const normal  = document.getElementById('horseNormal');
+  const bogDiv  = document.getElementById('horseBogota');
+  const sub     = document.getElementById('horseSubtitle');
+
+  // Reset
+  noSede.style.display='none'; normal.style.display='none'; bogDiv.style.display='none';
+
+  if(sede==='barranquilla'){
+    noSede.style.display='block';
+    sub.textContent='No disponible en esta sede por ahora';
+    return;
+  }
+  if(sede==='bogota'){
+    bogDiv.style.display='block';
+    sub.textContent='Precio por consultar con criadero . No incluido en el pedido';
+    // Render bogotá horses (contactOnly)
+    document.getElementById('horseGridBog').innerHTML=(HORSES.bogota||[]).map(h=>`
+      <div class="h-card" onclick="selHorse('${h.id}',this,${JSON.stringify(h).replace(/'/g,'&#39;')})">
+        <div class="h-av" style="background:${h.col};width:36px;height:36px;border-radius:50%;flex-shrink:0"></div>
+        <div>
+          <div class="h-name">${h.name}</div>
+          <div class="h-breed">${h.breed}</div>
+          <div class="h-color">${h.color}</div>
+          <div class="h-price" style="color:var(--muted);font-size:0.62rem;font-family:var(--font-b)">Precio a coordinar</div>
+        </div>
+      </div>`).join('');
+    return;
+  }
+  // Villavicencio - normal con precio
+  normal.style.display='block';
+  sub.textContent='Opcional . Costo adicional según el caballo elegido';
+  document.getElementById('horseGrid').innerHTML=(HORSES[sede]||[]).map(h=>`
+    <div class="h-card" onclick="selHorse('${h.id}',this,${JSON.stringify(h).replace(/'/g,'&#39;')})">
+      <div class="h-av" style="background:${h.col};width:36px;height:36px;border-radius:50%;flex-shrink:0"></div>
+      <div>
+        <div class="h-name">${h.name}</div>
+        <div class="h-breed">${h.breed}</div>
+        <div class="h-color">${h.color}</div>
+        <div class="h-price">${cop(h.price)}</div>
+      </div>
+    </div>`).join('');
+}
+
+function selHorse(id,el,data){
+  el.closest('.horse-list').querySelectorAll('.h-card').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel'); S.selectedHorse=data; updateSum();
+}
+
+// === HORSE TOGGLE ===
+function toggleHorse(){
+  S.horse=!S.horse;
+  document.getElementById('horseSw').classList.toggle('on',S.horse);
+  document.getElementById('horseHead').classList.toggle('act',S.horse);
+  document.getElementById('horseBody').classList.toggle('open',S.horse);
+  if(!S.horse){S.selectedHorse=null;}
+  updateSum();
+}
+
+// === NAVIGATION ===
+function go(n){
+  if(n>0&&!S.sede){alert('Por favor selecciona una sede primero.');return;}
+  if(n>1&&!S.date){alert('Por favor selecciona una fecha.');return;}
+  if(n>1&&!S.time){alert('Por favor selecciona una hora de sesión.');return;}
+  document.getElementById(`s${S.step}`).classList.remove('on');
+  S.step=n;
+  document.getElementById(`s${n}`).classList.add('on');
+  if(n===2){ const sede=S.sede||"bogota"; loadLocaciones(sede); }
+  if(n===5) buildConfirm();
+  updProg(); updateSum();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goStep(n){if(n<=S.step)go(n);}
+
+function updProg(){
+  const steps=document.querySelectorAll('.prog-step');
+  const pct=S.step/5*100;
+  document.getElementById('progLine').style.width=pct+'%';
+  steps.forEach((s,i)=>{
+    s.classList.remove('active','done');
+    const dot=s.querySelector('.prog-dot');
+    if(i<S.step){s.classList.add('done');dot.textContent='OK';}
+    else if(i===S.step){s.classList.add('active');dot.textContent=i+1;}
+    else dot.textContent=i+1;
+  });
+  document.querySelectorAll('.sd').forEach((d,i)=>{
+    d.classList.remove('active','done');
+    if(i<S.step)d.classList.add('done');
+    else if(i===S.step)d.classList.add('active');
+  });
+}
+
+// === PRICING ===
+function calcTotal(){
+  let total=0; const bd=[];
+  const esBog = S.sede==='bogota';
+  const tieneFoto = !!S.pg;
+  const tieneMkup = !!(S.mk && S.mkupIncl);
+
+  if(esBog && tieneFoto && tieneMkup){
+    // Paquete Bogotá - ahorro automático
+    total += PRECIOS_BOG.paquete;
+    bd.push({l:'✦ Paquete Bogotá . Fotos + Maquillaje', v:PRECIOS_BOG.paquete, pkg:true});
+    const pkgEl=document.getElementById('pkgActive');
+    if(pkgEl) pkgEl.style.display='block';
+  } else {
+    const pkgEl=document.getElementById('pkgActive');
+    if(pkgEl) pkgEl.style.display='none';
+    if(S.pg){ total+=S.pg.price; bd.push({l:'Fotógrafo . '+S.pg.name, v:S.pg.price}); }
+    if(S.mk&&S.mkupIncl){ total+=S.mk.price; bd.push({l:'Maquilladora . '+S.mk.name, v:S.mk.price}); }
+  }
+  if((S.mkupLugar==='domicilio'||S.mkupLoc==='home')&&S.mkupIncl){
+    total+=100000; bd.push({l:'Desplazamiento maquilladora . domicilio', v:100000});
+  }
+  if(S.locacionCosto && S.locacionCosto > 0){
+    total += S.locacionCosto;
+    bd.push({l:'Locación · '+(S.locacionLabel||'extra'), v:S.locacionCosto});
+  }
+
+  if(S.horse&&S.selectedHorse){
+    if(S.selectedHorse.contactOnly){
+      // No suma al total, solo se muestra como nota
+      bd.push({l:'Caballo . '+S.selectedHorse.name+' (precio a coordinar con criadero)', v:null});
+    } else {
+      total+=S.selectedHorse.price;
+      bd.push({l:'Caballo . '+S.selectedHorse.name, v:S.selectedHorse.price});
+    }
+  }
+  return{total,bd};
+}
+
+// === SUMMARY ===
+function updateSum(){
+  // Sede
+  const sv=document.getElementById('scSedeVal'),sc=document.getElementById('scSede');
+  if(S.sede){
+    sv.textContent=SEDES[S.sede].icon+' '+SEDES[S.sede].name;
+    sv.classList.remove('empty');sc.classList.add('filled');
+  } else {sv.textContent='Aún no elegida';sv.classList.add('empty');}
+
+  // Date
+  const dv=document.getElementById('scDateVal'),dc=document.getElementById('scDate');
+  if(S.date&&S.time){
+    const[y,m,d]=S.date.split('-').map(Number);
+    const ds=new Date(y,m-1,d).toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
+    let dtxt=`${ds} . Fotos ${S.time}`;
+    if(S.mkupIncl&&S.mkupTime) dtxt+=` . Maquillaje ${S.mkupTime}`;
+    else if(S.mkupIncl===false) dtxt+=` . Solo fotos`;
+    dv.textContent=dtxt;
+    dv.classList.remove('empty');dc.classList.add('filled');
+  } else {dv.textContent='Aún no elegida';dv.classList.add('empty');dc.classList.remove('filled');}
+
+  // Team
+  const tv=document.getElementById('scTeamVal'),tc=document.getElementById('scTeam');
+  const tp=[]; if(S.pg)tp.push(S.pg.name); if(S.mk)tp.push(S.mk.name);
+  if(tp.length){tv.textContent=tp.join(' . ');tv.classList.remove('empty');tc.classList.add('filled');}
+  else{tv.textContent='Aún no elegido';tv.classList.add('empty');tc.classList.remove('filled');}
+
+  // Loc
+  const lv=document.getElementById('scLocVal'),lc=document.getElementById('scLoc');
+  const lp=[];
+  if(S.photoLoc)lp.push(S.photoLoc==='ext'?'Fotos exterior':'Fotos en estudio');
+  if(S.mkupLoc&&S.mkupIncl) lp.push(S.mkupLoc==='home'?'Maquillaje domicilio (+$100.000)':'Maquillaje en estudio');
+  if(lp.length){lv.textContent=lp.join(' . ');lv.classList.remove('empty');lc.classList.add('filled');}
+  else{lv.textContent='Aún no definido';lv.classList.add('empty');lc.classList.remove('filled');}
+
+  // Horse
+  const hv=document.getElementById('scHorseVal'),hc=document.getElementById('scHorse');
+  if(S.horse&&S.selectedHorse){
+    const lbl=S.selectedHorse.contactOnly
+      ? `${S.selectedHorse.name} . ${S.selectedHorse.breed} (precio a coordinar)`
+      : `${S.selectedHorse.name} . ${S.selectedHorse.breed}`;
+    hv.textContent=lbl; hv.classList.remove('empty'); hc.classList.add('filled');
+  } else{hv.textContent='No incluido';hv.classList.add('empty');hc.classList.remove('filled');}
+
+  // Q
+  const qv=document.getElementById('scQVal'),qc=document.getElementById('scQ');
+  const qn=document.getElementById('qNombre')?.value||'';
+  const qa=document.getElementById('qApellido')?.value||'';
+  if(qn){qv.textContent=`${qn} ${qa}`.trim();qv.classList.remove('empty');qc.classList.add('filled');}
+  else{qv.textContent='Datos pendientes';qv.classList.add('empty');qc.classList.remove('filled');}
+
+  // Total
+  const{total,bd}=calcTotal();
+  document.getElementById('stAmt').textContent=cop(total);
+  let bdh=''; bd.forEach(b=>{
+    const valTxt = b.v!==null&&b.v!==undefined ? cop(b.v) : '<span style="color:var(--gold-l);font-size:0.6rem">a coordinar</span>';
+    const style  = b.pkg ? 'color:var(--gold-l)' : '';
+    bdh+=`<div class="st-line"><span class="st-line-l" style="${style}">${b.l}</span><span class="st-line-v" style="${style}">${valTxt}</span></div>`;
+  });
+  if(total>0){
+    const ant=Math.round(total*0.5);
+    bdh+=`<div class="st-line ant"><span class="st-line-l">Anticipo hoy (50%)</span><span class="st-line-v">${cop(ant)}</span></div>`;
+  }
+  document.getElementById('stBd').innerHTML=bdh;
+}
+
+// === CONFIRM ===
+function buildConfirm(){
+  const{total,bd}=calcTotal();
+  const ant=Math.round(total*0.5);
+  const[y,m,d]=(S.date||'2026-01-01').split('-').map(Number);
+  const ds=new Date(y,m-1,d).toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const rows=[
+    ['Sede',S.sede?SEDES[S.sede].icon+' '+SEDES[S.sede].name:'-'],
+    ['Fecha',ds.charAt(0).toUpperCase()+ds.slice(1)],
+    ['Hora fotos',S.time||'-'],
+    ['Hora maquillaje',S.mkupTime||'-'],
+    ['Fotógrafo/a',S.pg?.name||'-'],
+    ['Maquilladora',S.mk?.name||'-'],
+    ['Lugar fotos',S.photoLoc==='ext'?'Exterior':(S.photoLoc==='studio'?'Estudio AMBAR':'-')],
+    ['Lugar maquillaje',S.mkupLoc==='home'?'Domicilio':(S.mkupLoc==='studio'?'Estudio AMBAR':'-')],
+    ['Caballo',S.horse&&S.selectedHorse?S.selectedHorse.name+' . '+S.selectedHorse.breed:'No incluido'],
+    ['Responsable',((document.getElementById('rNombre')?.value||'')+' '+(document.getElementById('rApellido')?.value||'')).trim()||'-'],
+    ['Quinceañera',((document.getElementById('qNombre')?.value||'')+' '+(document.getElementById('qApellido')?.value||'')).trim()||'-'],
+  ];
+  document.getElementById('ctable').innerHTML=rows.map(([l,v])=>
+    `<div class="ct-row"><span class="ct-lbl">${l}</span><span class="ct-val">${v}</span></div>`
+  ).join('');
+  let pbh=''; bd.forEach(b=>{pbh+=`<div class="pb-row"><span>${b.l}</span><span>${cop(b.v)}</span></div>`;});
+  pbh+=`<div class="pb-row pb-total"><span>Total reserva</span><span>${cop(total)} COP</span></div>`;
+  pbh+=`<div class="pb-row pb-ant"><span>Anticipo hoy (50%)</span><span>${cop(ant)} COP</span></div>`;
+  document.getElementById('pbox').innerHTML=pbh;
+}
+
+// == API URL - actualiza con tu URL de Vercel ==
+const API_URL = 'https://ambar-backend.vercel.app';
+
+async function doPay(){
+  if(!document.getElementById('termsChk').checked){
+    alert('Acepta los términos para continuar.'); return;
+  }
+
+  // Validar datos personales
+  const qNombre  = document.getElementById('qNombre')?.value.trim();
+  const qTel     = document.getElementById('qTel')?.value.trim();
+  const qMail    = document.getElementById('qMail')?.value.trim();
+  const rNombre  = document.getElementById('rNombre')?.value.trim();
+  const rTel     = document.getElementById('rTel')?.value.trim();
+
+  if(!qNombre){ alert('Ingresa el nombre de la quinceañera.'); return; }
+  if(!qTel)   { alert('Ingresa el teléfono de la quinceañera.'); return; }
+
+  const lugarFotos = document.getElementById('photoAddrInput')?.value.trim() || '';
+  const lugarMkup  = document.getElementById('mkupAddrInput')?.value.trim()  || '';
+
+  const btn = document.querySelector('.btn-next.pay');
+  btn.disabled = true;
+  btn.textContent = '⏳ Preparando mensaje...';
+
+  // Formato de fecha legible
+  const fechaObj = S.date ? new Date(S.date+'T12:00:00') : null;
+  const fechaLeg = fechaObj ? fechaObj.toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : '-';
+
+  // Nombre artistas
+  const pgNombre = S.pg?.name || S.pg?.nombre || '-';
+  const mkNombre = S.mk?.name || S.mk?.nombre || '-';
+  const sedeNombres = {bogota:'Bogotá D.C.',barranquilla:'Barranquilla',villavicencio:'Villavicencio'};
+
+  // Construir mensaje WhatsApp
+  let msg = '✨ *NUEVA SOLICITUD DE SESIÓN PRE-XV*\n';
+  msg += '━━━━━━━━━━━━━━━━━━━━\n\n';
+  msg += '👧 *Quinceañera:* ' + qNombre + '\n';
+  if(document.getElementById('qApellido')?.value.trim())
+    msg += '   ' + document.getElementById('qApellido').value.trim() + '\n';
+  msg += '📞 *Tel quinceañera:* ' + qTel + '\n';
+  if(qMail) msg += '📧 *Correo:* ' + qMail + '\n';
+  if(rNombre) msg += '👤 *Responsable:* ' + rNombre + '\n';
+  if(rTel)    msg += '📞 *Tel responsable:* ' + rTel + '\n';
+  msg += '\n';
+  msg += '📅 *Fecha:* ' + fechaLeg + '\n';
+  msg += '⏰ *Hora fotos:* ' + (S.time||'-') + '\n';
+  if(S.timeMk) msg += '💄 *Hora maquillaje:* ' + S.timeMk + '\n';
+  msg += '📍 *Sede:* ' + (sedeNombres[S.sede]||S.sede||'-') + '\n';
+  if(S.locacionLabel) msg += '📸 *Locación:* ' + S.locacionLabel + '\n';
+  if(lugarFotos) msg += '   Detalle: ' + lugarFotos + '\n';
+  if(S.locacionCosto) msg += '📍 *Costo locación:* +$' + S.locacionCosto.toLocaleString('es-CO') + ' COP\n';
+  if(lugarMkup)  msg += '💄 *Dirección maquillaje:* ' + lugarMkup + '\n';
+  msg += '\n';
+  msg += '📸 *Fotógrafo:* ' + pgNombre + '\n';
+  if(S.mkupIncl) msg += '💄 *Maquilladora:* ' + mkNombre + '\n';
+  if(S.selectedHorse) msg += '🐴 *Caballo:* ' + (S.selectedHorse.name||S.selectedHorse.id) + '\n';
+  msg += '\n';
+  if(document.getElementById('qNotas')?.value.trim())
+    msg += '📝 *Notas:* ' + document.getElementById('qNotas').value.trim() + '\n\n';
+  msg += '━━━━━━━━━━━━━━━━━━━━\n';
+  msg += '_Enviado desde eventos.ambarcouture.com_';
+
+  // Número WhatsApp AMBAR — actualizar con número real
+  const AMBAR_WA = '573135813769'; // AMBAR Couture
+
+  const waUrl = 'https://wa.me/' + AMBAR_WA + '?text=' + encodeURIComponent(msg);
+
+  btn.disabled = false;
+  btn.textContent = '📲 Confirmar y enviar por WhatsApp →';
+
+  // Abrir WhatsApp
+  window.open(waUrl, '_blank');
+}
+
+// === INIT ===
+drawCal();
+updateSum();
+</script>
+</body>
+</html>
