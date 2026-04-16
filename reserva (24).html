@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Quiero mi sesión Pre-XV — AMBAR Couture</title>
+<link rel="icon" type="image/png" href="https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/Logo%20v1.PNG">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C49A3C;
+  --gold-l:#DCBA6A;
+  --gold-dim:rgba(196,154,60,.15);
+  --ink:#0C0A08;
+  --ink2:#1A1714;
+  --paper:#F8F5F0;
+  --white:#FFFFFF;
+  --muted:#8A8480;
+  --muted2:#B0ACA8;
+  --border:rgba(12,10,8,.09);
+  --border2:rgba(12,10,8,.05);
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --r:6px;
+  --shadow-sm:0 1px 4px rgba(12,10,8,.06);
+  --shadow-md:0 4px 20px rgba(12,10,8,.08);
+  --shadow-gold:0 0 0 3px rgba(196,154,60,.18);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;font-size:16px;}
+body{
+  font-family:var(--fb);background:var(--paper);color:var(--ink);
+  height:100dvh;overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── SHELL ── */
+.shell{display:grid;grid-template-columns:1fr 460px;height:100dvh;}
+@media(max-width:800px){
+  .shell{grid-template-columns:1fr;}
+  .brand{display:none!important;}
+  body{overflow:auto;}
+  .shell{height:auto;}
+  .form{height:100dvh;overflow:hidden;}
+}
+
+/* ── BRAND ── */
+.brand{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:3rem;}
+.brand-bg{
+  position:absolute;inset:0;
+  background:url('https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/portafolio/1774447254052_5fl0.jpg') center/cover;
+  filter:brightness(.38);
+}
+.brand-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(12,10,8,.9) 0%, rgba(12,10,8,.2) 60%, transparent 100%);
+}
+.brand-content{position:relative;z-index:1;}
+.b-logo{font-family:var(--fd);font-size:2rem;letter-spacing:.28em;color:#F8F5F0;font-weight:300;text-transform:uppercase;}
+.b-sub{font-size:.65rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;opacity:.9;}
+.b-hl{font-family:var(--fd);font-size:clamp(1.6rem,2.6vw,2.3rem);font-weight:300;color:#F8F5F0;line-height:1.12;margin-bottom:1.5rem;}
+.b-hl em{color:var(--gold-l);font-style:italic;}
+.b-proof{display:flex;flex-direction:column;gap:.5rem;}
+.b-proof span{font-size:.75rem;color:rgba(248,245,240,.45);display:flex;align-items:center;gap:.6rem;letter-spacing:.02em;}
+.b-proof span::before{content:'';width:16px;height:1px;background:var(--gold);opacity:.7;flex-shrink:0;}
+
+/* ── FORM ── */
+.form{
+  display:flex;flex-direction:column;
+  background:var(--white);
+  border-left:1px solid var(--border);
+  overflow:hidden;
+}
+
+/* ── TOP BAR ── */
+.top-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.75rem;flex-shrink:0;
+  border-bottom:1px solid var(--border2);
+}
+.tb-back{
+  font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  display:flex;align-items:center;gap:.4rem;
+  transition:color .2s;cursor:pointer;
+  touch-action:manipulation;
+}
+.tb-back:hover{color:var(--ink);}
+.tb-back svg{width:14px;height:14px;flex-shrink:0;}
+.tb-step{
+  font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted2);font-weight:400;
+}
+
+/* ── PROGRESS ── */
+.prog{padding:0 1.75rem;flex-shrink:0;padding-top:.85rem;padding-bottom:.1rem;}
+.prog-track{height:1.5px;background:var(--border);position:relative;border-radius:2px;overflow:hidden;}
+.prog-fill{
+  position:absolute;left:0;top:0;height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-l));
+  transition:width .6s var(--ease);border-radius:2px;
+}
+.prog-dots{display:flex;justify-content:space-between;margin-top:.6rem;}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--border);
+  transition:all .35s var(--ease);
+}
+.dot.done{background:var(--gold);transform:scale(1.1);}
+.dot.now{
+  background:var(--ink);
+  transform:scale(1.5);
+  box-shadow:0 0 0 2px var(--white),0 0 0 3.5px var(--ink);
+}
+
+/* ── STEPS WRAPPER ── */
+.steps-wrap{flex:1;position:relative;overflow:hidden;}
+
+/* ── STEP ── */
+.step{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:1.5rem 1.75rem 1rem;
+  opacity:0;pointer-events:none;
+  transform:translateX(32px);
+  transition:opacity .28s var(--ease), transform .28s var(--ease);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.step.on{opacity:1;pointer-events:all;transform:none;}
+.step.out{opacity:0;transform:translateX(-24px);}
+
+/* ── STEP HEADER ── */
+.sn{
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.6rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.sn::before{content:'';width:18px;height:1px;background:var(--gold);opacity:.7;}
+.sq{
+  font-family:var(--fd);
+  font-size:clamp(1.55rem,3.5vw,2rem);
+  font-weight:300;line-height:1.06;margin-bottom:.35rem;
+  letter-spacing:-.01em;
+}
+.sq em{font-style:italic;color:var(--gold);}
+.sh{font-size:.8rem;color:var(--muted);margin-bottom:1.4rem;line-height:1.65;font-weight:300;}
+
+/* ── OPCIONES ── */
+.opts2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1;}
+.opts1{display:flex;flex-direction:column;gap:.45rem;flex:1;}
+
+.ocard{
+  border:1.5px solid var(--border);
+  background:var(--white);
+  border-radius:var(--r);
+  cursor:pointer;
+  transition:border-color .18s var(--ease), box-shadow .18s var(--ease), background .15s;
+  position:relative;padding:1rem 1rem;
+  display:flex;align-items:center;gap:.85rem;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  min-height:56px;
+}
+.ocard:active{transform:scale(.99);}
+.ocard:hover{border-color:rgba(196,154,60,.45);background:#FEFCF8;}
+.ocard.sel{
+  border-color:var(--gold);
+  background:linear-gradient(135deg,#FFFEF9,#FFFBF0);
+  box-shadow:var(--shadow-gold),var(--shadow-sm);
+}
+.ocard-col{
+  flex-direction:column;text-align:center;align-items:center;
+  padding:1.1rem .75rem;gap:.3rem;
+}
+.ocard-col .oi{margin-bottom:.1rem;}
+.ocard.sel .ocheck{display:flex!important;}
+
+/* checkmark badge */
+.ocheck{
+  position:absolute;top:-.4rem;right:-.4rem;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--gold);color:var(--white);
+  font-size:.55rem;font-weight:700;
+  align-items:center;justify-content:center;display:none;
+  box-shadow:0 2px 6px rgba(196,154,60,.4);
+  z-index:2;
+}
+.ocheck::after{content:'✓';}
+
+.oi{font-size:1.5rem;flex-shrink:0;line-height:1;}
+.on2{font-size:.88rem;font-weight:500;display:block;margin-bottom:2px;color:var(--ink);letter-spacing:-.01em;}
+.os{font-size:.68rem;color:var(--muted);display:block;line-height:1.5;font-weight:300;}
+
+/* ── PAQ PHOTO CARD ── */
+.paq-photo-card{
+  flex-direction:column;align-items:flex-start;
+  padding:0;overflow:hidden;border-radius:var(--r);
+  min-height:120px;position:relative;
+  background:var(--ink)!important;
+  border-color:transparent!important;
+}
+.paq-photo-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(12,10,8,.85) 0%,rgba(12,10,8,.1) 70%);
+  z-index:1;transition:opacity .25s;
+}
+.paq-photo-card.sel::after{background:linear-gradient(to top,rgba(12,10,8,.75) 0%,rgba(12,10,8,.05) 70%);}
+.paq-photo-card .paq-img{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  filter:brightness(.6);transition:transform .5s var(--ease),filter .3s;
+}
+.paq-photo-card:hover .paq-img{transform:scale(1.05);filter:brightness(.7);}
+.paq-photo-card.sel{
+  box-shadow:0 0 0 2px var(--gold),var(--shadow-gold)!important;
+  border-color:var(--gold)!important;
+}
+.paq-photo-card .paq-ck{
+  display:none;position:absolute;top:.65rem;right:.65rem;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--gold);color:var(--white);font-size:.6rem;
+  align-items:center;justify-content:center;z-index:3;
+  box-shadow:0 2px 8px rgba(196,154,60,.5);
+}
+.paq-photo-card.sel .paq-ck{display:flex;}
+.paq-photo-card .paq-info{
+  position:relative;z-index:2;
+  padding:.85rem 1rem .9rem;
+  display:flex;flex-direction:column;gap:.25rem;width:100%;
+  margin-top:auto;
+}
+.paq-photo-card .paq-nm{
+  font-family:var(--fd);font-size:1.05rem;font-weight:400;
+  color:#F8F5F0;line-height:1.15;letter-spacing:.01em;
+}
+.paq-photo-card .paq-ds{
+  font-size:.62rem;letter-spacing:.04em;
+  color:rgba(248,245,240,.6);line-height:1.5;font-weight:300;
+}
+
+/* ── LOCACIONES ── */
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1;}
+.loc-card{
+  position:relative;overflow:hidden;cursor:pointer;border-radius:var(--r);
+  border:2px solid transparent;
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  background:var(--ink);aspect-ratio:4/3;min-height:90px;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+}
+.loc-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(12,10,8,.8) 0%,transparent 60%);
+  z-index:1;
+}
+.loc-card:hover{border-color:rgba(196,154,60,.5);}
+.loc-card:active{transform:scale(.99);}
+.loc-card.sel{
+  border-color:var(--gold);
+  box-shadow:0 0 0 1px var(--gold),var(--shadow-gold);
+}
+.loc-card.wide{grid-column:1/-1;aspect-ratio:16/5;min-height:80px;}
+.loc-bg{position:absolute;inset:0;background:center/cover;filter:brightness(.55);transition:transform .5s var(--ease);}
+.loc-card:hover .loc-bg{transform:scale(1.06);}
+.loc-body{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem .85rem;}
+.loc-nm{font-family:var(--fd);font-size:.95rem;color:#F8F5F0;font-weight:400;line-height:1.15;}
+.loc-tg{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(248,245,240,.5);margin-top:2px;}
+.loc-ck{
+  position:absolute;top:.6rem;right:.6rem;z-index:3;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--gold);color:var(--white);font-size:.55rem;font-weight:700;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(196,154,60,.45);
+}
+.loc-card.sel .loc-ck{display:flex;}
+
+/* ── DATOS ── */
+.fields{display:flex;flex-direction:column;gap:.75rem;flex:1;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+@media(max-width:420px){.frow{grid-template-columns:1fr;}}
+.fg label{
+  display:block;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.4rem;font-weight:400;
+}
+.fg input,.fg textarea{
+  width:100%;padding:.8rem 1rem;
+  border:1.5px solid var(--border);border-radius:var(--r);
+  background:var(--white);
+  font-family:var(--fb);font-size:.9rem;color:var(--ink);
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease);
+  -webkit-appearance:none;
+}
+.fg input:focus,.fg textarea:focus{
+  outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(196,154,60,.1);
+}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--muted2);font-weight:300;}
+.fg .fn{font-size:.65rem;color:var(--muted2);margin-top:.3rem;font-weight:300;}
+.req-note{font-size:.65rem;color:var(--muted2);margin-top:auto;padding-top:.5rem;font-weight:300;}
+
+/* ── CONFIRMACIÓN ── */
+.conf-card{
+  background:var(--paper);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.1rem 1.25rem;margin-bottom:1rem;
+}
+.cr{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:.42rem 0;border-bottom:1px solid var(--border2);gap:1rem;
+}
+.cr:last-child{border:none;}
+.cl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:400;}
+.cv{font-size:.82rem;text-align:right;color:var(--ink);font-weight:400;}
+.legal{
+  font-size:.68rem;color:var(--muted);line-height:1.7;
+  padding:.75rem 1rem;
+  background:rgba(196,154,60,.04);
+  border:1px solid rgba(196,154,60,.12);
+  border-radius:var(--r);margin-bottom:.85rem;
+  font-weight:300;
+}
+.wa-btn{
+  width:100%;padding:1rem;
+  background:#25D366;color:var(--white);border:none;border-radius:var(--r);
+  font-family:var(--fb);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.65rem;
+  transition:background .2s,transform .15s;
+  touch-action:manipulation;
+}
+.wa-btn:hover{background:#1DB954;}
+.wa-btn:active{transform:scale(.98);}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;top:1.25rem;left:50%;transform:translateX(-50%) translateY(-16px);
+  background:var(--ink);color:var(--paper);
+  padding:.55rem 1.25rem;border-radius:20px;
+  font-size:.72rem;letter-spacing:.04em;
+  z-index:9999;opacity:0;
+  transition:all .25s var(--ease);pointer-events:none;white-space:nowrap;
+  box-shadow:var(--shadow-md);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── FOOTER NAV ── */
+.fnav{
+  padding:.9rem 1.75rem 1.4rem;flex-shrink:0;
+  display:flex;flex-direction:column;gap:.45rem;
+  border-top:1px solid var(--border2);
+  background:var(--white);
+}
+.btn-next{
+  width:100%;padding:.9rem;
+  background:var(--ink);color:var(--paper);border:none;border-radius:var(--r);
+  font-family:var(--fb);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;
+  transition:background .2s var(--ease),transform .15s,opacity .2s;
+  touch-action:manipulation;
+}
+.btn-next:hover:not(:disabled){background:var(--ink2);}
+.btn-next:active:not(:disabled){transform:scale(.99);}
+.btn-next:disabled{opacity:.22;cursor:not-allowed;}
+.arr{display:inline-block;transition:transform .2s var(--ease);margin-left:.2rem;}
+.btn-next:not(:disabled):hover .arr{transform:translateX(4px);}
+.btn-back{
+  background:none;border:none;
+  font-family:var(--fb);font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted2);cursor:pointer;padding:.25rem;
+  transition:color .18s;text-align:center;
+  touch-action:manipulation;
+}
+.btn-back:hover{color:var(--muted);}
+
+/* ── WA FLOAT ── */
+.wa-float{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;
+  width:48px;height:48px;border-radius:50%;
+  background:#25D366;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(37,211,102,.35);
+  transition:transform .2s var(--ease-spring);text-decoration:none;
+}
+.wa-float:hover{transform:scale(1.1);}
+.wa-float:active{transform:scale(.95);}
+
+/* ── SCROLLBAR ── */
+.step::-webkit-scrollbar{width:3px;}
+.step::-webkit-scrollbar-track{background:transparent;}
+.step::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ── REDUCED MOTION ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;}
+}
+
+/* TOAST */
+.toast{position:fixed;top:1.1rem;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--ink);color:#FAF7F2;padding:.55rem 1.1rem;font-size:.67rem;z-index:9999;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:1.25rem;right:1.25rem;z-index:500;width:44px;height:44px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(37,211,102,.32);transition:transform .2s;text-decoration:none;}
+.wa-float:hover{transform:scale(1.08);}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- BRAND -->
+  <div class="brand">
+    <div class="brand-bg"></div>
+    <div class="brand-content">
+      <div class="b-logo">AMBAR</div>
+      <div class="b-sub">Couture · Pre-XV</div>
+      <div class="b-hl">Tu sesión de fotos<br><em>más especial</em><br>te espera</div>
+      <div class="b-proof">
+        <span>Bogotá · Barranquilla · Villavicencio</span>
+        <span>Fotógrafo + Maquillaje profesional</span>
+        <span>Fotos entregadas en 8 días hábiles</span>
+        <span>+100 sesiones realizadas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form" id="formSide">
+    <!-- Top bar -->
+    <div class="top-bar">
+      <a class="tb-back" href="index.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10 3L5 8l5 5"/>
+        </svg>
+        Inicio
+      </a>
+      <span class="tb-step" id="tbStep">Paso 1 de 6</span>
+    </div>
+
+    <!-- Progress -->
+    <div class="prog">
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-dots" id="progDots">
+        <div class="dot now"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps-wrap" id="stepsWrap">
+
+      <!-- S0: SEDE -->
+      <div class="step on" id="s0">
+        <div class="sn">Paso 1 de 6</div>
+        <h2 class="sq">¿En qué <em>ciudad</em><br>será tu sesión?</h2>
+        <p class="sh">Elige la sede y avanzamos automáticamente.</p>
+        <div class="opts2">
+          <div class="ocard ocard-col" onclick="selSede('bogota',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">🏙️</div>
+            <span class="on2">Bogotá</span>
+            <span class="os">Usaquén</span>
+          </div>
+          <div class="ocard ocard-col" onclick="selSede('barranquilla',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">🌴</div>
+            <span class="on2">Barranquilla</span>
+            <span class="os">Riomar</span>
+          </div>
+          <div class="ocard ocard-col" onclick="selSede('villavicencio',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">🌿</div>
+            <span class="on2">Villavicencio</span>
+            <span class="os">El Buque</span>
+          </div>
+          <div class="ocard ocard-col" onclick="selSede('otra',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">📍</div>
+            <span class="on2">Otra ciudad</span>
+            <span class="os">Lo coordinamos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- S1: MAQUILLAJE -->
+      <div class="step" id="s1">
+        <div class="sn">Paso 2 de 6</div>
+        <h2 class="sq">¿Con <em>maquillaje</em><br>o solo fotos?</h2>
+        <p class="sh">El paquete completo incluye maquilladora profesional.</p>
+        <div class="opts1">
+          <div class="ocard" id="mkSi" onclick="selMkup('si',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">💄</div>
+            <div><span class="on2">Sí, con maquillaje</span><span class="os">Fotógrafo + maquilladora profesional</span></div>
+          </div>
+          <div class="ocard" id="mkNo" onclick="selMkup('no',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">📸</div>
+            <div><span class="on2">Solo fotografía</span><span class="os">Sesión fotográfica únicamente</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2: LOCACIÓN -->
+      <div class="step" id="s2">
+        <div class="sn">Paso 3 de 6</div>
+        <h2 class="sq">¿Dónde quieres<br>las <em>fotos</em>?</h2>
+        <p class="sh">Toca una locación — avanzas al instante.</p>
+        <div class="loc-grid" id="locGrid"></div>
+      </div>
+
+      <!-- S3: PAQUETE -->
+      <div class="step" id="s3">
+        <div class="sn">Paso 2 de 4</div>
+        <h2 class="sq">¿Qué <em>paquete</em><br>te interesa?</h2>
+        <p class="sh">Cada paquete incluye sesión, maquillaje y book o retablo.</p>
+        <div class="opts1" id="paqGrid"></div>
+      </div>
+
+      <!-- S4: BOOK / RETABLO -->
+      <div class="step" id="s4">
+        <div class="sn">Paso 3 de 4</div>
+        <h2 class="sq">¿Quieres un <em>recuerdo</em><br>físico?</h2>
+        <p class="sh">Completamente opcional — lo decides tú.</p>
+        <div class="opts1">
+          <div class="ocard" onclick="selBook('ninguno',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">📱</div>
+            <div><span class="on2">Solo fotos digitales</span><span class="os">Recibes tus 20 fotos en alta resolución</span></div>
+          </div>
+          <div class="ocard" onclick="selBook('book',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">📒</div>
+            <div><span class="on2">Book fotográfico</span><span class="os">Álbum impreso con tus mejores fotos</span></div>
+          </div>
+          <div class="ocard" onclick="selBook('retablo',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">🖼️</div>
+            <div><span class="on2">Retablo 60×90 cm</span><span class="os">Foto impresa en gran formato para tu hogar</span></div>
+          </div>
+          <div class="ocard" onclick="selBook('premium',this)">
+            <div class="ocheck">✓</div>
+            <div class="oi">✨</div>
+            <div><span class="on2">Book Premium</span><span class="os">Álbum de lujo con acabados especiales</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5: DATOS -->
+      <div class="step" id="s5">
+        <div class="sn">Paso 4 de 4</div>
+        <h2 class="sq">¿Cómo te<br><em>contactamos</em>?</h2>
+        <p class="sh">Solo lo esencial — te escribimos en menos de 24 horas.</p>
+        <div class="fields">
+          <div class="fg">
+            <label>Nombre del responsable *</label>
+            <input type="text" id="fNom" placeholder="María Valentina García" autocomplete="name">
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label>WhatsApp *</label>
+              <input type="tel" id="fTel" placeholder="300 123 4567" inputmode="numeric">
+            </div>
+            <div class="fg">
+              <label>Correo electrónico</label>
+              <input type="email" id="fMail" placeholder="maria@gmail.com">
+            </div>
+          </div>
+          <div class="fg">
+            <label>Algo más <span style="color:rgba(14,12,10,.3)">(opcional)</span></label>
+            <input type="text" id="fNota" placeholder="Estilo, peticiones, ideas...">
+            <div class="fn">Cualquier detalle que nos ayude a cotizarte mejor</div>
+          </div>
+          <div class="req-note">* Requeridos · Tus datos son confidenciales</div>
+        </div>
+      </div>
+
+      <!-- S6: CONFIRMAR -->
+      <div class="step" id="s6">
+        <div class="sn">¡Casi listo!</div>
+        <h2 class="sq">Revisa y <em>envía</em></h2>
+        <p class="sh">Te respondemos en menos de 24 horas por WhatsApp.</p>
+        <div class="conf-card" id="confCard"><!-- JS --></div>
+        <div class="legal">✦ Al enviar tu solicitud aceptas que AMBAR Couture se contacte contigo para coordinar tu sesión. Datos tratados según Ley 1581 de 2012.</div>
+        <button class="wa-btn" onclick="doSend()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar solicitud por WhatsApp
+        </button>
+      </div>
+
+    </div><!-- /steps-wrap -->
+
+    <!-- Footer nav -->
+    <div class="fnav" id="fNav">
+      <button class="btn-next" id="btnNext" onclick="goNext()" disabled>Continuar <span class="arr">→</span></button>
+      <button class="btn-back" id="btnBack" onclick="goBack()" style="display:none">← Volver</button>
+    </div>
+
+  </div><!-- /form -->
+</div><!-- /shell -->
+
+<div class="toast" id="toast"></div>
+<a class="wa-float" href="https://wa.me/573042658798?text=Hola%20AMBAR%20Couture%2C%20quiero%20cotizar%20mi%20sesi%C3%B3n%20Pre-XV!" target="_blank">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ═══ DATOS ═══
+const SEDES_NM = {bogota:'Bogotá D.C.',barranquilla:'Barranquilla',villavicencio:'Villavicencio',otra:'Otra ciudad'};
+const LOCS = {
+  bogota:[
+    {id:'libre',  n:'Ubicación libre',          tg:'Tú eliges el lugar',         bg:'linear-gradient(155deg,#161210,#382818)', extra:0},
+    {id:'pn',     n:'Parque de los Novios',      tg:'Bogotá clásica',             foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926849396_r23o.PNG', bg:'linear-gradient(155deg,#0A2008,#1A4818)', extra:0},
+    {id:'bvb',    n:'Biblioteca Virgilio Barco', tg:'Arquitectura',               bg:'linear-gradient(155deg,#080A1A,#162040)', extra:0},
+    {id:'jb',     n:'Jardín Botánico',           tg:'Naturaleza urbana',          foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926896510_hhmc.jpg', bg:'linear-gradient(155deg,#061806,#124012)', extra:200000},
+    {id:'cmo',    n:'Castillo del Mono Osorio',  tg:'Colonial · Premium',         foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926750287_cz2q.jpg', bg:'linear-gradient(155deg,#1A0A06,#421806)', extra:550000, wide:true},
+    {id:'pjd',    n:'Parque Jaime Duque',        tg:'Múltiples ambientes',        foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774927061097_olb8.jpg', bg:'linear-gradient(155deg,#0A1A06,#204A0E)', extra:600000},
+    {id:'otra',   n:'Otra locación',             tg:'Tú la eliges',               bg:'linear-gradient(155deg,#161210,#382818)', extra:0},
+  ],
+  barranquilla:[
+    {id:'mayorquin', n:'Ciénaga de Mayorquín',   tg:'Costa natural',              foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774927089866_4fbw.jpg', bg:'linear-gradient(155deg,#06101A,#0E3050)', extra:0, wide:true},
+    {id:'lamar',     n:'Lamar',                   tg:'Costa caribeña',             bg:'linear-gradient(155deg,#06101A,#0E3050)', extra:150000},
+    {id:'baranoa',   n:'Puerto Colombia',          tg:'Costa histórica',            bg:'linear-gradient(155deg,#1A100A,#403018)', extra:250000},
+    {id:'otra_bq',   n:'Otra locación',            tg:'Tú la eliges',               bg:'linear-gradient(155deg,#161210,#382818)', extra:0},
+  ],
+  villavicencio:[
+    {id:'bosque',  n:'Bosque Encantado',          tg:'Urbana sin costo',           foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774927542990_hrc1.jpg', bg:'linear-gradient(155deg,#0A1808,#204010)', extra:0},
+    {id:'garza',   n:'La Garza',                  tg:'Locación natural',           foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926956593_yvrn.jpg', bg:'linear-gradient(155deg,#0A1808,#204010)', extra:0},
+    {id:'topia',   n:'La Topia',                  tg:'Finca llanera · 6 personas', foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774928199652_5duj.jpg', bg:'linear-gradient(155deg,#0A1808,#204010)', extra:50000},
+    {id:'potra',   n:'La Potra',                  tg:'Hacienda con caballos',      foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926981130_hcz3.jpg', bg:'linear-gradient(155deg,#180E06,#4A2808)', extra:100000},
+    {id:'primavera',n:'Primavera Urbana',         tg:'Urbana decorada',            foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774927433742_q8sy.jpg', bg:'linear-gradient(155deg,#100808,#3A1010)', extra:0},
+    {id:'rancho',  n:'Rancho Luna',               tg:'Solo con caballo Pele',      foto_url:'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1776297650223_ssoo.jpg', bg:'linear-gradient(155deg,#080810,#18183A)', extra:0},
+    {id:'otra_v',  n:'Otra locación',             tg:'Tú la eliges',               bg:'linear-gradient(155deg,#161210,#382818)', extra:0},
+  ],
+  otra:[{id:'otra_c',n:'Se coordina contigo',tg:'Lo definimos juntos',bg:'linear-gradient(155deg,#161210,#382818)',extra:0}],
+};
+
+const PAQUETES = {
+  bogota:[
+    {id:'libre',      n:'Paquete Libre',          desc:'1 hora · 20 fotos · Maquillaje · Book ó Retablo · Ubicación a elegir sin costo', precio:1670000, upgrade:1990000},
+    {id:'jardin',     n:'Paquete Jardín Botánico', desc:'1 hora · 20 fotos · Maquillaje · Book ó Retablo · Sesión en el Jardín Botánico', precio:1870000, upgrade:2170000},
+    {id:'mono_osorio',n:'Paquete Mono Osorio',     desc:'1 hora · 20 fotos · Maquillaje · Book ó Retablo · Castillo del Mono Osorio',    precio:2220000, upgrade:2540000},
+    {id:'jaime_duque',n:'Paquete Jaime Duque',     desc:'1 hora · 20 fotos · Maquillaje · Book ó Retablo · Parque Jaime Duque',          precio:2270000, upgrade:2590000},
+  ],
+  barranquilla:[
+    {id:'sin_vestido', n:'Foto + Maquillaje',    desc:'Sesión · Maquillaje y peinado', precio:1100000, upgrade:0},
+    {id:'clasico',     n:'Clásico con vestido',   desc:'Sesión · Maquillaje · Vestido $921k–$1.730k', precio:2357800, upgrade:0},
+    {id:'premium',     n:'Premium con vestido',   desc:'Sesión · Maquillaje · Vestido $1.731k–$2.880k', precio:3316700, upgrade:0},
+    {id:'elite',       n:'Élite con vestido',     desc:'Sesión · Maquillaje · Vestido $2.881k–$3.500k', precio:3633300, upgrade:0},
+  ],
+  villavicencio:[
+    {id:'normal',  n:'Normal',  desc:'Sesión · Maquillaje y peinado', precio:610000, upgrade:0},
+    {id:'premium', n:'Premium', desc:'Sesión · Maquillaje · Con vestido', precio:790000, upgrade:0},
+  ],
+  otra:[
+    {id:'consultar', n:'A coordinar', desc:'Definimos el paquete según tu ciudad', precio:0, upgrade:0},
+  ],
+};
+
+const BOOK_NM = {
+  ninguno:'Solo fotos digitales',
+  book:'Book fotográfico',
+  retablo:'Retablo 60×90 cm',
+  premium:'Book Premium',
+};
+
+// ═══ ESTADO ═══
+const S = {
+  step:0, sede:null, mkup:null,
+  locId:null, locNom:'',
+  paqId:null, paqNom:'',
+  bookId:null,
+};
+
+// ═══ UTILS ═══
+const $ = id => document.getElementById(id);
+function showToast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),2600);
+}
+
+// ═══ PROGRESO ═══
+function updUI(){
+  const total=6;
+  $('progFill').style.width=(S.step/total*100)+'%';
+  $('tbStep').textContent = S.step<6 ? ('Paso '+(S.step+1)+' de 6') : '¡Casi listo!';
+  $('progDots').querySelectorAll('.dot').forEach((d,i)=>{
+    d.className='dot';
+    if(i<S.step) d.classList.add('done');
+    else if(i===S.step) d.classList.add('now');
+  });
+  $('btnBack').style.display = S.step>0 ? 'block' : 'none';
+  const nxt=$('btnNext');
+  if(S.step===6){nxt.style.display='none';return;}
+  nxt.style.display='flex';
+  nxt.textContent = S.step===5 ? 'Ver resumen →' : 'Continuar →';
+  const ready=[
+    ()=>!!S.sede,
+    ()=>!!S.mkup,
+    ()=>!!S.locId,
+    ()=>!!S.paqId,
+    ()=>!!S.bookId,
+    ()=>true,
+    ()=>true,
+  ];
+  nxt.disabled=!(ready[S.step]?ready[S.step]():false);
+}
+
+// ═══ NAVEGACIÓN ═══
+function goTo(n){
+  const cur=$('s'+S.step), nxt=$('s'+n);
+  if(!cur||!nxt) return;
+  cur.classList.add('out');
+  setTimeout(()=>{cur.classList.remove('on','out');},280);
+  setTimeout(()=>{
+    S.step=n; nxt.classList.add('on');
+    if(n===2) renderLocs();
+    if(n===3) renderPaquetes();
+    if(n===6) buildConf();
+    updUI();
+    $('stepsWrap').scrollTop=0;
+  },30);
+}
+function goNext(){
+  // Bogotá salta del paso 0 directo al 3
+  if(S.step===0 && S.sede==='bogota'){goTo(3);return;}
+  if(S.step===5){
+    const nom=$('fNom')?.value.trim();
+    const tel=$('fTel')?.value.trim();
+    if(!nom||nom.length<2){showToast('Ingresa el nombre del responsable');return;}
+    if(!tel||tel.length<7){showToast('Ingresa el número de WhatsApp');return;}
+    buildConf();
+  }
+  if(S.step<6) goTo(S.step+1);
+}
+function goBack(){if(S.step>0) goTo(S.step-1);}
+
+// ═══ PASO 0: SEDE ═══
+function selSede(id,el){
+  S.sede=id; S.locId=null; S.paqId=null; S.mkup='si';
+  document.querySelectorAll('#s0 .ocard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); updUI();
+  if(id==='bogota') setTimeout(()=>goTo(3),380);
+  else setTimeout(()=>goTo(1),380);
+}
+
+// ═══ PASO 1: MAQUILLAJE ═══
+function selMkup(val,el){
+  S.mkup=val;
+  document.querySelectorAll('#s1 .ocard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); updUI();
+  setTimeout(()=>goTo(2),380);
+}
+
+// ═══ PASO 2: LOCACIONES ═══
+function renderLocs(){
+  const locs=LOCS[S.sede]||LOCS['bogota'];
+  $('locGrid').innerHTML=locs.map((l,i)=>{
+    const bgStyle=l.foto_url
+      ?`background-image:url('${l.foto_url}');background-size:cover;background-position:center;`
+      :`background:${l.bg};`;
+    return '<div class="loc-card '+(l.wide?'wide ':'')+(S.locId===l.id?'sel':'')+'" onclick="selLoc(\''+l.id+'\',\''+l.n.replace(/'/g,"\\'")+'\')" id="lc'+i+'">' +
+      '<div class="loc-ck">✓</div>' +
+      '<div class="loc-bg" style="'+bgStyle+'"></div>' +
+      '<div class="loc-body">' +
+        '<div class="loc-nm">'+l.n+'</div>' +
+        '<div class="loc-tg">'+l.tg+'</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+function selLoc(id,nom){
+  S.locId=id; S.locNom=nom;
+  const locs=LOCS[S.sede]||LOCS['bogota'];
+  locs.forEach((_,i)=>{
+    const c=$('lc'+i); if(c) c.classList.toggle('sel',locs[i]?.id===id);
+  });
+  updUI();
+  setTimeout(()=>goTo(3),420);
+}
+
+// ═══ PASO 3: PAQUETES ═══
+const PAQ_FOTOS = {
+  libre:       'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926849396_r23o.PNG',
+  jardin:      'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926896510_hhmc.jpg',
+  mono_osorio: 'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774926750287_cz2q.jpg',
+  jaime_duque: 'https://dtkwoxjuhmdmpnmynjtg.supabase.co/storage/v1/object/public/Portafolio/locaciones/1774927061097_olb8.jpg',
+};
+const PAQ_BG = {
+  libre:       'linear-gradient(155deg,#161210,#382818)',
+  jardin:      'linear-gradient(155deg,#061806,#124012)',
+  mono_osorio: 'linear-gradient(155deg,#1A0A06,#421806)',
+  jaime_duque: 'linear-gradient(155deg,#0A1A06,#204A0E)',
+};
+function renderPaquetes(){
+  const paqs=PAQUETES[S.sede]||PAQUETES['bogota'];
+  const isBogota=S.sede==='bogota';
+  const icons={libre:'🌟',jardin:'🌿',mono_osorio:'🏰',jaime_duque:'🎡',sin_vestido:'📸',basico:'👗',clasico:'💎',premium:'✨',elite:'👑',normal:'📸',consultar:'📍'};
+  if(isBogota){
+    $('paqGrid').innerHTML=paqs.map(p=>{
+      const bg=PAQ_BG[p.id]||'linear-gradient(155deg,#161210,#382818)';
+      const foto=PAQ_FOTOS[p.id]||'';
+      const imgStyle=foto?`background-image:url('${foto}');background-size:cover;background-position:center;`:`background:${bg};`;
+      return '<div class="ocard paq-photo-card '+(S.paqId===p.id?'sel':'')+'" onclick="selPaq(\''+p.id+'\',\''+p.n+'\')">' +
+        '<div class="paq-ck">✓</div>' +
+        '<div class="paq-img" style="'+imgStyle+'"></div>' +
+        '<div class="paq-info">' +
+          '<div class="paq-nm">'+p.n+'</div>' +
+          '<div class="paq-ds">'+p.desc+'</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  } else {
+    $('paqGrid').innerHTML=paqs.map(p=>
+      '<div class="ocard '+(S.paqId===p.id?'sel':'')+'" onclick="selPaq(\''+p.id+'\',\''+p.n+'\')">' +
+        '<div class="ocheck">✓</div>' +
+        '<div class="oi">'+(icons[p.id]||'📸')+'</div>' +
+        '<div><span class="on2">'+p.n+'</span><span class="os">'+p.desc+'</span></div>' +
+      '</div>'
+    ).join('');
+  }
+}
+function selPaq(id,nom){
+  S.paqId=id; S.paqNom=nom;
+  document.querySelectorAll('#s3 .ocard').forEach(c=>c.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+  updUI();
+  setTimeout(()=>goTo(4),380);
+}
+
+// ═══ PASO 4: BOOK / RETABLO ═══
+function selBook(id,el){
+  S.bookId=id;
+  document.querySelectorAll('#s4 .ocard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel'); updUI();
+  setTimeout(()=>goTo(5),380);
+}
+
+// ═══ PASO 6: CONFIRMACIÓN (sin precios) ═══
+function buildConf(){
+  const nom=$('fNom')?.value.trim()||'';
+  const tel=$('fTel')?.value.trim()||'';
+  const mail=$('fMail')?.value.trim()||'';
+  const nota=$('fNota')?.value.trim()||'';
+  const rows=[
+    ['Responsable', nom||'-'],
+    ['WhatsApp', tel||'-'],
+    mail?['Correo',mail]:null,
+    ['Sede', SEDES_NM[S.sede]||'-'],
+    S.sede!=='bogota'?['Maquillaje', S.mkup==='si'?'Sí, incluye maquillaje':'Solo fotografía']:null,
+    S.sede!=='bogota'&&S.locNom?['Locación', S.locNom]:null,
+    ['Paquete', S.paqNom||'-'],
+    ['Recuerdo físico', BOOK_NM[S.bookId]||'-'],
+    nota?['Notas',nota]:null,
+  ].filter(Boolean);
+  $('confCard').innerHTML=rows.map(([l,v])=>
+    '<div class="cr"><div class="cl">'+l+'</div><div class="cv">'+v+'</div></div>'
+  ).join('');
+}
+
+// ═══ ENVÍO (con precios solo en WhatsApp) ═══
+function doSend(){
+  const nom=$('fNom')?.value.trim();
+  const tel=$('fTel')?.value.trim();
+  const mail=$('fMail')?.value.trim()||'';
+  const nota=$('fNota')?.value.trim()||'';
+  if(!nom||nom.length<2){showToast('Ingresa el nombre del responsable');return;}
+  if(!tel||tel.length<7){showToast('Ingresa el número de WhatsApp');return;}
+
+  const sede=S.sede||'bogota';
+  const paqs=PAQUETES[sede]||PAQUETES['bogota'];
+  const paq=paqs.find(p=>p.id===S.paqId);
+  const precioBase=paq?.precio||0;
+  const precioUpgrade=paq?.upgrade||0;
+  const esUpgrade=S.bookId==='premium' && precioUpgrade>0;
+  const total=esUpgrade ? precioUpgrade : precioBase;
+  const cop=n=>'$'+n.toLocaleString('es-CO');
+
+  let msg='✨ *SOLICITUD PRE-XV — AMBAR Couture*\n━━━━━━━━━━━━━━━━━━\n\n';
+  msg+='👤 *Responsable:* '+nom+'\n';
+  msg+='📞 *WhatsApp:* '+tel+'\n';
+  if(mail) msg+='📧 *Correo:* '+mail+'\n';
+  msg+='\n';
+  msg+='📍 *Sede:* '+(SEDES_NM[S.sede]||'-')+'\n';
+  msg+='💄 *Maquillaje:* '+(S.mkup==='si'?'Sí':'No')+'\n';
+  msg+='📦 *Paquete:* '+(S.paqNom||'-')+'\n';
+  msg+='📒 *Recuerdo físico:* '+(BOOK_NM[S.bookId]||'-')+'\n';
+  if(nota) msg+='\n📝 *Notas:* '+nota+'\n';
+  msg+='\n━━━━━━━━━━━━━━━━━━\n';
+  if(precioBase) msg+='💰 *Precio paquete:* '+cop(precioBase)+'\n';
+  if(esUpgrade) msg+='✨ *Con Book Premium:* '+cop(precioUpgrade)+'\n';
+  if(total) msg+='✅ *Total:* '+cop(total)+'\n';
+  msg+='\n_Enviado desde eventos.ambarcouture.com_';
+
+  window.open('https://wa.me/573042658798?text='+encodeURIComponent(msg),'_blank');
+}
+
+// Init
+['fNom','fTel','fMail','fNota'].forEach(id=>{
+  const el=$(id); if(el){el.addEventListener('input',updUI);el.addEventListener('change',updUI);}
+});
+updUI();
+</script>
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// Initialize Supabase
+const sb = window.supabase.createClient(
+  'https://dtkwoxjuhmdmpnmynjtg.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0a3dveGp1aG1kbXBubXluanRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MDU3ODQsImV4cCI6MjA4ODk4MTc4NH0.1laG-S3hDIzM-eDU-u2ibwJuFR1ioPc-kvVrlH6zx7o'
+);
+
+async function loadLocacionesFromDB() {
+  try {
+    const {data, error} = await sb.from('locaciones')
+      .select('id, nombre, descripcion, sede, foto_url')
+      .order('sede, nombre');
+    if(error || !data) return;
+    const locsFromDB = {bogota:[], barranquilla:[], villavicencio:[]};
+    data.forEach(loc => {
+      if(locsFromDB[loc.sede]) {
+        // Buscar el extra del LOCS local para mantener precios solo en JS
+        const localLoc = (LOCS[loc.sede]||[]).find(l=>l.n===loc.nombre||l.id===loc.id);
+        locsFromDB[loc.sede].push({
+          id: loc.id,
+          n: loc.nombre,
+          tg: loc.descripcion || 'Locación disponible',
+          foto_url: loc.foto_url,
+          extra: localLoc?.extra || 0,
+          bg: 'linear-gradient(155deg,#0A1808,#1A4818)',
+        });
+      }
+    });
+    // Solo reemplazar si hay datos
+    ['bogota','barranquilla','villavicencio'].forEach(s => {
+      if(locsFromDB[s].length) LOCS[s] = locsFromDB[s];
+    });
+    if(S.step===2) renderLocs();
+  } catch(e) { console.error('Error locaciones:', e); }
+}
+loadLocacionesFromDB();
+</script>
+</body>
+</html>
